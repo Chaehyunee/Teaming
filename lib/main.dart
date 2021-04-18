@@ -1,119 +1,197 @@
-// Copyright 2018 The Flutter team. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
 import 'package:flutter/material.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:timer_builder/timer_builder.dart';
+import 'package:date_format/date_format.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(MainPage());
 
-class MyApp extends StatelessWidget {
+class MainPage extends StatefulWidget {
+  @override
+  _MainPageState createState() => _MainPageState();
+}
+
+class _MainPageState extends State<MainPage> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    Widget titleSection = Container(
-      padding: const EdgeInsets.all(32),
-      child: Row(
-        children: [
-          Expanded(
-            /*1*/
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+    return MaterialApp(
+        home: Scaffold(
+            appBar: AppBar(
+              /*title: Text(title)*/
+            ),
+            body: Column (
               children: [
-                /*2*/
-                Container(
-                  padding: const EdgeInsets.only(bottom: 8),
-                  child: Text(
-                    'Oeschinen Lake Campground',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
+                section1,
+                section2,
+                section3,
+                section4,
+              ]
+            ),
+
+            // 드로워(서랍) 추가
+            drawer: Drawer(
+              // 리스트뷰 추가
+              child: ListView(
+                padding: EdgeInsets.zero,
+                children: <Widget>[
+                  // 드로워해더 추가
+                  DrawerHeader(
+                    child: Text('Drawer Header'),
+                    decoration: BoxDecoration(
+                      color: Colors.blue,
                     ),
                   ),
-                ),
-                Text(
-                  'Kandersteg, Switzerland',
-                  style: TextStyle(
-                    color: Colors.grey[500],
+                  // 리스트타일 추가
+                  ListTile(
+                    title: Text('Item 1'),
+                    onTap: () {
+                      // 네이게이터 팝을 통해 드로워를 닫는다.
+                      Navigator.pop(context);
+                    },
                   ),
-                ),
-              ],
-            ),
-          ),
-          /*3*/
-          Icon(
-            Icons.star,
-            color: Colors.red[500],
-          ),
-          Text('41'),
-        ],
-      ),
-    );
-
-    Color color = Theme.of(context).primaryColor;
-
-    Widget buttonSection = Container(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          _buildButtonColumn(color, Icons.call, 'CALL'),
-          _buildButtonColumn(color, Icons.near_me, 'ROUTE'),
-          _buildButtonColumn(color, Icons.share, 'SHARE'),
-        ],
-      ),
-    );
-
-    Widget textSection = Container(
-      padding: const EdgeInsets.all(32),
-      child: Text(
-        'Lake Oeschinen lies at the foot of the Blüemlisalp in the Bernese '
-            'Alps. Situated 1,578 meters above sea level, it is one of the '
-            'larger Alpine Lakes. A gondola ride from Kandersteg, followed by a '
-            'half-hour walk through pastures and pine forest, leads you to the '
-            'lake, which warms to 20 degrees Celsius in the summer. Activities '
-            'enjoyed here include rowing, and riding the summer toboggan run.',
-        softWrap: true,
-      ),
-    );
-
-    return MaterialApp(
-      title: 'Flutter layout demo',
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Flutter layout demo'),
-        ),
-        body: ListView(
-          children: [
-            Image.asset(
-              'images/lake.jpg',
-              width: 600,
-              height: 200,
-              fit: BoxFit.cover,
-            ),
-            titleSection,
-            buttonSection,
-            textSection,
-          ],
-        ),
-      ),
+                  // 리스트타일 추가
+                  ListTile(
+                    title: Text('Item 2'),
+                    onTap: () {
+                      // 드로워를 닫음
+                      Navigator.pop(context);
+                    },
+                  )
+                ],
+              ),
+            )
+        )
     );
   }
 
-  Column _buildButtonColumn(Color color, IconData icon, String label) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
+  Widget section1 = Container(
+    // 컨테이너 내부 상하좌우에 32픽셀만큼의 패딩 삽입
+    margin: const EdgeInsets.only(top:20.0, left:20.0, right:20.0),
+    padding: const EdgeInsets.only(top:20.0, bottom:20.0),
+    decoration: BoxDecoration(
+        color: const Color(0xffededed),
+        border: Border.all(color: Colors.black)
+    ),
+    // 자식으로 Row 를 추가
+    child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(icon, color: color),
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
         Container(
-          margin: const EdgeInsets.only(top: 8),
-          child: Text(
-            label,
-            style: TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w400,
-              color: color,
-            ),
-          ),
+          padding: const EdgeInsets.only(right:30.0),
+            child: TimerBuilder.periodic(Duration(seconds: 1), builder: (context) {
+              return Text(
+                  formatDate(DateTime.now(), [am, ' ', hh, ':', nn, '\n', mm, '. ', dd, '. ']), // add pubspec.yaml the date_format: ^1.0.9
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 20,
+                    //fontWeight: FontWeight.w600,
+                  )
+              );
+            })
         ),
-      ],
-    );
-  }
+        Container(
+          padding: const EdgeInsets.only(left:30.0),
+            child: Text(
+                'temperature°',
+              style: TextStyle(
+                fontSize: 20
+              )
+            )
+        ),
+      ]
+    )
+  );
+
+  Widget section2 = Container(
+    margin: const EdgeInsets.only(top:20.0, left:20.0, right:20.0),
+    decoration: BoxDecoration(
+        color: const Color(0xffededed),
+        border: Border.all(color: Colors.black)
+    ),
+    child: Column(
+      children: <Widget>[
+        Container(
+          alignment: Alignment.centerLeft,
+          padding: const EdgeInsets.only(top:5.0, left: 15.0, bottom: 5.0),
+          child: Text(
+              '나의 기여도',
+              style: TextStyle(
+                fontSize: 17
+              )
+          )
+        ),
+        Container(
+          alignment: Alignment.center,
+          padding: const EdgeInsets.only(left: 10.0, bottom: 10.0),
+          child: LinearPercentIndicator(
+            width: 350.0,
+            animation: true,
+            animationDuration: 1000,
+            lineHeight: 25.0,
+            percent: 0.2,
+            center: Text("20.0%"),
+            linearStrokeCap: LinearStrokeCap.butt,
+            progressColor: Colors.black,
+          )
+        ),
+      ]
+    )
+  );
+  Widget section3 = Container(
+    margin: const EdgeInsets.only(top:20.0, left:20.0, right:20.0),
+    decoration: BoxDecoration(
+        color: const Color(0xffededed),
+        border: Border.all(color: Colors.black)
+    ),
+    child: Column(
+      children: <Widget>[
+        Container(
+            alignment: Alignment.centerLeft,
+            padding: const EdgeInsets.only(top:5.0, left: 15.0, bottom: 5.0),
+            child: Text(
+                '다음 회의',
+                style: TextStyle(
+                    fontSize: 17
+                )
+            )
+        ),
+      ]
+    )
+  );
+  Widget section4 = Container(
+    margin: const EdgeInsets.only(top:20.0, left:20.0, right:20.0),
+    decoration: BoxDecoration(
+        color: const Color(0xffededed),
+        border: Border.all(color: Colors.black)
+    ),
+    child: Column(
+      children: <Widget>[
+        Container(
+            alignment: Alignment.centerLeft,
+            padding: const EdgeInsets.only(top:5.0, left: 15.0, bottom: 5.0),
+            child: Text(
+                '새 공지',
+                style: TextStyle(
+                    fontSize: 17
+                )
+            )
+        ),
+        Container(
+            alignment: Alignment.centerLeft,
+            padding: const EdgeInsets.only(top:5.0, left: 15.0, bottom: 5.0),
+            child: Text(
+                '확인하지 않은 게시글',
+                style: TextStyle(
+                    fontSize: 17
+                )
+            )
+        ),
+      ]
+    )
+  );
 }
