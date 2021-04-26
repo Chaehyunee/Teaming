@@ -1,9 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/personalCalendar.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:timer_builder/timer_builder.dart';
 import 'package:date_format/date_format.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 
-void main() => runApp(MainPage());
+void main() => runApp(
+  MaterialApp(
+    title: 'Navigator',
+    initialRoute: '/',
+    routes: {
+      '/': (context) => MainPage(),
+      '/second': (context) => PersonalCalender(),
+    },
+  ),
+);
 
 class MainPage extends StatefulWidget {
   @override
@@ -21,8 +32,16 @@ class _MainPageState extends State<MainPage> {
     return MaterialApp(
         home: Scaffold(
             appBar: AppBar(
-              /*title: Text(title)*/
+              actions: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.calendar_today),
+                  onPressed: (){
+                    Navigator.pushNamed(context, '/second');
+                  },
+                ),
+              ],
             ),
+
             body: Column (
               children: [
                 section1,
@@ -106,7 +125,6 @@ class _MainPageState extends State<MainPage> {
       ]
     )
   );
-
   Widget section2 = Container(
     margin: const EdgeInsets.only(top:20.0, left:20.0, right:20.0),
     decoration: BoxDecoration(
