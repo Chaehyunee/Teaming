@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/personalCalendar.dart';
+import 'package:flutter_app/themeSetting.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:timer_builder/timer_builder.dart';
 import 'package:date_format/date_format.dart';
-import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 void main() => runApp(
   MaterialApp(
@@ -11,7 +11,8 @@ void main() => runApp(
     initialRoute: '/',
     routes: {
       '/': (context) => MainPage(),
-      '/second': (context) => PersonalCalender(),
+      '/calendar': (context) => PersonalCalender(),
+      '/themeSetting': (context) => themeSetting(),
     },
   ),
 );
@@ -36,7 +37,7 @@ class _MainPageState extends State<MainPage> {
                 IconButton(
                   icon: Icon(Icons.calendar_today),
                   onPressed: (){
-                    Navigator.pushNamed(context, '/second');
+                    Navigator.pushNamed(context, '/calendar');
                   },
                 ),
               ],
@@ -66,10 +67,10 @@ class _MainPageState extends State<MainPage> {
                   ),
                   // 리스트타일 추가
                   ListTile(
-                    title: Text('Item 1'),
+                    title: Text('테마 설정'),
                     onTap: () {
                       // 네이게이터 팝을 통해 드로워를 닫는다.
-                      Navigator.pop(context);
+                      Navigator.pushNamed(context, '/themeSetting');
                     },
                   ),
                   // 리스트타일 추가
