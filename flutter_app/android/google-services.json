@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1072157386825",
+    "project_id": "teaming-3b1c4",
+    "storage_bucket": "teaming-3b1c4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1072157386825:android:30ca6f123c08f4a886f798",
+        "android_client_info": {
+          "package_name": "build.gradle.flutter_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1072157386825-pckqjsdmqfk3njmeegniaujpukdp2j4r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmIICTpl8Jj6anFDPmSkoeS4AaZcE3jMs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1072157386825-pckqjsdmqfk3njmeegniaujpukdp2j4r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
