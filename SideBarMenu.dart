@@ -10,7 +10,14 @@ class side_menu extends StatelessWidget{
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(
+          actions: [
+            IconButton(
+              icon: Icon(Icons.circle),
+              onPressed: () {},
+            ),
+          ],
+        ),
         drawer: Drawer(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -20,6 +27,7 @@ class side_menu extends StatelessWidget{
                 width: 295,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     CircleAvatar(
                       radius: 25,
@@ -36,8 +44,13 @@ class side_menu extends StatelessWidget{
                         ],
                       ),
                     ),
-                    IconButton(
-                      icon: Icon(Icons.remove_circle, size: 60,),
+                    Container(
+                      height: 50,
+                      width: 50,
+                      child:
+                      IconButton(
+                        icon: Icon(Icons.remove_circle,size: 50, color: Colors.black,),
+                      ),
                     )
                   ],
                 ),
@@ -213,9 +226,8 @@ class side_menu extends StatelessWidget{
               )
             ],
           )
-        )
+        ),
       ),
-
     );
   }
 }
