@@ -11,6 +11,9 @@ class side_menu extends StatelessWidget{
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
+          backgroundColor: Colors.white,
+          iconTheme: new IconThemeData(color: Color(0xFFFFB8AC)),
+          elevation: 0,
           actions: [
             IconButton(
               icon: Icon(Icons.circle),
