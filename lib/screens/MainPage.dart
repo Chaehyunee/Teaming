@@ -12,8 +12,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        home: Scaffold(
+    return Scaffold(
       // 상단 앱바 테마 설정 및 아이콘 생성
       appBar: AppBar(
         backgroundColor: Theme.of(context).appBarTheme.color,
@@ -387,6 +386,6 @@ class _MainPageState extends State<MainPage> {
           )
         ],
       )),
-    ));
+    );
   }
 }

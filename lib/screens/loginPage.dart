@@ -90,7 +90,9 @@ class _LoginPageState extends State<LoginPage> {
                               child: Text('Login',
                                   style: TextStyle(color: Colors.black)),
                               color: Colors.blue[200],
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/mainPage');
+                              },
                             ))
                       ],
                     ),
@@ -106,6 +108,7 @@ class _LoginPageState extends State<LoginPage> {
                               color: Colors.blue[200],
                               onPressed: () {
                                 //화면 연결 to 회원가입 창
+                                Navigator.pushNamed(context, '/signup');
                               },
                             )),
                         ButtonTheme(
