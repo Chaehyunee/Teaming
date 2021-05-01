@@ -4,11 +4,21 @@ void main(){
   runApp(Team_sel());
 }
 
-class Team_sel extends StatefulWidget {
-  _Team_sel createState() => _Team_sel();
+class Team_sel extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+        home: Team()
+    );
+  }
 }
 
-class _Team_sel extends State<Team_sel> {
+class Team extends StatefulWidget {
+  @override
+  _Team createState() => _Team();
+}
+
+class _Team extends State<Team> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -22,9 +32,109 @@ class _Team_sel extends State<Team_sel> {
               icon: Icon(Icons.circle),
               onPressed: () {
                 showDialog(
+                  barrierDismissible: true,
                   context: context,
-                  barrierDismissible: false,
+                  builder: (BuildContext context){
+                    return AlertDialog(
+                      backgroundColor: Color(0xFFEDEDED),
+                      content: Container(
+                        height: 500,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            FlatButton(
+                              child: Container(
+                                height: 50,
+                                width: 250,
+                                color: Color(0xFF9FA8DA),
+                                child: Row(
+                                  children: [
+                                    SizedBox(width: 10,),
+                                    CircleAvatar(
+                                      radius: 20,
+                                      backgroundColor: Color(0xFF283593),
+                                    ),
+                                    SizedBox(width: 10,),
+                                    Text(
+                                      "그룹명 1",
+                                      style: TextStyle(
+                                        color: Colors.white
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                            FlatButton(
+                              child: Container(
+                                height: 50,
+                                width: 250,
+                                color: Color(0xFF9FA8DA),
+                                child: Row(
+                                  children: [
+                                    SizedBox(width: 10,),
+                                    CircleAvatar(
+                                      radius: 20,
+                                      backgroundColor: Color(0xFF283593),
+                                    ),
+                                    SizedBox(width: 10,),
+                                    Text(
+                                      "그룹명 2",
+                                      style: TextStyle(
+                                          color: Colors.white
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                            FlatButton(
+                              child: Container(
+                                height: 50,
+                                width: 250,
+                                color: Color(0xFF9FA8DA),
+                                child: Row(
+                                  children: [
+                                    SizedBox(width: 10,),
+                                    CircleAvatar(
+                                      radius: 20,
+                                      backgroundColor: Color(0xFF283593),
+                                    ),
+                                    SizedBox(width: 10,),
+                                    Text(
+                                      "그룹명 3",
+                                      style: TextStyle(
+                                          color: Colors.white
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                            IconButton(
+                              iconSize: 50,
+                              icon: Icon(
+                                Icons.add_circle,
+                                color: Color(0xFF283593),
+                              ),
+                              onPressed: () {
 
+                              },
+                            )
+                          ],
+                        ),
+                      ),
+                    );
+                  }
                 );
               },
             ),

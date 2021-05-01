@@ -4,6 +4,7 @@ void main() {
   runApp(side_menu());
 }
 
+
 class side_menu extends StatefulWidget{
   @override
   _side_menu createState() => _side_menu();
@@ -58,7 +59,15 @@ class _side_menu extends State<side_menu>{
                       width: 50,
                       child:
                       IconButton(
-                        icon: Icon(Icons.remove_circle,size: 50, color: Color(0xFF283593)),
+                        iconSize: 40,
+                        icon: Icon(
+                          Icons.remove_circle,
+                          size: 50,
+                          color: Color(0xFF283593)
+                        ),
+                        onPressed: () {
+
+                        },
                       ),
                     )
                   ],
@@ -213,7 +222,7 @@ class _side_menu extends State<side_menu>{
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    Container(
+                    FlatButton(
                       child: Center(
                         child: Stack(
                           alignment: Alignment.center,
@@ -233,8 +242,12 @@ class _side_menu extends State<side_menu>{
                           ],
                         ),
                       ),
+                      onPressed: () {
+
+                      },
                     ),
                     IconButton(
+                      iconSize: 40,
                       icon: Icon(
                         Icons.notifications,
                         color: Color(0xFF283593),
@@ -245,11 +258,14 @@ class _side_menu extends State<side_menu>{
                       }
                     ),
                     IconButton(
+                      iconSize: 40,
                       icon: Icon(
                         Icons.palette,
-                        size: 40,
                         color:Color(0xFF283593)
                       ),
+                      onPressed: () {
+
+                      },
                     )
                   ],
                 ),
