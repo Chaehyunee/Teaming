@@ -226,7 +226,7 @@ class _side_menu extends State<side_menu>{
                             Text(
                               "AM/PM",
                               style: TextStyle(
-                                fontSize: 15,
+                                fontSize: 10,
                                 color: Colors.white
                               ),
                             ),
