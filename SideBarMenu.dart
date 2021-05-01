@@ -225,7 +225,7 @@ class _side_menu extends State<side_menu>{
                               size: 40,
                             ),
                             Text(
-                              "월/주",
+                              "AM/PM",
                               style: TextStyle(
                                 fontSize: 15,
                                 color: Colors.white

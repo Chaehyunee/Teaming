@@ -21,7 +21,22 @@ class _Team_sel extends State<Team_sel> {
             IconButton(
               icon: Icon(Icons.circle),
               onPressed: () {
-                _showDialog();
+                showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text('ms'),
+                      content: SingleChildScrollView(
+                        child: ListBody(
+                          children: [
+
+                          ],
+                        ),
+                      ),
+                    );
+                  }
+                );
               },
             ),
           ],
@@ -29,13 +44,4 @@ class _Team_sel extends State<Team_sel> {
       ),
     );
   }
-}
-
-void _showDialog() {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-
-    }
-  );
 }
