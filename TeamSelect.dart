@@ -24,18 +24,7 @@ class _Team_sel extends State<Team_sel> {
                 showDialog(
                   context: context,
                   barrierDismissible: false,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text('ms'),
-                      content: SingleChildScrollView(
-                        child: ListBody(
-                          children: [
 
-                          ],
-                        ),
-                      ),
-                    );
-                  }
                 );
               },
             ),

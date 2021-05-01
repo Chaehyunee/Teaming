@@ -20,6 +20,7 @@ class HomeWidget extends StatefulWidget {
   @override
   _HomeWidgetState createState() => _HomeWidgetState();
 }
+
 class _HomeWidgetState extends State<HomeWidget> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
@@ -107,9 +108,6 @@ class _HomeWidgetState extends State<HomeWidget> {
                         ),
                         Text(
                           "이메일 수집에 동의하십니까",
-                          style: TextStyle(
-                            color: Colors.white
-                          ),
                         )
                       ],
                     ),
