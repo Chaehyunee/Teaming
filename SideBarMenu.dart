@@ -5,14 +5,21 @@ void main() {
   runApp(side_menu());
 }
 
-class side_menu extends StatelessWidget{
+class side_menu extends StatefulWidget{
+  @override
+  _side_menu createState() => _side_menu();
+}
+
+class _side_menu extends State<side_menu>{
+  var _isPressed = false;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
-          iconTheme: new IconThemeData(color: Color(0xFFFFB8AC)),
+          iconTheme: new IconThemeData(color: Color(0xFF283593)),
           elevation: 0,
           actions: [
             IconButton(
@@ -34,7 +41,7 @@ class side_menu extends StatelessWidget{
                   children: [
                     CircleAvatar(
                       radius: 25,
-                      backgroundColor: Colors.black,
+                      backgroundColor: Color(0xFF283593),
                     ),
                     Container(
                       width: 150,
@@ -43,7 +50,7 @@ class side_menu extends StatelessWidget{
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text("ID:\n"),
-                          Text("계정")
+                          Text("계정"),
                         ],
                       ),
                     ),
@@ -52,7 +59,7 @@ class side_menu extends StatelessWidget{
                       width: 50,
                       child:
                       IconButton(
-                        icon: Icon(Icons.remove_circle,size: 50, color: Colors.black,),
+                        icon: Icon(Icons.remove_circle,size: 50, color: Color(0xFF283593)),
                       ),
                     )
                   ],
@@ -60,60 +67,50 @@ class side_menu extends StatelessWidget{
               ),
               Container(
                 height: 50,
-                width: 295,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                      width: 1,
-                      color: Colors.black
-                  ),
-                ),
+                width: 265,
+                color: Color(0xFF9FA8DA),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("회의 가능 시간:")
+                    Text(
+                      "회의 가능 시간:",
+                      style: TextStyle(
+                        color: Colors.white
+                      ),
+                    )
                   ],
                 ),
               ),
               Container(
                 height: 50,
-                width: 295,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                      width: 1,
-                      color: Colors.black
-                  ),
-                ),
+                width: 265,
+                color: Color(0xFF9FA8DA),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("모임 가능한 장소: ")
+                    Text(
+                      "모임 가능한 장소: ",
+                      style: TextStyle(
+                        color: Colors.white
+                      ),
+                    )
                   ],
                 ),
               ),
               Container(
                 height: 330,
-                width: 295,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                      width: 1,
-                      color: Colors.black
-                  ),
-                ),
+                width: 265,
+                color: Color(0xFFEDEDED),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     Text("사용자 유형 팀명"),
                     Container(
                       height: 40,
-                      width: 250,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                            width: 1,
-                            color: Colors.black
-                        ),
-                      ),
+                      width: 200,
+                      color: Color(0xFF9FA8DA),
                       child: Row(
                         children: [
                           SizedBox(
@@ -121,24 +118,24 @@ class side_menu extends StatelessWidget{
                           ),
                           CircleAvatar(
                             radius: 15,
-                            backgroundColor: Colors.black,
+                            backgroundColor: Color(0xFF283593),
                           ),
                           SizedBox(
                             width: 10,
                           ),
-                          Text("팀원이름")
+                          Text(
+                            "팀원이름",
+                            style: TextStyle(
+                              color: Colors.white
+                            ),
+                          )
                         ],
                       ),
                     ),
                     Container(
                       height: 40,
-                      width: 250,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                            width: 1,
-                            color: Colors.black
-                        ),
-                      ),
+                      width: 200,
+                      color: Color(0xFF9FA8DA),
                       child: Row(
                         children: [
                           SizedBox(
@@ -146,24 +143,24 @@ class side_menu extends StatelessWidget{
                           ),
                           CircleAvatar(
                             radius: 15,
-                            backgroundColor: Colors.black,
+                            backgroundColor: Color(0xFF283593),
                           ),
                           SizedBox(
                             width: 10,
                           ),
-                          Text("팀원이름")
+                          Text(
+                            "팀원이름",
+                            style: TextStyle(
+                                color: Colors.white
+                            ),
+                          )
                         ],
                       ),
                     ),
                     Container(
                       height: 40,
-                      width: 250,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                            width: 1,
-                            color: Colors.black
-                        ),
-                      ),
+                      width: 200,
+                      color: Color(0xFF9FA8DA),
                       child: Row(
                         children: [
                           SizedBox(
@@ -171,24 +168,24 @@ class side_menu extends StatelessWidget{
                           ),
                           CircleAvatar(
                             radius: 15,
-                            backgroundColor: Colors.black,
+                            backgroundColor: Color(0xFF283593),
                           ),
                           SizedBox(
                             width: 10,
                           ),
-                          Text("팀원이름")
+                          Text(
+                            "팀원이름",
+                            style: TextStyle(
+                                color: Colors.white
+                            ),
+                          )
                         ],
                       ),
                     ),
                     Container(
                       height: 40,
-                      width: 250,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                            width: 1,
-                            color: Colors.black
-                        ),
-                      ),
+                      width: 200,
+                      color: Color(0xFF9FA8DA),
                       child: Row(
                         children: [
                           SizedBox(
@@ -196,12 +193,17 @@ class side_menu extends StatelessWidget{
                           ),
                           CircleAvatar(
                             radius: 15,
-                            backgroundColor: Colors.black,
+                            backgroundColor: Color(0xFF283593),
                           ),
                           SizedBox(
                             width: 10,
                           ),
-                          Text("팀원이름")
+                          Text(
+                            "팀원이름",
+                            style: TextStyle(
+                                color: Colors.white
+                            ),
+                          )
                         ],
                       ),
                     )
@@ -212,17 +214,43 @@ class side_menu extends StatelessWidget{
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
+                    Container(
+                      child: Center(
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: <Widget>[
+                            Icon(
+                              Icons.circle,
+                              color: Color(0xFF283593),
+                              size: 40,
+                            ),
+                            Text(
+                              "월/주",
+                              style: TextStyle(
+                                fontSize: 15,
+                                color: Colors.white
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                     IconButton(
-                      icon: Icon(Icons.calendar_today_rounded, size: 35,),
+                      icon: Icon(
+                        Icons.notifications,
+                        color: Color(0xFF283593),
+                      ),
                       onPressed: () {
-                        icon: Icon(Icons.circle);
-                      },
+                        setState(() {
+                        });
+                      }
                     ),
                     IconButton(
-                      icon: Icon(Icons.notifications, size: 35, color: Colors.black,),
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.palette, size: 35, color: Colors.black,),
+                      icon: Icon(
+                        Icons.palette,
+                        size: 40,
+                        color:Color(0xFF283593)
+                      ),
                     )
                   ],
                 ),
