@@ -129,10 +129,18 @@ class _MainPageState extends State<MainPage> {
                     borderRadius: BorderRadius.circular(18)),
                 child: Column(children: <Widget>[
                   Container(
-                      alignment: Alignment.centerLeft,
-                      padding: const EdgeInsets.only(
-                          top: 5.0, left: 15.0, bottom: 5.0),
-                      child: Text('새 공지', style: TextStyle(fontSize: 17))),
+                    alignment: Alignment.centerLeft,
+                    padding: const EdgeInsets.only(
+                        top: 5.0, left: 15.0, bottom: 5.0),
+                    child: GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(context, "/board");
+                        },
+                        child: Text(
+                          '새 공지',
+                          style: TextStyle(fontSize: 17),
+                        )),
+                  ),
                   Container(
                       alignment: Alignment.centerLeft,
                       padding: const EdgeInsets.only(

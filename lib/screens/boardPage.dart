@@ -10,7 +10,7 @@ class _BoardPageState extends State<BoardPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('='),
+          title: Text('게시판'),
         ),
         body: Padding(
             padding: const EdgeInsets.all(18.0),
