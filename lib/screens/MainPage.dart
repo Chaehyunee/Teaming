@@ -379,7 +379,7 @@ class _MainPageState extends State<MainPage> {
                     icon:
                         Icon(Icons.palette, size: 40, color: Color(0xFFFC8D78)),
                     onPressed: () {
-                      setState(() {});
+                      Navigator.pushNamed(context, '/themeSetting');
                     }),
               ],
             ),
