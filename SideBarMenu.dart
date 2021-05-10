@@ -19,12 +19,13 @@ class _side_menu extends State<side_menu>{
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
-          iconTheme: new IconThemeData(color: Color(0xFF283593)),
+          iconTheme: new IconThemeData(color: Color(0xFFFC8D78)),
           elevation: 0,
           actions: [
             IconButton(
               icon: Icon(Icons.circle),
-              onPressed: () {},
+              onPressed: () {
+              },
             ),
           ],
         ),
