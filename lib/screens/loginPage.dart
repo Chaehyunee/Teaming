@@ -9,7 +9,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+  //FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -92,8 +92,8 @@ class _LoginPageState extends State<LoginPage> {
                             height: 120.0,
                             child: RaisedButton(
                               child: Text('Login',
-                                  style: TextStyle(color: Colors.black)),
-                              color: Colors.blue[200],
+                                  style: TextStyle(color: Colors.white)),
+                              color: Color(0xFF283593),
                               onPressed: () {
                                 Navigator.pushNamed(context, '/mainPage');
                               },
@@ -108,8 +108,8 @@ class _LoginPageState extends State<LoginPage> {
                             height: 30.0,
                             child: RaisedButton(
                               child: Text('회원가입',
-                                  style: TextStyle(color: Colors.black)),
-                              color: Colors.blue[200],
+                                  style: TextStyle(color: Colors.white)),
+                              color: Color(0xFF283593),
                               onPressed: () {
                                 //화면 연결 to 회원가입 창
                                 Navigator.pushNamed(context, '/signup');
@@ -120,8 +120,8 @@ class _LoginPageState extends State<LoginPage> {
                             height: 30.0,
                             child: RaisedButton(
                               child: Text('ID/PW 찾기',
-                                  style: TextStyle(color: Colors.black)),
-                              color: Colors.blue[200],
+                                  style: TextStyle(color: Colors.white)),
+                              color: Color(0xFF283593),
                               onPressed: () {
                                 //화면 연결 to ID/PW 찾기 창
                               },

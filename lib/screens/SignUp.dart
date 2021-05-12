@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
-//import 'package:softpbl/Teaming/SideBarMenu.dart';
 
 class SignUpPage extends StatefulWidget {
   @override
@@ -96,8 +95,7 @@ class _SignUpPageState extends State<SignUpPage> {
                               });
                             }),
                         Text(
-                          "이메일 수집에 동의하십니까",
-                          style: TextStyle(color: Colors.white),
+                          "이메일 수집에 동의하십니까?",
                         )
                       ],
                     ),

@@ -19,6 +19,15 @@ class _MainPageState extends State<MainPage> {
         iconTheme: Theme.of(context).appBarTheme.iconTheme,
         actions: <Widget>[
           IconButton(
+            icon: Icon(
+              Icons.circle,
+              color: Color(0xFF283593),
+            ),
+            onPressed: () {
+              show_Team_sel();
+            },
+          ),
+          IconButton(
             icon: Icon(Icons.calendar_today),
             onPressed: () {
               Navigator.pushNamed(context, '/calendar');
@@ -92,7 +101,7 @@ class _MainPageState extends State<MainPage> {
                       alignment: Alignment.center,
                       padding: const EdgeInsets.only(left: 10.0, bottom: 10.0),
                       child: LinearPercentIndicator(
-                        width: 350.0,
+                        width: 330.0,
                         animation: true,
                         animationDuration: 1000,
                         lineHeight: 25.0,
@@ -167,7 +176,7 @@ class _MainPageState extends State<MainPage> {
               children: [
                 CircleAvatar(
                   radius: 25,
-                  backgroundColor: Color(0xFFFC8D78),
+                  backgroundColor: Color(0xFF283593),
                 ),
                 Container(
                   width: 150,
@@ -180,15 +189,15 @@ class _MainPageState extends State<MainPage> {
                     ],
                   ),
                 ),
-                Container(
-                    height: 50,
-                    width: 50,
-                    child: IconButton(
-                        icon: Icon(Icons.remove_circle,
-                            size: 50, color: Color(0xFFFC8D78)),
-                        onPressed: () {
-                          setState(() {});
-                        })),
+                IconButton(
+                  iconSize: 50,
+                  icon: Icon(
+                    Icons.remove_circle,
+                    color: Color(0xFF283593),
+                  ),
+                  onPressed: () {
+
+                  })
               ],
             ),
           ),
@@ -359,15 +368,19 @@ class _MainPageState extends State<MainPage> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 Container(
-                  margin: const EdgeInsets.only(top: 8),
                   child: Center(
                     child: Stack(
                       alignment: Alignment.center,
                       children: <Widget>[
-                        Icon(
-                          Icons.circle,
-                          color: Color(0xFFFC8D78),
-                          size: 40,
+                        IconButton(
+                          iconSize: 40,
+                          icon: Icon(
+                            Icons.circle,
+                            color: Color(0xFF283593),
+                          ),
+                          onPressed: () {
+
+                          }
                         ),
                         Text(
                           "AM/PM",
@@ -378,14 +391,20 @@ class _MainPageState extends State<MainPage> {
                   ),
                 ),
                 IconButton(
-                    icon: Icon(Icons.notifications,
-                        color: Color(0xFFFC8D78), size: 40),
+                    iconSize: 40,
+                    icon: Icon(
+                      Icons.notifications,
+                      color: Color(0xFF283593)
+                    ),
                     onPressed: () {
                       setState(() {});
                     }),
                 IconButton(
-                    icon:
-                        Icon(Icons.palette, size: 40, color: Color(0xFFFC8D78)),
+                    iconSize: 40,
+                    icon: Icon(
+                      Icons.palette,
+                      color: Color(0xFF283593)
+                    ),
                     onPressed: () {
                       Navigator.pushNamed(context, '/themeSetting');
                     }),
@@ -394,6 +413,108 @@ class _MainPageState extends State<MainPage> {
           )
         ],
       )),
+    );
+  }
+
+  // 팀 선택 화면 출력 함수
+  void show_Team_sel() {
+    showDialog(
+      barrierDismissible: true,
+      context: context,
+      builder: (BuildContext context){
+        return AlertDialog(
+          backgroundColor: Color(0xFFEDEDED),
+          content: Container(
+            height: 500,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                FlatButton(
+                  child: Container(
+                    height: 70,
+                    width: 250,
+                    color: Color(0xFF9FA8DA),
+                    child: Row(
+                      children: [
+                        SizedBox(width: 10,),
+                        CircleAvatar(
+                          radius: 20,
+                          backgroundColor: Color(0xFF283593),
+                        ),
+                        SizedBox(width: 10,),
+                        Text(
+                          "그룹명 1",
+                          style: TextStyle(
+                            color: Colors.white
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                FlatButton(
+                  child: Container(
+                    height: 70,
+                    width: 250,
+                    color: Color(0xFF9FA8DA),
+                    child: Row(
+                      children: [
+                        SizedBox(width: 10,),
+                        CircleAvatar(
+                          radius: 20,
+                          backgroundColor: Color(0xFF283593),
+                        ),
+                        SizedBox(width: 10,),
+                        Text(
+                          "그룹명 2",
+                          style: TextStyle(
+                              color: Colors.white
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                IconButton(
+                  iconSize: 50,
+                  icon: Icon(
+                    Icons.add_circle,
+                    color: Color(0xFF283593),
+                  ),
+                  onPressed: () {
+
+                  },
+                )
+              ],
+            ),
+          ),
+        );
+      }
+    );
+  }
+
+  // 팀 생성 화면 출력 함수
+  void create_Tema() {
+    showDialog(
+      barrierDismissible: true,
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Container(
+            child: Column(
+              children: [
+                
+              ],
+            ),
+          ),
+        );
+      }
     );
   }
 }

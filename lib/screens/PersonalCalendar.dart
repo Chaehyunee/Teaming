@@ -56,6 +56,8 @@ class _PersonalCalendarState extends State<PersonalCalendar> {
     return MaterialApp(
         home: Scaffold(
             appBar: AppBar(
+              backgroundColor: Theme.of(context).appBarTheme.color,
+              iconTheme: Theme.of(context).appBarTheme.iconTheme,
               actions: <Widget>[
                 IconButton(
                   icon: Icon(Icons.calendar_today),
@@ -79,7 +81,7 @@ class _PersonalCalendarState extends State<PersonalCalendar> {
                   DrawerHeader(
                     child: Text('Drawer Header'),
                     decoration: BoxDecoration(
-                      color: Colors.blue,
+                      color: Color(0xFF9FA8DA),
                     ),
                   ),
                   // 리스트타일 추가

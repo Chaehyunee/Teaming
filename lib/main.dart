@@ -16,9 +16,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         appBarTheme: AppBarTheme(
           color: Color(0xFFFFFFFF),
-          iconTheme: IconThemeData(color: Color(0xFFFC8D78)),
+          iconTheme: IconThemeData(color: Color(0xFF283593)),
         ),
-        primaryColor: Color(0xFFFFB8AC),
+        primaryColor: Color(0xFF9FA8DA),
       ),
       initialRoute: '/',
       routes: {
