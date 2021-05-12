@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
+//import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+
 
 class LoginPage extends StatefulWidget {
   @override
@@ -10,6 +13,8 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   //FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+  FirebaseAuth auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -25,26 +30,35 @@ class _LoginPageState extends State<LoginPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
                           RaisedButton(
-                            child: Text('Naver',
+                            child: Text('Naver create',
                                 style: TextStyle(color: Colors.white)),
                             color: Colors.green[700],
                             onPressed: () {
+                              String book = "플러터 배우기";
+                              firebaseFirestore.collection('books').doc('flutter').set({ 'page': 433, 'purchase': false, 'title':book});
                               //화면 연결 to 네이버 로그인 창
                             },
                           ),
                           RaisedButton(
-                            child: Text('Kakao',
+                            child: Text('Kakao read',
                                 style: TextStyle(color: Colors.white)),
                             color: Colors.amber[700],
                             onPressed: () {
+                              String title = "";
+                              firebaseFirestore.collection("books").doc("flutter").get().then((DocumentSnapshot ds){
+                                Map<String, dynamic> data  = ds.data();
+                                title = data['title'];
+                                print(title);
+                              });
                               //화면 연결 to 카카오톡 로그인 창
                             },
                           ),
                           RaisedButton(
-                            child: Text('Google',
+                            child: Text('Google update',
                                 style: TextStyle(color: Colors.white)),
                             color: Colors.red[800],
                             onPressed: () {
+                              firebaseFirestore.collection("books").doc("flutter").update({"page":543});
                               //화면 연결 to 구글 로그인 창
                             },
                           )
@@ -122,7 +136,14 @@ class _LoginPageState extends State<LoginPage> {
                               child: Text('ID/PW 찾기',
                                   style: TextStyle(color: Colors.white)),
                               color: Color(0xFF283593),
+                              /*child: Text('ID/PW 찾기 delete',
+                                  style: TextStyle(color: Colors.black)),
+                              color: Colors.blue[200],*/
                               onPressed: () {
+                                //특정 document 삭제
+                                firebaseFirestore.collection("books").doc("flutter").delete();
+                                //특정 document 의 field 하나를 삭제
+                                firebaseFirestore.collection('books').doc('flutter').update({'page': FieldValue.delete()});
                                 //화면 연결 to ID/PW 찾기 창
                               },
                             ))
