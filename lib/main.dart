@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:swl_teaming/screens/MainPage.dart';
 import 'package:swl_teaming/screens/PersonalCalendar.dart';
+import 'package:swl_teaming/screens/map.dart';
 import 'package:swl_teaming/screens/themeSetting.dart';
 import 'package:swl_teaming/screens/SignUp.dart';
 import 'package:swl_teaming/screens/loginPage.dart';
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
         '/calendar': (context) => PersonalCalendar(),
         '/themeSetting': (context) => themeSetting(),
         '/board': (context) => BoardPage(),
+        '/map': (context) => mapPage(),
       },
     );
   }

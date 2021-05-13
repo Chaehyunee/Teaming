@@ -208,32 +208,38 @@ class _MainPageState extends State<MainPage> {
               children: [
                 Text(
                   "회의 가능 시간:",
-                  style: TextStyle(color: Colors.black),
+                  style: TextStyle(
+                      color: Colors.black, fontWeight: FontWeight.bold),
                 )
               ],
             ),
           ),
 
           // 모임 가능한 장소
-          Container(
-            height: 50,
-            width: 265,
-            decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
-                border: Border.all(color: Color(0xFF868484)),
-                borderRadius: BorderRadius.circular(18)),
-            padding: const EdgeInsets.only(left: 10),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "모임 가능한 장소: ",
-                  style: TextStyle(color: Colors.black),
-                )
-              ],
-            ),
-          ),
+          GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, '/map');
+              },
+              child: Container(
+                height: 50,
+                width: 265,
+                decoration: BoxDecoration(
+                    color: Theme.of(context).primaryColor,
+                    border: Border.all(color: Color(0xFF868484)),
+                    borderRadius: BorderRadius.circular(18)),
+                //padding: const EdgeInsets.only(left: 10),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      "모임 가능한 장소",
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+              )),
 
           // 팀 정보 화면
           Container(
@@ -246,7 +252,10 @@ class _MainPageState extends State<MainPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                Text("팀명"),
+                Text(
+                  "팀명",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
                 Container(
                   height: 40,
                   width: 200,

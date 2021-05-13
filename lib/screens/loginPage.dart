@@ -9,7 +9,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+  //FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
