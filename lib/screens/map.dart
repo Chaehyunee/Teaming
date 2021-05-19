@@ -83,7 +83,6 @@ class _mapPageState extends State<mapPage> {
       setState(() {
         lat = position.latitude;
         long = position.longitude;
-
         loading = false;
       });
     } on PlatformException catch (e) {

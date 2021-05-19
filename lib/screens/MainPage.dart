@@ -333,6 +333,25 @@ class _MainPageState extends State<MainPage> {
                   ],
                 ),
               )),
+          Container(
+            height: 50,
+            width: 265,
+            decoration: BoxDecoration(
+                color: Theme.of(context).primaryColor,
+                border: Border.all(color: Color(0xFF868484)),
+                borderRadius: BorderRadius.circular(18)),
+            padding: const EdgeInsets.only(left: 10),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "모임 가능한 장소: ",
+                  style: TextStyle(color: Colors.black),
+                )
+              ],
+            ),
+          ),
 
           // 팀 정보 화면
           Container(

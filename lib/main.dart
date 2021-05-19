@@ -11,6 +11,7 @@ import 'package:swl_teaming/screens/loginPage.dart';
 import 'package:swl_teaming/screens/boardPage.dart';
 import 'package:swl_teaming/screens/createArticle.dart';
 import 'package:swl_teaming/screens/loadingPage.dart';
+import 'package:swl_teaming/screens/map.dart';
 
 void main() async {
 // void main() {
