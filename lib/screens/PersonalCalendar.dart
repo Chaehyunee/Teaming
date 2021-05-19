@@ -55,22 +55,23 @@ class _PersonalCalendarState extends State<PersonalCalendar> {
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Scaffold(
-            appBar: AppBar(
-              actions: <Widget>[
-                IconButton(
-                  icon: Icon(Icons.calendar_today),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                ),
-              ],
-            ),
-            body: Container(
-                child:
-                    getEventCalendar(_calendarView, _events, onCalendarTapped)),
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).appBarTheme.color,
+        iconTheme: Theme.of(context).appBarTheme.iconTheme,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.calendar_today),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ],
+      ),
+      body: Container(
+          child: getEventCalendar(_calendarView, _events, onCalendarTapped)),
 
-            // 드로워(서랍) 추가
-            drawer: Drawer(
+      // 드로워(서랍) 추가
+      /*drawer: Drawer(
               // 리스트뷰 추가
               child: ListView(
                 padding: EdgeInsets.zero,
@@ -79,7 +80,7 @@ class _PersonalCalendarState extends State<PersonalCalendar> {
                   DrawerHeader(
                     child: Text('Drawer Header'),
                     decoration: BoxDecoration(
-                      color: Colors.blue,
+                      color: Color(0xFF9FA8DA),
                     ),
                   ),
                   // 리스트타일 추가
@@ -100,7 +101,8 @@ class _PersonalCalendarState extends State<PersonalCalendar> {
                   )
                 ],
               ),
-            )));
+            )*/
+    ));
   }
 
   SfCalendar getEventCalendar(

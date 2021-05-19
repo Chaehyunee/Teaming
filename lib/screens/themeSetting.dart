@@ -8,6 +8,8 @@ class themeSetting extends StatelessWidget {
     return MaterialApp(
         home: Scaffold(
             appBar: AppBar(
+              backgroundColor: Theme.of(context).appBarTheme.color,
+              iconTheme: Theme.of(context).appBarTheme.iconTheme,
               actions: <Widget>[
                 IconButton(
                   icon: Icon(Icons.calendar_today),
@@ -31,7 +33,7 @@ class themeSetting extends StatelessWidget {
                   DrawerHeader(
                     child: Text('Drawer Header'),
                     decoration: BoxDecoration(
-                      color: Colors.blue,
+                      color: Color(0xFF9FA8DA),
                     ),
                   ),
                   // 리스트타일 추가
@@ -119,7 +121,8 @@ class _themeSelectState extends State<themeSelect> {
         ButtonTheme(
           minWidth: 120,
           height: 50,
-          child: ElevatedButton(
+          buttonColor: Color(0xFF283593),
+          child: RaisedButton(
             //ButtonTheme의 child로 버튼 위젯 삽입
             onPressed: () {
               Navigator.push(
