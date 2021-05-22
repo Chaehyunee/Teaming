@@ -3,12 +3,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 //import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
 import 'package:google_sign_in/google_sign_in.dart';
 
-Future<UserCredential> signInWithGoogle() async {
+/*Future<UserCredential> signInWithGoogle() async {
   // Trigger the authentication flow
-  final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
+  final GoogleSignInAccount googleUser = (await GoogleSignIn().signIn())!;
 
   // Obtain the auth details from the request
   final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
@@ -19,9 +18,11 @@ Future<UserCredential> signInWithGoogle() async {
     idToken: googleAuth.idToken,
   );
 
+
   // Once signed in, return the UserCredential
   return await FirebaseAuth.instance.signInWithCredential(credential);
-}
+}*/
+
 
 class LoginPage extends StatefulWidget {
   @override
@@ -29,72 +30,130 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  //FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-  FirebaseAuth auth = FirebaseAuth.instance;
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  final GoogleSignIn googleSignIn = GoogleSignIn();
+  //FirebaseUser currentUser;
+
+  String _Emailfieldtext = "";
+  String _PWfieldtext = "";
+
+  String name = "";
+  String email = "";
+  String url = "";
+
+  Future<String> googleSingIn() async {
+  final GoogleSignInAccount account = (await googleSignIn.signIn())!;
+  final GoogleSignInAuthentication googleAuth = await account.authentication;
+
+  final AuthCredential credential = GoogleAuthProvider.credential(
+  accessToken: googleAuth.accessToken,
+  idToken: googleAuth.idToken,
+  );
+
+  final UserCredential authResult = await auth.signInWithCredential(credential);
+  final User user = authResult.user!;
+
+  assert(!user.isAnonymous);
+
+  //currentUser = auth.currentUser;
+  assert(user.uid == auth.currentUser!.uid);
+
+  setState(() {
+  email = user.email!;
+  url = user.photoURL!;
+  name = user.displayName!;
+  });
+
+  return '구글 로그인 성공: $user';
+  }
+
+  void googleSignOut() async {
+  await auth.signOut();
+  await googleSignIn.signOut();
+
+  setState(() {
+  email = "";
+  url = "";
+  name = "";
+  });
+
+  print("User Sign Out");
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset : false,
         body: Padding(
             padding: const EdgeInsets.all(18.0),
             child: Center(
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Image.asset('assets/teaming_logo.png', scale: 3),
+                    Image.asset('assets/teaming_logo.png', scale: 4),
+                    //해당 부분은 email의 유무에 따라 로그인이 됐는지 안됐는지를 판단하고 해당 로그인이 제대로 됐다면
+                    //구글의 프로필 이미지, 닉네임, 이메일을 가져와 출력을 시켜줄것이다.
+                    email == ""
+                        ? Container()
+                        : Column(
+                      children: <Widget>[
+                        //Image.network(url),
+                        Text(name),
+                        Text(email),
+                      ],
+                    ),
+                    /*RaisedButton(
+                      onPressed: () {
+                        //여기또한 이메일의 존재 여부를 통해 해당 버튼의 기능을 바꾸게 된다.
+                        if (email == "") {
+                          googleSingIn();
+                        } else {
+                          googleSignOut();
+                        }
+                      },
+                      //여기또한 이메일의 존재 여부를 통해 해당 버튼의 텍스트를 바꾸어 준다.
+                      child: Container(
+                          width: 150,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Icon(Icons.subdirectory_arrow_right),
+                              Text(email == "" ? 'Google Login' : "Google Logout")
+                            ],
+                          )),
+                    ),*/
                     Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
                           RaisedButton(
-                            child: Text('Naver create',
+                            child: Text('Naver',
                                 style: TextStyle(color: Colors.white)),
                             color: Colors.green[700],
                             onPressed: () {
-                              String book = "플러터 배우기";
-                              firebaseFirestore
-                                  .collection('books')
-                                  .doc('flutter')
-                                  .set({
-                                'page': 433,
-                                'purchase': false,
-                                'title': book
-                              });
                               //화면 연결 to 네이버 로그인 창
                             },
                           ),
                           RaisedButton(
-                            child: Text('Kakao read',
+                            child: Text('Kakao',
                                 style: TextStyle(color: Colors.white)),
                             color: Colors.amber[700],
                             onPressed: () {
-                              String title = "";
-                              firebaseFirestore
-                                  .collection("books")
-                                  .doc("flutter")
-                                  .get()
-                                  .then((DocumentSnapshot ds) {
-                                Map<String, dynamic> data = ds.data();
-                                title = data['title'];
-                                print(title);
-                              });
-                              //화면 연결 to 카카오톡 로그인 창
-                            },
+                              } //화면 연결 to 카카오톡 로그인 창
                           ),
                           RaisedButton(
-                            child: Text('Google update',
+                            child: Text(email == "" ? 'Google login': 'continue',
                                 style: TextStyle(color: Colors.white)),
                             color: Colors.red[800],
                             onPressed: () {
-                              firebaseFirestore
-                                  .collection("books")
-                                  .doc("flutter")
-                                  .update({"page": 543});
-                              signInWithGoogle();
+                              email == "" ?
+                                  googleSingIn()
+                              : Navigator.pushNamed(context, '/mainPage');
                               //화면 연결 to 구글 로그인 창
                             },
-                          )
-                        ]),
+                          ),
+                          ],
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -109,14 +168,17 @@ class _LoginPageState extends State<LoginPage> {
                               new Flexible(
                                   child: new TextField(
                                 decoration: const InputDecoration(
-                                    labelText: 'ID',
+                                    labelText: 'E-mail',
                                     border: OutlineInputBorder()),
                                 onChanged: (text) {
                                   setState(() {
-                                    //_IDfieldtext = text;
+                                    _Emailfieldtext = text;
                                   });
                                 },
                               )),
+                              SizedBox(
+                                height: 10,
+                              ),
                               new Flexible(
                                 child: new TextField(
                                   obscureText: true,
@@ -125,7 +187,7 @@ class _LoginPageState extends State<LoginPage> {
                                       border: OutlineInputBorder()),
                                   onChanged: (text) {
                                     setState(() {
-                                      // _PWfieldtext = text;
+                                      _PWfieldtext = text;
                                     });
                                   },
                                 ),
@@ -146,8 +208,8 @@ class _LoginPageState extends State<LoginPage> {
                                       await FirebaseAuth
                                           .instance
                                           .signInWithEmailAndPassword(
-                                              email: "barry.allen@example.com",
-                                              password: "SuperSecretPassword!");
+                                              email: _Emailfieldtext,
+                                              password: _PWfieldtext);
                                   Navigator.pushNamed(context, '/mainPage');
                                 } on FirebaseAuthException catch (e) {
                                   if (e.code == 'user-not-found') {
@@ -180,29 +242,20 @@ class _LoginPageState extends State<LoginPage> {
                             minWidth: 130.0,
                             height: 30.0,
                             child: RaisedButton(
-                              child: Text('ID/PW 찾기',
+                              child: Text('E-mail/PW 찾기',
                                   style: TextStyle(color: Colors.white)),
                               color: Color(0xFF283593),
-                              /*child: Text('ID/PW 찾기 delete',
-                                  style: TextStyle(color: Colors.black)),
-                              color: Colors.blue[200],*/
                               onPressed: () {
-                                //특정 document 삭제
-                                firebaseFirestore
-                                    .collection("books")
-                                    .doc("flutter")
-                                    .delete();
-                                //특정 document 의 field 하나를 삭제
-                                /*firebaseFirestore
-                                    .collection('books')
-                                    .doc('flutter')
-                                    .update({'page': FieldValue.delete()});*/
-                                //화면 연결 to ID/PW 찾기 창
+                                //화면 연결 to E-mail/PW 찾기 창
                               },
-                            ))
-                      ],
-                    )
-                  ]),
-            )));
+                            )
+                          )
+                        ],
+                      )
+                    ]
+                ),
+            )
+        )
+    );
   }
 }

@@ -25,7 +25,7 @@ class _MainPageState extends State<MainPage> {
   Future<Weather> getWeather() async {
     String apiAddr =
         "https://api.openweathermap.org/data/2.5/weather?q=chinju&appid=cda9837ae57b0889263fb4cc83fbb2e2&units=metric";
-    http.Response response = await http.get(apiAddr);
+    http.Response response = await http.get(Uri.parse(apiAddr));
     var data1 = json.decode(response.body);
     Weather weather = Weather(
       temp: data1["main"]["temp"],
