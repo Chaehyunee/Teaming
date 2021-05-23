@@ -4,6 +4,24 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import 'package:google_sign_in/google_sign_in.dart';
+
+Future<UserCredential> signInWithGoogle() async {
+  // Trigger the authentication flow
+  final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
+
+  // Obtain the auth details from the request
+  final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+
+  // Create a new credential
+  final credential = GoogleAuthProvider.credential(
+    accessToken: googleAuth.accessToken,
+    idToken: googleAuth.idToken,
+  );
+
+  // Once signed in, return the UserCredential
+  return await FirebaseAuth.instance.signInWithCredential(credential);
+}
 
 
 class LoginPage extends StatefulWidget {
@@ -19,6 +37,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
         body: Padding(
             padding: const EdgeInsets.all(18.0),
             child: Center(
@@ -59,6 +78,7 @@ class _LoginPageState extends State<LoginPage> {
                             color: Colors.red[800],
                             onPressed: () {
                               firebaseFirestore.collection("books").doc("flutter").update({"page":543});
+                              signInWithGoogle();
                               //화면 연결 to 구글 로그인 창
                             },
                           )
@@ -76,15 +96,15 @@ class _LoginPageState extends State<LoginPage> {
                             children: <Widget>[
                               new Flexible(
                                   child: new TextField(
-                                decoration: const InputDecoration(
-                                    labelText: 'ID',
-                                    border: OutlineInputBorder()),
-                                onChanged: (text) {
-                                  setState(() {
-                                    // _IDfieldtext = text;
-                                  });
-                                },
-                              )),
+                                    decoration: const InputDecoration(
+                                        labelText: 'ID',
+                                        border: OutlineInputBorder()),
+                                    onChanged: (text) {
+                                      setState(() {
+                                        //_IDfieldtext = text;
+                                      });
+                                    },
+                                  )),
                               new Flexible(
                                 child: new TextField(
                                   obscureText: true,
@@ -108,8 +128,20 @@ class _LoginPageState extends State<LoginPage> {
                               child: Text('Login',
                                   style: TextStyle(color: Colors.white)),
                               color: Color(0xFF283593),
-                              onPressed: () {
-                                Navigator.pushNamed(context, '/mainPage');
+                              onPressed: () async {
+                                try {
+                                  UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+                                      email: "barry.allen@example.com",
+                                      password: "SuperSecretPassword!"
+                                  );
+                                  Navigator.pushNamed(context, '/mainPage');
+                                } on FirebaseAuthException catch (e) {
+                                  if (e.code == 'user-not-found') {
+                                    print('No user found for that email.');
+                                  } else if (e.code == 'wrong-password') {
+                                    print('Wrong password provided for that user.');
+                                  }
+                                }
                               },
                             ))
                       ],

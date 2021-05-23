@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 
 class SignUpPage extends StatefulWidget {
   @override
@@ -17,11 +18,14 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController idController = TextEditingController();
   final TextEditingController confirmController = TextEditingController();
+  final _auth = FirebaseAuth.instance;
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   var _isChecked = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
         appBar: AppBar(
           backgroundColor: Colors.white,
           elevation: 0,
@@ -109,7 +113,20 @@ class _SignUpPageState extends State<SignUpPage> {
                     text: "회원가입",
                     backgroundColor: Color(0xFF283593),
                     onPressed: () async {
+                      //if (!_formKey.currentState.validate()) return;
+                      if (passwordController.text != confirmController.text) {
+                        //toastError(_scaffoldKey, PlatformException(code: 'signup', message: '비밀번호를 확인해주세요'));
+                        return;
+                      }
                       try {
+                        final r = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                            email: emailController.text,
+                            password: passwordController.text
+                        );
+                      } catch(e) {
+
+                      }
+                      /*try {
                         UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
                             email: "barry.allen@example.com",
                             password: "SuperSecretPassword!"
@@ -122,7 +139,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         }
                       } catch (e) {
                         print(e);
-                      }
+                      }*/
                     },
                   ),
                 ],
@@ -131,4 +148,11 @@ class _SignUpPageState extends State<SignUpPage> {
           ),
         ));
   }
+  /*
+  toastError(GlobalKey<ScaffoldState> key, dynamic e) {
+    String message = 'unknown error';
+    if (e is PlatformException) message = e.message;
+    final snackBar = SnackBar(content: Text(message));
+    key.currentState.showSnackBar(snackbar);
+  }*/
 }

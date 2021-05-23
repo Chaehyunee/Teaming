@@ -8,6 +8,7 @@ import 'package:swl_teaming/screens/themeSetting.dart';
 import 'package:swl_teaming/screens/SignUp.dart';
 import 'package:swl_teaming/screens/loginPage.dart';
 import 'package:swl_teaming/screens/boardPage.dart';
+import 'package:swl_teaming/screens/map.dart';
 
 void main() async{
 // void main() {
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
         '/calendar': (context) => PersonalCalendar(),
         '/themeSetting': (context) => themeSetting(),
         '/board': (context) => BoardPage(),
+        '/map': (context) => mapPage(),
       },
     );
   }
