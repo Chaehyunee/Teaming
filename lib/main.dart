@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:swl_teaming/screens/MainPage.dart';
 import 'package:swl_teaming/screens/PersonalCalendar.dart';
 import 'package:swl_teaming/screens/map.dart';
+import 'package:swl_teaming/screens/showArticle.dart';
 import 'package:swl_teaming/screens/themeSetting.dart';
 import 'package:swl_teaming/screens/SignUp.dart';
 import 'package:swl_teaming/screens/loginPage.dart';
@@ -43,6 +44,7 @@ class MyApp extends StatelessWidget {
         '/map': (context) => mapPage(),
         '/article': (context) => CreateArticle(),
         '/loading': (context) => LoadingScreen(),
+        '/showarticle': (context) => ShowArticle(),
       },
     );
   }

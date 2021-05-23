@@ -1,20 +1,31 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:swl_teaming/screens/showArticle.dart';
 import 'package:timer_builder/timer_builder.dart';
 import 'package:date_format/date_format.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
+class Article {
+  String title;
+  String content;
+  String create;
+
+  Article(this.title, this.content, this.create);
+}
+
 class MainPage extends StatefulWidget {
+  Article article;
+
+  MainPage({required Key key, required this.article}) : super(key: key);
+
   @override
   _MainPageState createState() => _MainPageState();
 }
 
 class _MainPageState extends State<MainPage> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-
   final String colName = "article";
 
   final String fdAuthor = "author";
@@ -39,6 +50,7 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //key: _scaffoldKey,
       // 상단 앱바 테마 설정 및 아이콘 생성
       appBar: AppBar(
         backgroundColor: Theme.of(context).appBarTheme.color,
@@ -333,25 +345,6 @@ class _MainPageState extends State<MainPage> {
                   ],
                 ),
               )),
-          Container(
-            height: 50,
-            width: 265,
-            decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
-                border: Border.all(color: Color(0xFF868484)),
-                borderRadius: BorderRadius.circular(18)),
-            padding: const EdgeInsets.only(left: 10),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "모임 가능한 장소: ",
-                  style: TextStyle(color: Colors.black),
-                )
-              ],
-            ),
-          ),
 
           // 팀 정보 화면
           Container(
@@ -518,6 +511,13 @@ class _MainPageState extends State<MainPage> {
           )
         ],
       )),
+
+      // Create Document
+      floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.add),
+          onPressed: () {
+            Navigator.pushNamed(context, '/article');
+          }),
     );
   }
 
@@ -624,29 +624,30 @@ class _MainPageState extends State<MainPage> {
   // 문서 조회 (Read)
   void showDocument(String id) {
     FirebaseFirestore.instance.collection(colName).doc(id).get().then((doc) {
-      showReadDocSnackBar(doc);
+      //showReadDocSnackBar(doc);
+      Article.title = doc[fdTitle];
+      Article.content = doc[fdContent];
+      Article.create = doc[fdCreate];
     });
   }
 
   void showReadDocSnackBar(DocumentSnapshot doc) {
-    _scaffoldKey.currentState!
-      // ignore: deprecated_member_use
-      ..hideCurrentSnackBar()
-      // ignore: deprecated_member_use
-      ..showSnackBar(
-        SnackBar(
-          backgroundColor: Colors.deepOrangeAccent,
-          duration: Duration(seconds: 5),
-          content:
-              Text("$fdTitle: ${doc[fdTitle]}\n$fdContent: ${doc[fdContent]}"
-                  "\n$fdCreate: ${timestampToStrDateTime(doc[fdCreate])}"),
-          action: SnackBarAction(
-            label: "Done",
-            textColor: Colors.white,
-            onPressed: () {},
-          ),
-        ),
-      );
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Text("제목: ${doc[fdTitle]}\n\n- 내용\n${doc[fdContent]}"
+                "\n\n- 작성날짜\n${timestampToStrDateTime(doc[fdCreate])}"),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('확인'),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              )
+            ],
+          );
+        });
   }
 
   String timestampToStrDateTime(Timestamp ts) {
