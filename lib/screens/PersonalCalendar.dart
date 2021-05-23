@@ -4,13 +4,45 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:firebase_core/firebase_core.dart';
+//import 'package:firebase_database/firebase_database.dart';
 
 part 'color-picker.dart';
 part 'timezone-picker.dart';
 part 'appointment-editor.dart';
 
+/*Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final FirebaseApp app = await Firebase.initializeApp(
+    name: 'db2',
+    options: (1==1) || (1==1)
+        ? const FirebaseOptions(
+      appId: '1:297855924061:ios:c6de2b69b03a5be8',
+      apiKey: 'AIzaSyD_shO5mfO9lhy2TVWhfo1VUmARKlG4suk',
+      projectId: 'flutter-firebase-plugins',
+      messagingSenderId: '297855924061',
+      databaseURL: 'https://teaming-7202b-default-rtdb.firebaseio.com/',
+    )
+        : const FirebaseOptions(
+      appId: '1:297855924061:android:669871c998cc21bd',
+      apiKey: 'AIzaSyD_shO5mfO9lhy2TVWhfo1VUmARKlG4suk',
+      messagingSenderId: '297855924061',
+      projectId: 'flutter-firebase-plugins',
+      databaseURL: 'https://teaming-7202b-default-rtdb.firebaseio.com/',
+    ),
+  );
+  runApp(MaterialApp(
+    title: 'Flutter Database Example',
+    home: PersonalCalendar(app: app),
+  ));
+}*/
+
+
+
 class PersonalCalendar extends StatefulWidget {
-  const PersonalCalendar({Key? key}) : super(key: key);
+  const PersonalCalendar({Key? key/*, required this.app*/}) : super(key: key);
+
+  //final FirebaseApp app;
 
   @override
   _PersonalCalendarState createState() => _PersonalCalendarState();
@@ -55,53 +87,300 @@ class _PersonalCalendarState extends State<PersonalCalendar> {
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).appBarTheme.color,
-        iconTheme: Theme.of(context).appBarTheme.iconTheme,
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.calendar_today),
-            onPressed: () {
-              Navigator.pop(context);
-            },
+          appBar: AppBar(
+            backgroundColor: Theme.of(context).appBarTheme.color,
+            iconTheme: Theme.of(context).appBarTheme.iconTheme,
+            actions: <Widget>[
+              /*IconButton(
+                  alignment: Alignment.center,
+                  icon: Icon(Icons.arrow_back_ios),
+                  onPressed: () {
+                Navigator.pushNamed(context, '/drawer');
+              },
+              ),*/
+            IconButton(
+              icon: Icon(Icons.calendar_today),
+              onPressed: () {
+                Navigator.pop(context);
+              },
           ),
         ],
       ),
-      body: Container(
-          child: getEventCalendar(_calendarView, _events, onCalendarTapped)),
+          body: Container(
+              child: getEventCalendar(_calendarView, _events, onCalendarTapped)),
 
       // 드로워(서랍) 추가
-      /*drawer: Drawer(
-              // 리스트뷰 추가
-              child: ListView(
-                padding: EdgeInsets.zero,
+          drawer: Drawer(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  // 드로워해더 추가
-                  DrawerHeader(
-                    child: Text('Drawer Header'),
-                    decoration: BoxDecoration(
-                      color: Color(0xFF9FA8DA),
+                  // 상단 프로필 이미지, ID 및 계정, 상태전환 버튼
+                  Container(
+                    height: 75,
+                    width: 295,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        CircleAvatar(
+                          radius: 25,
+                          backgroundColor: Color(0xFF283593),
+                        ),
+                        Container(
+                          width: 150,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text("ID:\n"),
+                              Text("계정"),
+                            ],
+                          ),
+                        ),
+                        IconButton(
+                            iconSize: 50,
+                            icon: Icon(
+                              Icons.remove_circle,
+                              color: Color(0xFF283593),
+                            ),
+                            onPressed: () {})
+                      ],
                     ),
                   ),
-                  // 리스트타일 추가
-                  ListTile(
-                    title: Text('Item 1'),
-                    onTap: () {
-                      // 네이게이터 팝을 통해 드로워를 닫는다.
-                      Navigator.pop(context);
-                    },
+
+                  // 회의 가능 시간
+                  Container(
+                    height: 50,
+                    width: 265,
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).primaryColor,
+                        border: Border.all(color: Color(0xFF868484)),
+                        borderRadius: BorderRadius.circular(18)),
+                    padding: const EdgeInsets.only(left: 10),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "회의 가능 시간:",
+                          style: TextStyle(
+                              color: Colors.black, fontWeight: FontWeight.bold),
+                        )
+                      ],
+                    ),
                   ),
-                  // 리스트타일 추가
-                  ListTile(
-                    title: Text('Item 2'),
-                    onTap: () {
-                      // 드로워를 닫음
-                      Navigator.pop(context);
-                    },
+
+                  // 모임 가능한 장소
+                  GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/map');
+                      },
+                      child: Container(
+                        height: 50,
+                        width: 265,
+                        decoration: BoxDecoration(
+                            color: Theme.of(context).primaryColor,
+                            border: Border.all(color: Color(0xFF868484)),
+                            borderRadius: BorderRadius.circular(18)),
+                        //padding: const EdgeInsets.only(left: 10),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              "모임 가능한 장소",
+                              style: TextStyle(
+                                  color: Colors.black, fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                      )),
+                  Container(
+                    height: 50,
+                    width: 265,
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).primaryColor,
+                        border: Border.all(color: Color(0xFF868484)),
+                        borderRadius: BorderRadius.circular(18)),
+                    padding: const EdgeInsets.only(left: 10),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "모임 가능한 장소: ",
+                          style: TextStyle(color: Colors.black),
+                        )
+                      ],
+                    ),
+                  ),
+
+                  // 팀 정보 화면
+                  Container(
+                    height: 330,
+                    width: 265,
+                    decoration: BoxDecoration(
+                        color: Color(0xFFEDEDED),
+                        border: Border.all(color: Color(0xFF868484)),
+                        borderRadius: BorderRadius.circular(18)),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Text(
+                          "팀명",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Container(
+                          height: 40,
+                          width: 200,
+                          decoration: BoxDecoration(
+                              color: Theme.of(context).primaryColor,
+                              border: Border.all(color: Color(0xFF868484)),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                width: 10,
+                              ),
+                              CircleAvatar(
+                                radius: 15,
+                                backgroundColor: Color(0xFF283593),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                "팀원이름",
+                                style: TextStyle(color: Colors.black),
+                              )
+                            ],
+                          ),
+                        ),
+                        Container(
+                          height: 40,
+                          width: 200,
+                          decoration: BoxDecoration(
+                              color: Theme.of(context).primaryColor,
+                              border: Border.all(color: Color(0xFF868484)),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                width: 10,
+                              ),
+                              CircleAvatar(
+                                radius: 15,
+                                backgroundColor: Color(0xFF283593),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                "팀원이름",
+                                style: TextStyle(color: Colors.black),
+                              )
+                            ],
+                          ),
+                        ),
+                        Container(
+                          height: 40,
+                          width: 200,
+                          decoration: BoxDecoration(
+                              color: Theme.of(context).primaryColor,
+                              border: Border.all(color: Color(0xFF868484)),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                width: 10,
+                              ),
+                              CircleAvatar(
+                                radius: 15,
+                                backgroundColor: Color(0xFF283593),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                "팀원이름",
+                                style: TextStyle(color: Colors.black),
+                              )
+                            ],
+                          ),
+                        ),
+                        Container(
+                          height: 40,
+                          width: 200,
+                          decoration: BoxDecoration(
+                              color: Theme.of(context).primaryColor,
+                              border: Border.all(color: Color(0xFF868484)),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                width: 10,
+                              ),
+                              CircleAvatar(
+                                radius: 15,
+                                backgroundColor: Color(0xFF283593),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                "팀원이름",
+                                style: TextStyle(color: Colors.black),
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Container(
+                          child: Center(
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: <Widget>[
+                                IconButton(
+                                    iconSize: 40,
+                                    icon: Icon(
+                                      Icons.circle,
+                                      color: Color(0xFF283593),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.pushNamed(context, '/article');
+                                    }),
+                                Text(
+                                  "AM/PM",
+                                  style: TextStyle(fontSize: 8, color: Colors.white),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        IconButton(
+                            iconSize: 40,
+                            icon: Icon(Icons.notifications, color: Color(0xFF283593)),
+                            onPressed: () {
+                              setState(() {});
+                            }),
+                        IconButton(
+                            iconSize: 40,
+                            icon: Icon(Icons.palette, color: Color(0xFF283593)),
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/themeSetting');
+                            }),
+                      ],
+                    ),
                   )
                 ],
-              ),
-            )*/
+              )
+          ),
     ));
   }
 

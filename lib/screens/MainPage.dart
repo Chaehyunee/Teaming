@@ -248,15 +248,16 @@ class _MainPageState extends State<MainPage> {
       ),
 
       // 애플리케이션 좌측 부분 서랍
-      drawer: Drawer(
+
+   /*   drawer: Drawer(
           child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
           // 상단 프로필 이미지, ID 및 계정, 상태전환 버튼
-          Container(
+            Container(
             height: 75,
             width: 295,
-            child: Row(
+              child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -270,8 +271,8 @@ class _MainPageState extends State<MainPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text("ID:\n"),
-                      Text("계정"),
+                      Text("이름:\n"),
+                      Text("E-mail:"),
                     ],
                   ),
                 ),
@@ -333,195 +334,197 @@ class _MainPageState extends State<MainPage> {
                   ],
                 ),
               )),
-          Container(
-            height: 50,
-            width: 265,
-            decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
-                border: Border.all(color: Color(0xFF868484)),
-                borderRadius: BorderRadius.circular(18)),
-            padding: const EdgeInsets.only(left: 10),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "모임 가능한 장소: ",
-                  style: TextStyle(color: Colors.black),
-                )
-              ],
-            ),
-          ),
+              Container(
+                height: 50,
+                width: 265,
+                decoration: BoxDecoration(
+                    color: Theme.of(context).primaryColor,
+                    border: Border.all(color: Color(0xFF868484)),
+                    borderRadius: BorderRadius.circular(18)),
+                padding: const EdgeInsets.only(left: 10),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "모임 가능한 장소: ",
+                      style: TextStyle(color: Colors.black),
+                    )
+                  ],
+                ),
+              ),
 
-          // 팀 정보 화면
-          Container(
-            height: 330,
-            width: 265,
-            decoration: BoxDecoration(
-                color: Color(0xFFEDEDED),
-                border: Border.all(color: Color(0xFF868484)),
-                borderRadius: BorderRadius.circular(18)),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Text(
-                  "팀명",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                Container(
-                  height: 40,
-                  width: 200,
-                  decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColor,
-                      border: Border.all(color: Color(0xFF868484)),
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: 10,
-                      ),
-                      CircleAvatar(
-                        radius: 15,
-                        backgroundColor: Color(0xFF283593),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        "팀원이름",
-                        style: TextStyle(color: Colors.black),
-                      )
-                    ],
-                  ),
-                ),
-                Container(
-                  height: 40,
-                  width: 200,
-                  decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColor,
-                      border: Border.all(color: Color(0xFF868484)),
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: 10,
-                      ),
-                      CircleAvatar(
-                        radius: 15,
-                        backgroundColor: Color(0xFF283593),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        "팀원이름",
-                        style: TextStyle(color: Colors.black),
-                      )
-                    ],
-                  ),
-                ),
-                Container(
-                  height: 40,
-                  width: 200,
-                  decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColor,
-                      border: Border.all(color: Color(0xFF868484)),
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: 10,
-                      ),
-                      CircleAvatar(
-                        radius: 15,
-                        backgroundColor: Color(0xFF283593),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        "팀원이름",
-                        style: TextStyle(color: Colors.black),
-                      )
-                    ],
-                  ),
-                ),
-                Container(
-                  height: 40,
-                  width: 200,
-                  decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColor,
-                      border: Border.all(color: Color(0xFF868484)),
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: 10,
-                      ),
-                      CircleAvatar(
-                        radius: 15,
-                        backgroundColor: Color(0xFF283593),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        "팀원이름",
-                        style: TextStyle(color: Colors.black),
-                      )
-                    ],
-                  ),
-                )
-              ],
-            ),
-          ),
-          Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Container(
-                  child: Center(
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: <Widget>[
-                        IconButton(
-                            iconSize: 40,
-                            icon: Icon(
-                              Icons.circle,
-                              color: Color(0xFF283593),
-                            ),
-                            onPressed: () {
-                              Navigator.pushNamed(context, '/article');
-                            }),
-                        Text(
-                          "AM/PM",
-                          style: TextStyle(fontSize: 8, color: Colors.white),
-                        ),
-                      ],
+              // 팀 정보 화면
+              Container(
+                height: 330,
+                width: 265,
+                decoration: BoxDecoration(
+                    color: Color(0xFFEDEDED),
+                    border: Border.all(color: Color(0xFF868484)),
+                    borderRadius: BorderRadius.circular(18)),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Text(
+                      "팀명",
+                      style: TextStyle(fontWeight: FontWeight.bold),
                     ),
-                  ),
+                    Container(
+                      height: 40,
+                      width: 200,
+                      decoration: BoxDecoration(
+                          color: Theme.of(context).primaryColor,
+                          border: Border.all(color: Color(0xFF868484)),
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            width: 10,
+                          ),
+                          CircleAvatar(
+                            radius: 15,
+                            backgroundColor: Color(0xFF283593),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            "팀원이름",
+                            style: TextStyle(color: Colors.black),
+                          )
+                        ],
+                      ),
+                    ),
+                    Container(
+                  height: 40,
+                  width: 200,
+                  decoration: BoxDecoration(
+                      color: Theme.of(context).primaryColor,
+                      border: Border.all(color: Color(0xFF868484)),
+                      borderRadius: BorderRadius.circular(10)),
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            width: 10,
+                          ),
+                          CircleAvatar(
+                            radius: 15,
+                            backgroundColor: Color(0xFF283593),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            "팀원이름",
+                            style: TextStyle(color: Colors.black),
+                          )
+                        ],
+                      ),
+                    ),
+                    Container(
+                      height: 40,
+                      width: 200,
+                      decoration: BoxDecoration(
+                          color: Theme.of(context).primaryColor,
+                          border: Border.all(color: Color(0xFF868484)),
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            width: 10,
+                          ),
+                          CircleAvatar(
+                            radius: 15,
+                            backgroundColor: Color(0xFF283593),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            "팀원이름",
+                            style: TextStyle(color: Colors.black),
+                          )
+                        ],
+                      ),
+                    ),
+                    Container(
+                      height: 40,
+                      width: 200,
+                      decoration: BoxDecoration(
+                          color: Theme.of(context).primaryColor,
+                          border: Border.all(color: Color(0xFF868484)),
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            width: 10,
+                          ),
+                          CircleAvatar(
+                            radius: 15,
+                            backgroundColor: Color(0xFF283593),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            "팀원이름",
+                            style: TextStyle(color: Colors.black),
+                          )
+                        ],
+                      ),
+                    )
+                  ],
                 ),
-                IconButton(
-                    iconSize: 40,
-                    icon: Icon(Icons.notifications, color: Color(0xFF283593)),
-                    onPressed: () {
-                      setState(() {});
-                    }),
-                IconButton(
-                    iconSize: 40,
-                    icon: Icon(Icons.palette, color: Color(0xFF283593)),
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/themeSetting');
-                    }),
-              ],
-            ),
+              ),
+              Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Container(
+                      child: Center(
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: <Widget>[
+                            IconButton(
+                                iconSize: 40,
+                                icon: Icon(
+                                  Icons.circle,
+                                  color: Color(0xFF283593),
+                                ),
+                                onPressed: () {
+                                  Navigator.pushNamed(context, '/article');
+                                }),
+                            Text(
+                              "AM/PM",
+                              style: TextStyle(fontSize: 8, color: Colors.white),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    IconButton(
+                        iconSize: 40,
+                        icon: Icon(Icons.notifications, color: Color(0xFF283593)),
+                        onPressed: () {
+                          setState(() {});
+                        }),
+                    IconButton(
+                        iconSize: 40,
+                        icon: Icon(Icons.palette, color: Color(0xFF283593)),
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/themeSetting');
+                        }),
+                  ],
+                ),
+              )
+            ],
           )
-        ],
-      )),
+      ),*/
     );
   }
 
   // 팀 선택 화면 출력 함수
+  // ignore: non_constant_identifier_names
   void show_Team_sel() {
     showDialog(
         barrierDismissible: true,
@@ -606,7 +609,8 @@ class _MainPageState extends State<MainPage> {
   }
 
   // 팀 생성 화면 출력 함수
-  void create_Tema() {
+  // ignore: non_constant_identifier_names
+  void create_Team() {
     showDialog(
         barrierDismissible: true,
         context: context,
