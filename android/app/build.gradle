@@ -36,7 +36,7 @@ android {
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.example.swl_teaming"
-        minSdkVersion 16
+        minSdkVersion 20
         targetSdkVersion 30
         multiDexEnabled true//추가:app:mergeDexDebug
         versionCode flutterVersionCode.toInteger()

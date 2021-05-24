@@ -13,6 +13,7 @@ import 'package:swl_teaming/screens/boardPage.dart';
 import 'package:swl_teaming/screens/createArticle.dart';
 import 'package:swl_teaming/screens/loadingPage.dart';
 import 'package:swl_teaming/screens/map.dart';
+import 'package:swl_teaming/screens/Drawer.dart';
 
 void main() async {
 // void main() {
@@ -45,6 +46,7 @@ class MyApp extends StatelessWidget {
         '/article': (context) => CreateArticle(),
         '/loading': (context) => LoadingScreen(),
         '/showarticle': (context) => ShowArticle(),
+        '/drawer': (context) => DrawerPage()
       },
     );
   }

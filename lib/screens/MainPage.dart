@@ -17,10 +17,6 @@ class Article {
 }
 
 class MainPage extends StatefulWidget {
-  Article article;
-
-  MainPage({required Key key, required this.article}) : super(key: key);
-
   @override
   _MainPageState createState() => _MainPageState();
 }
@@ -36,7 +32,7 @@ class _MainPageState extends State<MainPage> {
   Future<Weather> getWeather() async {
     String apiAddr =
         "https://api.openweathermap.org/data/2.5/weather?q=chinju&appid=cda9837ae57b0889263fb4cc83fbb2e2&units=metric";
-    http.Response response = await http.get(apiAddr);
+    http.Response response = await http.get(Uri.parse(apiAddr));
     var data1 = json.decode(response.body);
     Weather weather = Weather(
       temp: data1["main"]["temp"],
@@ -282,8 +278,8 @@ class _MainPageState extends State<MainPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text("ID:\n"),
-                      Text("계정"),
+                      Text("이름:\n"),
+                      Text("E-mail:"),
                     ],
                   ),
                 ),
@@ -468,6 +464,7 @@ class _MainPageState extends State<MainPage> {
               ],
             ),
           ),
+
           Container(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -522,6 +519,7 @@ class _MainPageState extends State<MainPage> {
   }
 
   // 팀 선택 화면 출력 함수
+  // ignore: non_constant_identifier_names
   void show_Team_sel() {
     showDialog(
         barrierDismissible: true,
@@ -606,7 +604,8 @@ class _MainPageState extends State<MainPage> {
   }
 
   // 팀 생성 화면 출력 함수
-  void create_Tema() {
+  // ignore: non_constant_identifier_names
+  void create_Team() {
     showDialog(
         barrierDismissible: true,
         context: context,
@@ -625,9 +624,6 @@ class _MainPageState extends State<MainPage> {
   void showDocument(String id) {
     FirebaseFirestore.instance.collection(colName).doc(id).get().then((doc) {
       //showReadDocSnackBar(doc);
-      Article.title = doc[fdTitle];
-      Article.content = doc[fdContent];
-      Article.create = doc[fdCreate];
     });
   }
 
