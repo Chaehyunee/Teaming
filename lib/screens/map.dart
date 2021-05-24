@@ -21,6 +21,7 @@ class _mapPageState extends State<mapPage> {
   void initState() {
     super.initState();
     loading = true;
+    getPosition();
     getPosition().whenComplete(() {
       setState(() {});
     });
@@ -120,3 +121,4 @@ class _mapPageState extends State<mapPage> {
     );
   }
 }
+
