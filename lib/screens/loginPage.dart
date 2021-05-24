@@ -8,17 +8,13 @@ import 'package:google_sign_in/google_sign_in.dart';
 /*Future<UserCredential> signInWithGoogle() async {
   // Trigger the authentication flow
   final GoogleSignInAccount googleUser = (await GoogleSignIn().signIn())!;
-
   // Obtain the auth details from the request
   final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-
   // Create a new credential
   final credential = GoogleAuthProvider.credential(
     accessToken: googleAuth.accessToken,
     idToken: googleAuth.idToken,
   );
-
-
   // Once signed in, return the UserCredential
   return await FirebaseAuth.instance.signInWithCredential(credential);
 }*/
@@ -43,42 +39,42 @@ class _LoginPageState extends State<LoginPage> {
   String url = "";
 
   Future<String> googleSingIn() async {
-  final GoogleSignInAccount account = (await googleSignIn.signIn())!;
-  final GoogleSignInAuthentication googleAuth = await account.authentication;
+    final GoogleSignInAccount account = (await googleSignIn.signIn())!;
+    final GoogleSignInAuthentication googleAuth = await account.authentication;
 
-  final AuthCredential credential = GoogleAuthProvider.credential(
-  accessToken: googleAuth.accessToken,
-  idToken: googleAuth.idToken,
-  );
+    final AuthCredential credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
 
-  final UserCredential authResult = await auth.signInWithCredential(credential);
-  final User user = authResult.user!;
+    final UserCredential authResult = await auth.signInWithCredential(credential);
+    final User user = authResult.user!;
 
-  assert(!user.isAnonymous);
+    assert(!user.isAnonymous);
 
-  //currentUser = auth.currentUser;
-  assert(user.uid == auth.currentUser!.uid);
+    //currentUser = auth.currentUser;
+    assert(user.uid == auth.currentUser!.uid);
 
-  setState(() {
-  email = user.email!;
-  url = user.photoURL!;
-  name = user.displayName!;
-  });
+    setState(() {
+      email = user.email!;
+      url = user.photoURL!;
+      name = user.displayName!;
+    });
 
-  return '구글 로그인 성공: $user';
+    return '구글 로그인 성공: $user';
   }
 
   void googleSignOut() async {
-  await auth.signOut();
-  await googleSignIn.signOut();
+    await auth.signOut();
+    await googleSignIn.signOut();
 
-  setState(() {
-  email = "";
-  url = "";
-  name = "";
-  });
+    setState(() {
+      email = "";
+      url = "";
+      name = "";
+    });
 
-  print("User Sign Out");
+    print("User Sign Out");
   }
 
   @override
@@ -124,35 +120,35 @@ class _LoginPageState extends State<LoginPage> {
                           )),
                     ),*/
                     Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          RaisedButton(
-                            child: Text('Naver',
-                                style: TextStyle(color: Colors.white)),
-                            color: Colors.green[700],
-                            onPressed: () {
-                              //화면 연결 to 네이버 로그인 창
-                            },
-                          ),
-                          RaisedButton(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        RaisedButton(
+                          child: Text('Naver',
+                              style: TextStyle(color: Colors.white)),
+                          color: Colors.green[700],
+                          onPressed: () {
+                            //화면 연결 to 네이버 로그인 창
+                          },
+                        ),
+                        RaisedButton(
                             child: Text('Kakao',
                                 style: TextStyle(color: Colors.white)),
                             color: Colors.amber[700],
                             onPressed: () {
-                              } //화면 연결 to 카카오톡 로그인 창
-                          ),
-                          RaisedButton(
-                            child: Text(email == "" ? 'Google login': 'continue',
-                                style: TextStyle(color: Colors.white)),
-                            color: Colors.red[800],
-                            onPressed: () {
-                              email == "" ?
-                                  googleSingIn()
-                              : Navigator.pushNamed(context, '/mainPage');
-                              //화면 연결 to 구글 로그인 창
-                            },
-                          ),
-                          ],
+                            } //화면 연결 to 카카오톡 로그인 창
+                        ),
+                        RaisedButton(
+                          child: Text(email == "" ? 'Google login': 'continue',
+                              style: TextStyle(color: Colors.white)),
+                          color: Colors.red[800],
+                          onPressed: () {
+                            email == "" ?
+                            googleSingIn()
+                                : Navigator.pushNamed(context, '/mainPage');
+                            //화면 연결 to 구글 로그인 창
+                          },
+                        ),
+                      ],
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -167,15 +163,15 @@ class _LoginPageState extends State<LoginPage> {
                             children: <Widget>[
                               new Flexible(
                                   child: new TextField(
-                                decoration: const InputDecoration(
-                                    labelText: 'E-mail',
-                                    border: OutlineInputBorder()),
-                                onChanged: (text) {
-                                  setState(() {
-                                    _Emailfieldtext = text;
-                                  });
-                                },
-                              )),
+                                    decoration: const InputDecoration(
+                                        labelText: 'E-mail',
+                                        border: OutlineInputBorder()),
+                                    onChanged: (text) {
+                                      setState(() {
+                                        _Emailfieldtext = text;
+                                      });
+                                    },
+                                  )),
                               SizedBox(
                                 height: 10,
                               ),
@@ -205,11 +201,11 @@ class _LoginPageState extends State<LoginPage> {
                               onPressed: () async {
                                 try {
                                   UserCredential userCredential =
-                                      await FirebaseAuth
-                                          .instance
-                                          .signInWithEmailAndPassword(
-                                              email: _Emailfieldtext,
-                                              password: _PWfieldtext);
+                                  await FirebaseAuth
+                                      .instance
+                                      .signInWithEmailAndPassword(
+                                      email: _Emailfieldtext,
+                                      password: _PWfieldtext);
                                   Navigator.pushNamed(context, '/mainPage');
                                 } on FirebaseAuthException catch (e) {
                                   if (e.code == 'user-not-found') {
@@ -250,11 +246,11 @@ class _LoginPageState extends State<LoginPage> {
                                 //화면 연결 to E-mail/PW 찾기 창
                               },
                             )
-                          )
-                        ],
-                      )
-                    ]
-                ),
+                        )
+                      ],
+                    )
+                  ]
+              ),
             )
         )
     );

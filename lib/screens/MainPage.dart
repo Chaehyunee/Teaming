@@ -6,6 +6,7 @@ import 'package:timer_builder/timer_builder.dart';
 import 'package:date_format/date_format.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'dart:convert';
+import 'dart:math';
 import 'package:http/http.dart' as http;
 
 class Article {
@@ -23,11 +24,34 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   final String colName = "article";
-
   final String fdAuthor = "author";
   final String fdTitle = "title";
   final String fdContent = "content";
   final String fdCreate = "create";
+
+  final _TeamKey = GlobalKey<FormState>();
+
+  // 팀 생성 및 참가
+  final TextEditingController NameController = TextEditingController();
+  final TextEditingController expController = TextEditingController();
+  final TextEditingController InviteController = TextEditingController();
+
+  // 팀 이름
+  final TextEditingController Team1Controller = TextEditingController();
+  final TextEditingController Team2Controller = TextEditingController();
+
+  // 팀원 이름
+  final TextEditingController member1Controller = TextEditingController();
+  final TextEditingController member2Controller = TextEditingController();
+  final TextEditingController member3Controller = TextEditingController();
+  final TextEditingController member4Controller = TextEditingController();
+
+  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+
+  List member = [];
+
+  Color _noti_color = Color(0xFF283593);
+  Color _state_color = Color(0xFF283593);
 
   Future<Weather> getWeather() async {
     String apiAddr =
@@ -278,8 +302,8 @@ class _MainPageState extends State<MainPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text("이름:\n"),
-                      Text("E-mail:"),
+                      Text("ID:\n"),
+                      Text("계정"),
                     ],
                   ),
                 ),
@@ -287,9 +311,15 @@ class _MainPageState extends State<MainPage> {
                     iconSize: 50,
                     icon: Icon(
                       Icons.remove_circle,
-                      color: Color(0xFF283593),
+                      color: _state_color,
                     ),
-                    onPressed: () {})
+                    onPressed: () {
+                      setState(() {
+                        _state_color = _state_color == Color(0xFF283593)
+                            ? Colors.grey
+                            : Color(0xFF283593);
+                      });
+                    })
               ],
             ),
           ),
@@ -309,8 +339,7 @@ class _MainPageState extends State<MainPage> {
               children: [
                 Text(
                   "회의 가능 시간:",
-                  style: TextStyle(
-                      color: Colors.black, fontWeight: FontWeight.bold),
+                  style: TextStyle(color: Colors.black),
                 )
               ],
             ),
@@ -353,118 +382,134 @@ class _MainPageState extends State<MainPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                Text(
-                  "팀명",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                Container(
-                  height: 40,
-                  width: 200,
-                  decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColor,
-                      border: Border.all(color: Color(0xFF868484)),
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: 10,
-                      ),
-                      CircleAvatar(
-                        radius: 15,
-                        backgroundColor: Color(0xFF283593),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        "팀원이름",
-                        style: TextStyle(color: Colors.black),
-                      )
-                    ],
+                Text("팀명"),
+                FlatButton(
+                  child: Container(
+                    height: 40,
+                    width: 200,
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).primaryColor,
+                        border: Border.all(color: Color(0xFF868484)),
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: 10,
+                        ),
+                        CircleAvatar(
+                          radius: 15,
+                          backgroundColor: Color(0xFF283593),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          member1Controller.text,
+                          style: TextStyle(color: Colors.white),
+                        )
+                      ],
+                    ),
                   ),
+                  onPressed: () {
+                    print(member1Controller.text);
+                  },
                 ),
-                Container(
-                  height: 40,
-                  width: 200,
-                  decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColor,
-                      border: Border.all(color: Color(0xFF868484)),
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: 10,
-                      ),
-                      CircleAvatar(
-                        radius: 15,
-                        backgroundColor: Color(0xFF283593),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        "팀원이름",
-                        style: TextStyle(color: Colors.black),
-                      )
-                    ],
+                FlatButton(
+                  child: Container(
+                    height: 40,
+                    width: 200,
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).primaryColor,
+                        border: Border.all(color: Color(0xFF868484)),
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: 10,
+                        ),
+                        CircleAvatar(
+                          radius: 15,
+                          backgroundColor: Color(0xFF283593),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          member2Controller.text,
+                          style: TextStyle(color: Colors.white),
+                        )
+                      ],
+                    ),
                   ),
+                  onPressed: () {
+                    print(member2Controller.text);
+                  },
                 ),
-                Container(
-                  height: 40,
-                  width: 200,
-                  decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColor,
-                      border: Border.all(color: Color(0xFF868484)),
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: 10,
-                      ),
-                      CircleAvatar(
-                        radius: 15,
-                        backgroundColor: Color(0xFF283593),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        "팀원이름",
-                        style: TextStyle(color: Colors.black),
-                      )
-                    ],
+                FlatButton(
+                  child: Container(
+                    height: 40,
+                    width: 200,
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).primaryColor,
+                        border: Border.all(color: Color(0xFF868484)),
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: 10,
+                        ),
+                        CircleAvatar(
+                          radius: 15,
+                          backgroundColor: Color(0xFF283593),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          member3Controller.text,
+                          style: TextStyle(color: Colors.white),
+                        )
+                      ],
+                    ),
                   ),
+                  onPressed: () {
+                    print(member3Controller.text);
+                  },
                 ),
-                Container(
-                  height: 40,
-                  width: 200,
-                  decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColor,
-                      border: Border.all(color: Color(0xFF868484)),
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: 10,
-                      ),
-                      CircleAvatar(
-                        radius: 15,
-                        backgroundColor: Color(0xFF283593),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        "팀원이름",
-                        style: TextStyle(color: Colors.black),
-                      )
-                    ],
+                FlatButton(
+                  child: Container(
+                    height: 40,
+                    width: 200,
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).primaryColor,
+                        border: Border.all(color: Color(0xFF868484)),
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: 10,
+                        ),
+                        CircleAvatar(
+                          radius: 15,
+                          backgroundColor: Color(0xFF283593),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          member4Controller.text,
+                          style: TextStyle(color: Colors.white),
+                        )
+                      ],
+                    ),
                   ),
-                )
+                  onPressed: () {
+                    print(member4Controller.text);
+                  },
+                ),
               ],
             ),
           ),
-
           Container(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -480,9 +525,7 @@ class _MainPageState extends State<MainPage> {
                               Icons.circle,
                               color: Color(0xFF283593),
                             ),
-                            onPressed: () {
-                              Navigator.pushNamed(context, '/article');
-                            }),
+                            onPressed: () {}),
                         Text(
                           "AM/PM",
                           style: TextStyle(fontSize: 8, color: Colors.white),
@@ -493,9 +536,13 @@ class _MainPageState extends State<MainPage> {
                 ),
                 IconButton(
                     iconSize: 40,
-                    icon: Icon(Icons.notifications, color: Color(0xFF283593)),
+                    icon: Icon(Icons.notifications, color: _noti_color),
                     onPressed: () {
-                      setState(() {});
+                      setState(() {
+                        _noti_color = _noti_color == Color(0xFF283593)
+                            ? Colors.grey
+                            : Color(0xFF283593);
+                      });
                     }),
                 IconButton(
                     iconSize: 40,
@@ -509,7 +556,6 @@ class _MainPageState extends State<MainPage> {
         ],
       )),
 
-      // Create Document
       floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
           onPressed: () {
@@ -519,8 +565,23 @@ class _MainPageState extends State<MainPage> {
   }
 
   // 팀 선택 화면 출력 함수
-  // ignore: non_constant_identifier_names
   void show_Team_sel() {
+    FirebaseFirestore.instance
+        .collection("Team")
+        .doc("Team1")
+        .get()
+        .then((DocumentSnapshot ds) {
+      Team1Controller.text = ds.get("name").toString();
+    });
+
+    FirebaseFirestore.instance
+        .collection("Team")
+        .doc("Teaming")
+        .get()
+        .then((DocumentSnapshot ds) {
+      Team2Controller.text = ds.get("name").toString();
+    });
+
     showDialog(
         barrierDismissible: true,
         context: context,
@@ -550,13 +611,15 @@ class _MainPageState extends State<MainPage> {
                             width: 10,
                           ),
                           Text(
-                            "그룹명 1",
+                            Team1Controller.text,
                             style: TextStyle(color: Colors.white),
                           )
                         ],
                       ),
                     ),
                     onPressed: () {
+                      change_member(Team1Controller.text.toString());
+                      print(Team1Controller.text.toString());
                       Navigator.pop(context);
                     },
                   ),
@@ -578,13 +641,15 @@ class _MainPageState extends State<MainPage> {
                             width: 10,
                           ),
                           Text(
-                            "그룹명 2",
+                            Team2Controller.text,
                             style: TextStyle(color: Colors.white),
                           )
                         ],
                       ),
                     ),
                     onPressed: () {
+                      change_member(Team2Controller.text.toString());
+                      print(member.toString());
                       Navigator.pop(context);
                     },
                   ),
@@ -594,7 +659,9 @@ class _MainPageState extends State<MainPage> {
                       Icons.add_circle,
                       color: Color(0xFF283593),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      create_Team();
+                    },
                   )
                 ],
               ),
@@ -604,7 +671,6 @@ class _MainPageState extends State<MainPage> {
   }
 
   // 팀 생성 화면 출력 함수
-  // ignore: non_constant_identifier_names
   void create_Team() {
     showDialog(
         barrierDismissible: true,
@@ -612,12 +678,114 @@ class _MainPageState extends State<MainPage> {
         builder: (BuildContext context) {
           return AlertDialog(
             content: Container(
-              child: Column(
-                children: [],
-              ),
-            ),
+                height: 500,
+                child: Form(
+                    key: _TeamKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Container(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("팀을 새로 만드시겠습니까?"),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              TextFormField(
+                                decoration: InputDecoration(
+                                    labelText: "팀명을 입력해 주세요.",
+                                    border: OutlineInputBorder()),
+                                controller: NameController,
+                              ),
+                              SizedBox(height: 10),
+                              TextFormField(
+                                decoration: InputDecoration(
+                                    labelText: "팀에 대한 설명을 입력해주세요.",
+                                    border: OutlineInputBorder()),
+                                controller: expController,
+                              ),
+                              SizedBox(height: 10),
+                              RaisedButton(
+                                  child: Text(
+                                    "생성",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                  color: Color(0xFF283593),
+                                  onPressed: () {
+                                    int rng = Random().nextInt(50) + 1;
+                                    firebaseFirestore
+                                        .collection("Team")
+                                        .doc(NameController.text)
+                                        .set({
+                                      "code": rng,
+                                      "name": NameController.text,
+                                      "explanation": expController.text,
+                                      "member": member,
+                                    });
+                                    Navigator.pop(context);
+                                  })
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("만들어진 팀에 들어가시겠습니까?"),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              TextFormField(
+                                decoration: InputDecoration(
+                                    labelText: "초대코드를 입력해 주세요.",
+                                    border: OutlineInputBorder()),
+                                controller: InviteController,
+                              ),
+                              SizedBox(height: 10),
+                              RaisedButton(
+                                  child: Text(
+                                    "참가",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                  color: Color(0xFF283593),
+                                  onPressed: () {
+                                    firebaseFirestore
+                                        .collection("Team")
+                                        .doc("Team1")
+                                        .update({
+                                      "member": FieldValue.arrayUnion(
+                                          <dynamic>["user"])
+                                    });
+                                    Navigator.pop(context);
+                                  })
+                            ],
+                          ),
+                        ),
+                      ],
+                    ))),
           );
         });
+  }
+
+  // 팀원 정보 변경
+  void change_member(String Team_Name) {
+    FirebaseFirestore.instance
+        .collection("Team")
+        .doc(Team_Name)
+        .get()
+        .then((DocumentSnapshot ds) {
+      member = ds.get("member");
+    });
+    member1Controller.text = member[0].toString();
+    member2Controller.text = member[1].toString();
+    member3Controller.text = member[2].toString();
+    member4Controller.text = member[3].toString();
   }
 
   // 문서 조회 (Read)
