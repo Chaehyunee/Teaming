@@ -22,10 +22,15 @@ class _SignUpPageState extends State<SignUpPage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   var _isChecked = false;
 
+  String email = "";
+  String password = "";
+  String confirm = "";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
+        resizeToAvoidBottomInset : false,
         appBar: AppBar(
           backgroundColor: Colors.white,
           elevation: 0,
@@ -47,13 +52,16 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                   TextFormField(
                     decoration: InputDecoration(
-                      labelText: 'ID',
-                      hintText: 'userID',
+                      labelText: 'email',
+                      hintText: 'user email',
                       border: OutlineInputBorder(),
                     ),
-                    controller: idController,
+                    controller: emailController,
+                    keyboardType: TextInputType.emailAddress,
+                    onChanged: (text) {
+                      email = text;
+                    },
                   ),
-                  // Container(height: 10,),
                   SizedBox(
                     height: 10,
                   ),
@@ -65,6 +73,9 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                     controller: passwordController,
                     obscureText: true,
+                    onChanged: (text) {
+                      password = text;
+                    },
                   ),
                   SizedBox(
                     height: 10,
@@ -77,22 +88,14 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                     controller: confirmController,
                     obscureText: true,
+                    onChanged: (text) {
+                      confirm = text;
+                    },
                   ),
                   SizedBox(
                     height: 10,
                   ),
-                  TextFormField(
-                    decoration: InputDecoration(
-                      labelText: 'email',
-                      hintText: 'user email',
-                      border: OutlineInputBorder(),
-                    ),
-                    controller: emailController,
-                    keyboardType: TextInputType.emailAddress,
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
+
                   Container(
                     child: Row(
                       children: [
@@ -128,8 +131,8 @@ class _SignUpPageState extends State<SignUpPage> {
                       }
                       /*try {
                         UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-                            email: "barry.allen@example.com",
-                            password: "SuperSecretPassword!"
+                            email: email,
+                            password: password
                         );
                       } on FirebaseAuthException catch (e) {
                         if (e.code == 'weak-password') {

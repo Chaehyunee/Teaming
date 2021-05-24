@@ -1,10 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:timer_builder/timer_builder.dart';
 import 'package:date_format/date_format.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:convert';
 import 'dart:math';
+import 'package:http/http.dart' as http;
 
 class MainPage extends StatefulWidget {
   @override
@@ -12,6 +14,13 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
+  final String colName = "article";
+  final String fdAuthor = "author";
+  final String fdTitle = "title";
+  final String fdContent = "content";
+  final String fdCreate = "create";
 
   final _TeamKey = GlobalKey<FormState>();
 
@@ -29,13 +38,27 @@ class _MainPageState extends State<MainPage> {
   final TextEditingController member2Controller = TextEditingController();
   final TextEditingController member3Controller = TextEditingController();
   final TextEditingController member4Controller = TextEditingController();
-  
+
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
-  var member = [];
+  List member = [];
 
   Color _noti_color = Color(0xFF283593);
   Color _state_color = Color(0xFF283593);
+
+  Future<Weather> getWeather() async {
+    String apiAddr =
+        "https://api.openweathermap.org/data/2.5/weather?q=chinju&appid=cda9837ae57b0889263fb4cc83fbb2e2&units=metric";
+    http.Response response = await http.get(Uri.parse(apiAddr));
+    var data1 = json.decode(response.body);
+    Weather weather = Weather(
+      temp: data1["main"]["temp"],
+      tempMax: data1["main"]["temp_max"],
+      tempMin: data1["main"]["temp_min"],
+    );
+
+    return weather;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,128 +87,188 @@ class _MainPageState extends State<MainPage> {
       ),
 
       // 4개의 섹션을 모두 감싸는 바디를 컨테이너 생성
-      body: Container(
-        // 컬럼으로 자식을 생성
-        child: Column(
-          // 컬럼안에는 4개의 컨테이너 타입의 자식이 존재
-          children: [
-            // 1번 섹션 (시간, 온도)
-            Container(
-                margin:
-                const EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
-                padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
-                decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColor,
-                    border: Border.all(color: Color(0xFF868484)),
-                    borderRadius: BorderRadius.circular(18)),
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
+      body: ListView(
+        children: [
+          SizedBox(
+            width: MediaQuery.of(context).size.width,
+            // 컬럼으로 자식을 생성
+            child: Column(
+              // 컬럼안에는 4개의 컨테이너 타입의 자식이 존재
+              children: [
+                // 1번 섹션 (시간, 온도)
+                Container(
+                    margin: const EdgeInsets.only(
+                        top: 20.0, left: 20.0, right: 20.0),
+                    padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).primaryColor,
+                        border: Border.all(color: Color(0xFF868484)),
+                        borderRadius: BorderRadius.circular(18)),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Container(
+                              padding: const EdgeInsets.only(right: 30.0),
+                              child: TimerBuilder.periodic(Duration(seconds: 1),
+                                  builder: (context) {
+                                    return Text(
+                                        formatDate(DateTime.now(), [
+                                          am,
+                                          ' ',
+                                          hh,
+                                          ':',
+                                          nn,
+                                          '\n',
+                                          mm,
+                                          '. ',
+                                          dd,
+                                          '. '
+                                        ]), // add pubspec.yaml the date_format: ^1.0.9
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          //fontWeight: FontWeight.w600,
+                                        ));
+                                  })),
+                          Container(
+                              padding: const EdgeInsets.only(left: 30.0),
+                              child: FutureBuilder(
+                                  future: getWeather(),
+                                  builder: (context,
+                                      AsyncSnapshot<Weather> snapshot) {
+                                    if (snapshot.hasData == false) {
+                                      return CircularProgressIndicator();
+                                    }
+                                    return Text(
+                                        '${snapshot.data!.temp.toString()}°');
+                                  })),
+                        ])),
+
+                // 2번 섹션 (기여도 표시부분)
+                Container(
+                    margin: const EdgeInsets.only(
+                        top: 20.0, left: 20.0, right: 20.0),
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).primaryColor,
+                        border: Border.all(color: Color(0xFF868484)),
+                        borderRadius: BorderRadius.circular(18)),
+                    child: Column(children: <Widget>[
                       Container(
-                          padding: const EdgeInsets.only(right: 30.0),
-                          child: TimerBuilder.periodic(Duration(seconds: 1),
-                              builder: (context) {
-                                return Text(
-                                    formatDate(DateTime.now(), [
-                                      am,
-                                      ' ',
-                                      hh,
-                                      ':',
-                                      nn,
-                                      '\n',
-                                      mm,
-                                      '. ',
-                                      dd,
-                                      '. '
-                                    ]), // add pubspec.yaml the date_format: ^1.0.9
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      //fontWeight: FontWeight.w600,
-                                    ));
-                              })),
+                          alignment: Alignment.centerLeft,
+                          padding: const EdgeInsets.only(
+                              top: 5.0, left: 15.0, bottom: 5.0),
+                          child:
+                          Text('나의 기여도', style: TextStyle(fontSize: 17))),
                       Container(
-                          padding: const EdgeInsets.only(left: 30.0),
-                          child: Text('25°', style: TextStyle(fontSize: 20))),
+                          alignment: Alignment.center,
+                          padding:
+                          const EdgeInsets.only(left: 10.0, bottom: 10.0),
+                          child: LinearPercentIndicator(
+                            width: 330.0,
+                            animation: true,
+                            animationDuration: 1000,
+                            lineHeight: 25.0,
+                            percent: 0.2,
+                            center: Text("20.0%"),
+                            linearStrokeCap: LinearStrokeCap.butt,
+                            progressColor: Colors.black,
+                          )),
                     ])),
 
-            // 2번 섹션 (기여도 표시부분)
-            Container(
-                margin:
-                const EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
-                decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColor,
-                    border: Border.all(color: Color(0xFF868484)),
-                    borderRadius: BorderRadius.circular(18)),
-                child: Column(children: <Widget>[
-                  Container(
-                      alignment: Alignment.centerLeft,
-                      padding: const EdgeInsets.only(
-                          top: 5.0, left: 15.0, bottom: 5.0),
-                      child: Text('나의 기여도', style: TextStyle(fontSize: 17))),
-                  Container(
-                      alignment: Alignment.center,
-                      padding: const EdgeInsets.only(left: 10.0, bottom: 10.0),
-                      child: LinearPercentIndicator(
-                        width: 330.0,
-                        animation: true,
-                        animationDuration: 1000,
-                        lineHeight: 25.0,
-                        percent: 0.2,
-                        center: Text("20.0%"),
-                        linearStrokeCap: LinearStrokeCap.butt,
-                        progressColor: Colors.black,
-                      )),
-                ])),
+                // 3번 섹션 (다음 회의 일정 표시 부분)
+                Container(
+                    margin: const EdgeInsets.only(
+                        top: 20.0, left: 20.0, right: 20.0),
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).primaryColor,
+                        border: Border.all(color: Color(0xFF868484)),
+                        borderRadius: BorderRadius.circular(18)),
+                    child: Column(children: <Widget>[
+                      Container(
+                          alignment: Alignment.centerLeft,
+                          padding: const EdgeInsets.only(
+                              top: 5.0, left: 15.0, bottom: 5.0),
+                          child: Text('다음 회의', style: TextStyle(fontSize: 17))),
+                    ])),
 
-            // 3번 섹션 (다음 회의 일정 표시 부분)
-            Container(
-                margin:
-                const EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
-                decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColor,
-                    border: Border.all(color: Color(0xFF868484)),
-                    borderRadius: BorderRadius.circular(18)),
-                child: Column(children: <Widget>[
-                  Container(
-                      alignment: Alignment.centerLeft,
-                      padding: const EdgeInsets.only(
-                          top: 5.0, left: 15.0, bottom: 5.0),
-                      child: Text('다음 회의', style: TextStyle(fontSize: 17))),
-                ])),
-
-            // 4번 섹션 (새 공지와 확인하지 않은 게시글 표시 부분)
-            Container(
-                margin:
-                const EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
-                decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColor,
-                    border: Border.all(color: Color(0xFF868484)),
-                    borderRadius: BorderRadius.circular(18)),
-                child: Column(children: <Widget>[
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    padding: const EdgeInsets.only(
-                        top: 5.0, left: 15.0, bottom: 5.0),
-                    child: GestureDetector(
-                        onTap: () {
-                          Navigator.pushNamed(context, "/board");
-                        },
-                        child: Text(
-                          '새 공지',
-                          style: TextStyle(fontSize: 17),
-                        )),
-                  ),
-                  Container(
-                      alignment: Alignment.centerLeft,
-                      padding: const EdgeInsets.only(
-                          top: 5.0, left: 15.0, bottom: 5.0),
-                      child:
-                      Text('확인하지 않은 게시글', style: TextStyle(fontSize: 17))),
-                ]))
-          ],
-        ),
+                // 4번 섹션 (새 공지와 확인하지 않은 게시글 표시 부분)
+              ],
+            ),
+          ),
+          SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: 20,
+          ),
+          Container(
+              padding: const EdgeInsets.only(left: 17, right: 17),
+              height: 500,
+              child: StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection(colName)
+                    .orderBy(fdCreate, descending: true)
+                    .snapshots(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.hasError)
+                    return Text("Error: ${snapshot.error}");
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.waiting:
+                      return Text("Loading...");
+                    default:
+                      return ListView(
+                        children: snapshot.data!.docs
+                            .map((DocumentSnapshot document) {
+                          Timestamp ts = document[fdCreate];
+                          String dt = timestampToStrDateTime(ts);
+                          return Card(
+                            elevation: 2,
+                            child: InkWell(
+                              // Read Document
+                              onTap: () {
+                                showDocument(document.id);
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.all(8),
+                                child: Column(
+                                  children: <Widget>[
+                                    Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Text(
+                                          document[fdTitle],
+                                          style: TextStyle(
+                                            color: Colors.blueGrey,
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        Text(
+                                          dt.toString(),
+                                          style: TextStyle(
+                                              color: Colors.grey[600]),
+                                        ),
+                                      ],
+                                    ),
+                                    Container(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(
+                                        document[fdContent],
+                                        style: TextStyle(color: Colors.black54),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                      );
+                  }
+                },
+              )),
+        ],
       ),
 
       // 애플리케이션 좌측 부분 서랍
@@ -291,115 +374,130 @@ class _MainPageState extends State<MainPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     Text("팀명"),
-                    Container(
-                      height: 40,
-                      width: 200,
-                      decoration: BoxDecoration(
-                          color: Theme.of(context).primaryColor,
-                          border: Border.all(color: Color(0xFF868484)),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Row(
-                        children: [
-                          SizedBox(
-                            width: 10,
-                          ),
-                          CircleAvatar(
-                            radius: 15,
-                            backgroundColor: Color(0xFF283593),
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            member1Controller.text,
-                            style: TextStyle(color: Colors.white),
-                          )
-                        ],
+                    FlatButton(
+                      child: Container(
+                        height: 40,
+                        width: 200,
+                        decoration: BoxDecoration(
+                            color: Theme.of(context).primaryColor,
+                            border: Border.all(color: Color(0xFF868484)),
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: 10,
+                            ),
+                            CircleAvatar(
+                              radius: 15,
+                              backgroundColor: Color(0xFF283593),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              member1Controller.text,
+                              style: TextStyle(color: Colors.white),
+                            )
+                          ],
+                        ),
                       ),
+                      onPressed: () {
+                        print(member1Controller.text);
+                      },
                     ),
                     FlatButton(
-                    child: Container(
-                      height: 40,
-                      width: 200,
-                      decoration: BoxDecoration(
-                          color: Theme.of(context).primaryColor,
-                          border: Border.all(color: Color(0xFF868484)),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Row(
-                        children: [
-                          SizedBox(
-                            width: 10,
-                          ),
-                          CircleAvatar(
-                            radius: 15,
-                            backgroundColor: Color(0xFF283593),
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            member2Controller.text,
-                            style: TextStyle(color: Colors.white),
-                          )
-                        ],
+                      child: Container(
+                        height: 40,
+                        width: 200,
+                        decoration: BoxDecoration(
+                            color: Theme.of(context).primaryColor,
+                            border: Border.all(color: Color(0xFF868484)),
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: 10,
+                            ),
+                            CircleAvatar(
+                              radius: 15,
+                              backgroundColor: Color(0xFF283593),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              member2Controller.text,
+                              style: TextStyle(color: Colors.white),
+                            )
+                          ],
+                        ),
                       ),
-                    ),
                       onPressed: () {
                         print(member2Controller.text);
                       },
                     ),
-                    Container(
-                      height: 40,
-                      width: 200,
-                      decoration: BoxDecoration(
-                          color: Theme.of(context).primaryColor,
-                          border: Border.all(color: Color(0xFF868484)),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Row(
-                        children: [
-                          SizedBox(
-                            width: 10,
-                          ),
-                          CircleAvatar(
-                            radius: 15,
-                            backgroundColor: Color(0xFF283593),
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            member3Controller.text,
-                            style: TextStyle(color: Colors.white),
-                          )
-                        ],
+                    FlatButton(
+                      child: Container(
+                        height: 40,
+                        width: 200,
+                        decoration: BoxDecoration(
+                            color: Theme.of(context).primaryColor,
+                            border: Border.all(color: Color(0xFF868484)),
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: 10,
+                            ),
+                            CircleAvatar(
+                              radius: 15,
+                              backgroundColor: Color(0xFF283593),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              member3Controller.text,
+                              style: TextStyle(color: Colors.white),
+                            )
+                          ],
+                        ),
                       ),
+                      onPressed: () {
+                        print(member3Controller.text);
+                      },
                     ),
-                    Container(
-                      height: 40,
-                      width: 200,
-                      decoration: BoxDecoration(
-                          color: Theme.of(context).primaryColor,
-                          border: Border.all(color: Color(0xFF868484)),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Row(
-                        children: [
-                          SizedBox(
-                            width: 10,
-                          ),
-                          CircleAvatar(
-                            radius: 15,
-                            backgroundColor: Color(0xFF283593),
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            member4Controller.text,
-                            style: TextStyle(color: Colors.white),
-                          )
-                        ],
+                    FlatButton(
+                      child: Container(
+                        height: 40,
+                        width: 200,
+                        decoration: BoxDecoration(
+                            color: Theme.of(context).primaryColor,
+                            border: Border.all(color: Color(0xFF868484)),
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: 10,
+                            ),
+                            CircleAvatar(
+                              radius: 15,
+                              backgroundColor: Color(0xFF283593),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              member4Controller.text,
+                              style: TextStyle(color: Colors.white),
+                            )
+                          ],
+                        ),
                       ),
-                    )
+                      onPressed: () {
+                        print(member4Controller.text);
+                      },
+                    ),
                   ],
                 ),
               ),
@@ -461,12 +559,14 @@ class _MainPageState extends State<MainPage> {
 
   // 팀 선택 화면 출력 함수
   void show_Team_sel() {
-    firebaseFirestore.collection("Team").doc("Team1").get().then((DocumentSnapshot ds){
-      Team1Controller.text = ds.data()["name"].toString();
+    FirebaseFirestore.instance.collection("Team").doc("Team1").get()
+        .then((DocumentSnapshot ds) {
+          Team1Controller.text = ds.get("name").toString();
     });
 
-    firebaseFirestore.collection("Team").doc("Teaming").get().then((DocumentSnapshot ds){
-      Team2Controller.text = ds.data()["name"].toString();
+    FirebaseFirestore.instance.collection("Team").doc("Teaming").get()
+        .then((DocumentSnapshot ds) {
+      Team2Controller.text = ds.get("name").toString();
     });
 
     showDialog(
@@ -503,7 +603,8 @@ class _MainPageState extends State<MainPage> {
                       ),
                     ),
                     onPressed: () {
-                      change_member(Team1Controller.text);
+                      change_member(Team1Controller.text.toString());
+                      print(Team1Controller.text.toString());
                       Navigator.pop(context);
                     },
                   ),
@@ -530,7 +631,8 @@ class _MainPageState extends State<MainPage> {
                       ),
                     ),
                     onPressed: () {
-                      change_member(Team2Controller.text);
+                      change_member(Team2Controller.text.toString());
+                      print(member.toString());
                       Navigator.pop(context);
                     },
                   ),
@@ -560,97 +662,97 @@ class _MainPageState extends State<MainPage> {
         builder: (BuildContext context) {
           return AlertDialog(
             content: Container(
-              height: 500,
-              child: Form(
-                key: _TeamKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Container(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("팀을 새로 만드시겠습니까?"),
-                          SizedBox(height: 10,),
-                          TextFormField(
-                            decoration: InputDecoration(
-                                labelText: "팀명을 입력해 주세요.",
-                                border: OutlineInputBorder()
-                            ),
-                            controller: NameController,
-                          ),
-                          SizedBox(height: 10),
-                          TextFormField(
-                            decoration: InputDecoration(
-                                labelText: "팀에 대한 설명을 입력해주세요.",
-                                border: OutlineInputBorder()
-                            ),
-                            controller: expController,
-                          ),
-                          SizedBox(height: 10),
-                          RaisedButton(
-                              child: Text(
-                                "생성",
-                                style: TextStyle(
-                                    color: Colors.white
+                height: 500,
+                child: Form(
+                    key: _TeamKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Container(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("팀을 새로 만드시겠습니까?"),
+                              SizedBox(height: 10,),
+                              TextFormField(
+                                decoration: InputDecoration(
+                                    labelText: "팀명을 입력해 주세요.",
+                                    border: OutlineInputBorder()
                                 ),
+                                controller: NameController,
                               ),
-                              color: Color(0xFF283593),
-                              onPressed: () {
-                                int rng = Random().nextInt(50) + 1;
-                                firebaseFirestore.collection("Team").doc(NameController.text)
-                                  .set({
-                                  "code": rng,
-                                  "name": NameController.text,
-                                  "explanation": expController.text,
-                                  "member": member,
-                                  });
-                                Navigator.pop(context);
-                              }
-                          )
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Container(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("만들어진 팀에 들어가시겠습니까?"),
-                          SizedBox(height: 10,),
-                          TextFormField(
-                            decoration: InputDecoration(
-                                labelText: "초대코드를 입력해 주세요.",
-                                border: OutlineInputBorder()
-                            ),
-                            controller: InviteController,
-                          ),
-                          SizedBox(height: 10),
-                          RaisedButton(
-                              child: Text(
-                                "참가",
-                                style: TextStyle(
-                                    color: Colors.white
+                              SizedBox(height: 10),
+                              TextFormField(
+                                decoration: InputDecoration(
+                                    labelText: "팀에 대한 설명을 입력해주세요.",
+                                    border: OutlineInputBorder()
                                 ),
+                                controller: expController,
                               ),
-                              color: Color(0xFF283593),
-                              onPressed: () {
-                                firebaseFirestore.collection("Team").doc("Team1").update({
-                                  "member": FieldValue.arrayUnion(<dynamic>["user"])
-                                });
-                                Navigator.pop(context);
-                              }
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
+                              SizedBox(height: 10),
+                              RaisedButton(
+                                  child: Text(
+                                    "생성",
+                                    style: TextStyle(
+                                        color: Colors.white
+                                    ),
+                                  ),
+                                  color: Color(0xFF283593),
+                                  onPressed: () {
+                                    int rng = Random().nextInt(50) + 1;
+                                    firebaseFirestore.collection("Team").doc(NameController.text)
+                                        .set({
+                                      "code": rng,
+                                      "name": NameController.text,
+                                      "explanation": expController.text,
+                                      "member": member,
+                                    });
+                                    Navigator.pop(context);
+                                  }
+                              )
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("만들어진 팀에 들어가시겠습니까?"),
+                              SizedBox(height: 10,),
+                              TextFormField(
+                                decoration: InputDecoration(
+                                    labelText: "초대코드를 입력해 주세요.",
+                                    border: OutlineInputBorder()
+                                ),
+                                controller: InviteController,
+                              ),
+                              SizedBox(height: 10),
+                              RaisedButton(
+                                  child: Text(
+                                    "참가",
+                                    style: TextStyle(
+                                        color: Colors.white
+                                    ),
+                                  ),
+                                  color: Color(0xFF283593),
+                                  onPressed: () {
+                                    firebaseFirestore.collection("Team").doc("Team1").update({
+                                      "member": FieldValue.arrayUnion(<dynamic>["user"])
+                                    });
+                                    Navigator.pop(context);
+                                  }
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    )
                 )
-              )
             ),
           );
         }
@@ -659,21 +761,58 @@ class _MainPageState extends State<MainPage> {
 
   // 팀원 정보 변경
   void change_member(String Team_Name){
-    firebaseFirestore.collection("Team").doc(Team_Name).get()
-    .then((DocumentSnapshot ds){
-      member1Controller.text = ds.data()["member"][0].toString();
+    FirebaseFirestore.instance.collection("Team").doc(Team_Name).get()
+        .then((DocumentSnapshot ds) {
+      member = ds.get("member");
     });
-    firebaseFirestore.collection("Team").doc(Team_Name).get()
-        .then((DocumentSnapshot ds){
-      member2Controller.text = ds.data()["member"][1].toString();
-    });
-    firebaseFirestore.collection("Team").doc(Team_Name).get()
-        .then((DocumentSnapshot ds){
-      member3Controller.text = ds.data()["member"][2].toString();
-    });
-    firebaseFirestore.collection("Team").doc(Team_Name).get()
-        .then((DocumentSnapshot ds){
-      member4Controller.text = ds.data()["member"][3].toString();
+    member1Controller.text = member[0].toString();
+    member2Controller.text = member[1].toString();
+    member3Controller.text = member[2].toString();
+    member4Controller.text = member[3].toString();
+  }
+
+  // 문서 조회 (Read)
+  void showDocument(String id) {
+    FirebaseFirestore.instance.collection(colName).doc(id).get().then((doc) {
+      showReadDocSnackBar(doc);
     });
   }
+
+  void showReadDocSnackBar(DocumentSnapshot doc) {
+    _scaffoldKey.currentState!
+    // ignore: deprecated_member_use
+      ..hideCurrentSnackBar()
+    // ignore: deprecated_member_use
+      ..showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.deepOrangeAccent,
+          duration: Duration(seconds: 5),
+          content:
+          Text("$fdTitle: ${doc[fdTitle]}\n$fdContent: ${doc[fdContent]}"
+              "\n$fdCreate: ${timestampToStrDateTime(doc[fdCreate])}"),
+          action: SnackBarAction(
+            label: "Done",
+            textColor: Colors.white,
+            onPressed: () {},
+          ),
+        ),
+      );
+  }
+
+  String timestampToStrDateTime(Timestamp ts) {
+    return DateTime.fromMicrosecondsSinceEpoch(ts.microsecondsSinceEpoch)
+        .toString();
+  }
+}
+
+class Weather {
+  final double temp; //현재 온도
+  final double tempMin; //최저 온도
+  final double tempMax; //최고 온도
+
+  Weather({
+    required this.temp,
+    required this.tempMin,
+    required this.tempMax,
+  });
 }

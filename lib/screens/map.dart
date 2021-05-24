@@ -22,6 +22,9 @@ class _mapPageState extends State<mapPage> {
     super.initState();
     loading = true;
     getPosition();
+    getPosition().whenComplete(() {
+      setState(() {});
+    });
     _markers.add(Marker(
         markerId: MarkerId("GNU북카페"),
         draggable: false,
@@ -118,3 +121,4 @@ class _mapPageState extends State<mapPage> {
     );
   }
 }
+

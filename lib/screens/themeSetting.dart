@@ -13,14 +13,13 @@ class themeSetting extends StatelessWidget {
               actions: <Widget>[
                 IconButton(
                   icon: Icon(Icons.calendar_today),
-                  onPressed: (){
+                  onPressed: () {
                     Navigator.pushNamed(context, '/calendar');
                   },
                 ),
               ],
             ),
-
-            body: Center (
+            body: Center(
               child: themeSelect(),
             ),
 
@@ -55,9 +54,7 @@ class themeSetting extends StatelessWidget {
                   )
                 ],
               ),
-            )
-        )
-    );
+            )));
   }
 }
 
@@ -67,7 +64,7 @@ class themeSelect extends StatefulWidget {
   _themeSelectState createState() => _themeSelectState();
 }
 
-enum SelectTheme {theme1, theme2, theme3}
+enum SelectTheme { theme1, theme2, theme3 }
 
 // ignore: camel_case_types
 class _themeSelectState extends State<themeSelect> {
@@ -125,20 +122,20 @@ class _themeSelectState extends State<themeSelect> {
           minWidth: 120,
           height: 50,
           buttonColor: Color(0xFF283593),
-          child: RaisedButton( //ButtonTheme의 child로 버튼 위젯 삽입
+          child: RaisedButton(
+            //ButtonTheme의 child로 버튼 위젯 삽입
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) =>
-                    MainPage(
-
-                    )),
+                MaterialPageRoute(builder: (context) => MainPage()),
               );
             },
             child: Text(
               '테마 적용',
               style: TextStyle(
-                  fontWeight: FontWeight.bold, color: Colors.white, fontSize: 15),
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                  fontSize: 15),
             ),
           ),
         ),

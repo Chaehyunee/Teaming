@@ -7,6 +7,9 @@
    <application
         android:label="swl_teaming"
         android:icon="@mipmap/ic_launcher">
+       <meta-data
+           android:name="com.google.android.geo.API_KEY"
+           android:value="AIzaSyD_JgUyCbxTVGuqihDB5mOFmz5-x3wlT-A"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

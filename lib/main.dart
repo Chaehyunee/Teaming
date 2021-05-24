@@ -4,13 +4,17 @@ import 'package:firebase_core/firebase_core.dart';
 
 import 'package:swl_teaming/screens/MainPage.dart';
 import 'package:swl_teaming/screens/PersonalCalendar.dart';
+import 'package:swl_teaming/screens/map.dart';
 import 'package:swl_teaming/screens/themeSetting.dart';
 import 'package:swl_teaming/screens/SignUp.dart';
 import 'package:swl_teaming/screens/loginPage.dart';
 import 'package:swl_teaming/screens/boardPage.dart';
+import 'package:swl_teaming/screens/createArticle.dart';
+import 'package:swl_teaming/screens/loadingPage.dart';
 import 'package:swl_teaming/screens/map.dart';
+import 'package:swl_teaming/screens/Drawer.dart';
 
-void main() async{
+void main() async {
 // void main() {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -38,6 +42,9 @@ class MyApp extends StatelessWidget {
         '/themeSetting': (context) => themeSetting(),
         '/board': (context) => BoardPage(),
         '/map': (context) => mapPage(),
+        '/article': (context) => CreateArticle(),
+        '/loading': (context) => LoadingScreen(),
+        '/drawer' : (context) => DrawerPage()
       },
     );
   }
