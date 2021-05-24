@@ -249,7 +249,7 @@ class _MainPageState extends State<MainPage> {
 
       // 애플리케이션 좌측 부분 서랍
 
-   /*   drawer: Drawer(
+      drawer: Drawer(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
@@ -519,7 +519,7 @@ class _MainPageState extends State<MainPage> {
               )
             ],
           )
-      ),*/
+      ),
     );
   }
 
