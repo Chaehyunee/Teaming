@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:swl_teaming/screens/showArticle.dart';
 import 'package:timer_builder/timer_builder.dart';
 import 'package:date_format/date_format.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
@@ -21,6 +20,8 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
   final String colName = "article";
   final String fdAuthor = "author";
   final String fdTitle = "title";
@@ -68,16 +69,26 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //key: _scaffoldKey,
       // 상단 앱바 테마 설정 및 아이콘 생성
       appBar: AppBar(
         backgroundColor: Theme.of(context).appBarTheme.color,
         iconTheme: Theme.of(context).appBarTheme.iconTheme,
         actions: <Widget>[
           IconButton(
-            icon: Icon(
-              Icons.circle,
-              color: Color(0xFF283593),
+            icon: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      Icon(
+                        Icons.circle,
+                        color: Color(0xFF283593),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
             onPressed: () {
               show_Team_sel();
@@ -175,10 +186,11 @@ class _MainPageState extends State<MainPage> {
                             animation: true,
                             animationDuration: 1000,
                             lineHeight: 25.0,
-                            percent: 0.2,
-                            center: Text("20.0%"),
+                            percent: 0.9,
+                            center: Text("90.0%"),
                             linearStrokeCap: LinearStrokeCap.butt,
-                            progressColor: Colors.black,
+                            backgroundColor: Colors.deepPurple[50],
+                            progressColor: Colors.deepPurple[400],
                           )),
                     ])),
 
@@ -553,12 +565,6 @@ class _MainPageState extends State<MainPage> {
           )
         ],
       )),
-
-      floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add),
-          onPressed: () {
-            Navigator.pushNamed(context, '/article');
-          }),
     );
   }
 
@@ -802,22 +808,24 @@ class _MainPageState extends State<MainPage> {
   }
 
   void showReadDocSnackBar(DocumentSnapshot doc) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            content: Text("제목: ${doc[fdTitle]}\n\n- 내용\n${doc[fdContent]}"
-                "\n\n- 작성날짜\n${timestampToStrDateTime(doc[fdCreate])}"),
-            actions: <Widget>[
-              TextButton(
-                child: const Text('확인'),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              )
-            ],
-          );
-        });
+    _scaffoldKey.currentState!
+      // ignore: deprecated_member_use
+      ..hideCurrentSnackBar()
+      // ignore: deprecated_member_use
+      ..showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.deepOrangeAccent,
+          duration: Duration(seconds: 5),
+          content:
+              Text("$fdTitle: ${doc[fdTitle]}\n$fdContent: ${doc[fdContent]}"
+                  "\n$fdCreate: ${timestampToStrDateTime(doc[fdCreate])}"),
+          action: SnackBarAction(
+            label: "Done",
+            textColor: Colors.white,
+            onPressed: () {},
+          ),
+        ),
+      );
   }
 
   String timestampToStrDateTime(Timestamp ts) {
