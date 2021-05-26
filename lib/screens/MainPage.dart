@@ -10,11 +10,9 @@ import 'dart:math';
 import 'package:http/http.dart' as http;
 
 class Article {
-  String title;
-  String content;
-  String create;
-
-  Article(this.title, this.content, this.create);
+  static late String title;
+  static late String content;
+  static late String create;
 }
 
 class MainPage extends StatefulWidget {
@@ -789,10 +787,18 @@ class _MainPageState extends State<MainPage> {
   }
 
   // 문서 조회 (Read)
-  void showDocument(String id) {
-    FirebaseFirestore.instance.collection(colName).doc(id).get().then((doc) {
+  void showDocument(String id) async {
+    await FirebaseFirestore.instance
+        .collection(colName)
+        .doc(id)
+        .get()
+        .then((doc) {
       //showReadDocSnackBar(doc);
+      Article.title = doc[fdTitle];
+      Article.content = doc[fdContent];
+      Article.create = timestampToStrDateTime(doc[fdCreate]);
     });
+    Navigator.pushNamed(context, '/showarticle');
   }
 
   void showReadDocSnackBar(DocumentSnapshot doc) {

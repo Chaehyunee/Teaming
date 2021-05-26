@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'MainPage.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+//import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:async';
 
 class ShowArticle extends StatefulWidget {
   @override
@@ -8,15 +9,23 @@ class ShowArticle extends StatefulWidget {
 }
 
 class _ShowArticleState extends State<ShowArticle> {
-  final String colName = "article";
-
-  final String fdAuthor = "author";
-  final String fdTitle = "title";
-  final String fdContent = "content";
-  final String fdCreate = "create";
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      body: ListView(
+        children: [
+          Container(
+              alignment: Alignment.centerLeft,
+              padding: const EdgeInsets.all(15),
+              color: Theme.of(context).primaryColor,
+              child: Text(
+                "${Article.title}",
+                style: TextStyle(fontSize: 25),
+              )),
+          Container(),
+          Container()
+        ],
+      ),
+    );
   }
 }
