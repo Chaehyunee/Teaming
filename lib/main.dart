@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
         '/themeSetting': (context) => themeSetting(),
         '/board': (context) => BoardPage(),
         '/map': (context) => mapPage(),
-        '/article': (context) => CreateArticle(),
+        '/createarticle': (context) => CreateArticle(),
         '/loading': (context) => LoadingScreen(),
         '/showarticle': (context) => ShowArticle(),
         '/drawer': (context) => DrawerPage()

@@ -239,6 +239,12 @@ class _MainPageState extends State<MainPage> {
                             .map((DocumentSnapshot document) {
                           Timestamp ts = document[fdCreate];
                           String dt = timestampToStrDateTime(ts);
+                          String content;
+                          if (document[fdContent].length > 55) {
+                            content = document[fdContent].substring(0, 55);
+                          } else {
+                            content = document[fdContent];
+                          }
                           return Card(
                             elevation: 2,
                             child: InkWell(
@@ -272,7 +278,7 @@ class _MainPageState extends State<MainPage> {
                                     Container(
                                       alignment: Alignment.centerLeft,
                                       child: Text(
-                                        document[fdContent],
+                                        content,
                                         style: TextStyle(color: Colors.black54),
                                       ),
                                     )
@@ -565,6 +571,13 @@ class _MainPageState extends State<MainPage> {
           )
         ],
       )),
+
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () {
+          Navigator.pushNamed(context, '/createarticle');
+        },
+      ),
     );
   }
 
@@ -799,33 +812,11 @@ class _MainPageState extends State<MainPage> {
         .doc(id)
         .get()
         .then((doc) {
-      //showReadDocSnackBar(doc);
       Article.title = doc[fdTitle];
       Article.content = doc[fdContent];
       Article.create = timestampToStrDateTime(doc[fdCreate]);
     });
     Navigator.pushNamed(context, '/showarticle');
-  }
-
-  void showReadDocSnackBar(DocumentSnapshot doc) {
-    _scaffoldKey.currentState!
-      // ignore: deprecated_member_use
-      ..hideCurrentSnackBar()
-      // ignore: deprecated_member_use
-      ..showSnackBar(
-        SnackBar(
-          backgroundColor: Colors.deepOrangeAccent,
-          duration: Duration(seconds: 5),
-          content:
-              Text("$fdTitle: ${doc[fdTitle]}\n$fdContent: ${doc[fdContent]}"
-                  "\n$fdCreate: ${timestampToStrDateTime(doc[fdCreate])}"),
-          action: SnackBarAction(
-            label: "Done",
-            textColor: Colors.white,
-            onPressed: () {},
-          ),
-        ),
-      );
   }
 
   String timestampToStrDateTime(Timestamp ts) {
