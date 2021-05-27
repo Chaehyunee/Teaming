@@ -114,7 +114,7 @@ class _MainPageState extends State<MainPage> {
                             borderRadius: BorderRadius.circular(18)),
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,a
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
                         Container(
                         padding: const EdgeInsets.only(right: 30.0),
@@ -280,10 +280,6 @@ class _MainPageState extends State<MainPage> {
     ),
 
     // 애플리케이션 좌측 부분 서랍
-    <<<<<<< HEAD
-
-    =======
-    >>>>>>> b176e8d8b8c56bb32dc47e94b1dd2f9383bfb875
     drawer: Drawer(
     child: Column(
     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -557,9 +553,6 @@ class _MainPageState extends State<MainPage> {
     ],
     ),
     )
-    <<<<<<< HEAD
-    ),
-    =======
     ],
     )),
 
@@ -568,13 +561,12 @@ class _MainPageState extends State<MainPage> {
     onPressed: () {
     Navigator.pushNamed(context, '/article');
     }),
-    >>>>>>> b176e8d8b8c56bb32dc47e94b1dd2f9383bfb875
     );
   }
 
   // 팀 선택 화면 출력 함수
-  void show_Team_sel() {
-    FirebaseFirestore.instance
+  void show_Team_sel() async{
+    await FirebaseFirestore.instance
         .collection("Team")
         .doc("Team1")
         .get()
@@ -582,7 +574,7 @@ class _MainPageState extends State<MainPage> {
       Team1Controller.text = ds.get("name").toString();
     });
 
-    FirebaseFirestore.instance
+    await FirebaseFirestore.instance
         .collection("Team")
         .doc("Teaming")
         .get()
@@ -756,22 +748,6 @@ class _MainPageState extends State<MainPage> {
                                 controller: InviteController,
                               ),
                               SizedBox(height: 10),
-                              RaisedButton(
-                                  child: Text(
-                                    "참가",
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                  color: Color(0xFF283593),
-                                  onPressed: () {
-                                    firebaseFirestore
-                                        .collection("Team")
-                                        .doc("Team1")
-                                        .update({
-                                      "member": FieldValue.arrayUnion(
-                                          <dynamic>["user"])
-                                    });
-                                    Navigator.pop(context);
-                                  })
                             ],
                           ),
                         ),
@@ -782,18 +758,15 @@ class _MainPageState extends State<MainPage> {
   }
 
   // 팀원 정보 변경
-  void change_member(String Team_Name) {
-    FirebaseFirestore.instance
+  void change_member(String Team_Name) async{
+   await FirebaseFirestore.instance
         .collection("Team")
         .doc(Team_Name)
         .get()
         .then((DocumentSnapshot ds) {
       member = ds.get("member");
     });
-    member1Controller.text = member[0].toString();
-    member2Controller.text = member[1].toString();
-    member3Controller.text = member[2].toString();
-    member4Controller.text = member[3].toString();
+  
   }
 
   // 문서 조회 (Read)
