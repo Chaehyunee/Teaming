@@ -12,6 +12,7 @@ class Article {
   static late String title;
   static late String content;
   static late String create;
+  static late String author;
 }
 
 class MainPage extends StatefulWidget {
@@ -126,30 +127,44 @@ class _MainPageState extends State<MainPage> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Container(
-                              padding: const EdgeInsets.only(right: 30.0),
+                              padding: const EdgeInsets.only(right: 25.0),
                               child: TimerBuilder.periodic(Duration(seconds: 1),
                                   builder: (context) {
-                                return Text(
-                                    formatDate(DateTime.now(), [
-                                      am,
-                                      ' ',
-                                      hh,
-                                      ':',
-                                      nn,
-                                      '\n',
-                                      mm,
-                                      '. ',
-                                      dd,
-                                      '. '
-                                    ]), // add pubspec.yaml the date_format: ^1.0.9
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      //fontWeight: FontWeight.w600,
-                                    ));
+                                return Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Text(
+                                          formatDate(DateTime.now(), [am]),
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontFamily: 'SLEIGothic'),
+                                        ),
+                                        Text(
+                                          formatDate(
+                                              DateTime.now(), [hh, ':', nn]),
+                                          style: TextStyle(
+                                              fontSize: 30,
+                                              fontFamily: 'SLEIGothic'),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          formatDate(DateTime.now(),
+                                              [mm, '월 ', dd, '일']),
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontFamily: 'SLEIGothic'),
+                                        )
+                                      ],
+                                    ),
+                                  ],
+                                );
                               })),
                           Container(
-                              padding: const EdgeInsets.only(left: 30.0),
+                              padding: const EdgeInsets.only(left: 25.0),
                               child: FutureBuilder(
                                   future: getWeather(),
                                   builder: (context,
@@ -157,8 +172,30 @@ class _MainPageState extends State<MainPage> {
                                     if (snapshot.hasData == false) {
                                       return CircularProgressIndicator();
                                     }
-                                    return Text(
-                                        '${snapshot.data!.temp.toString()}°');
+                                    return Column(
+                                      children: [
+                                        Text(
+                                          "현재 기온은",
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontFamily: 'SLEIGothic'),
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              "${snapshot.data!.temp.toString()}°",
+                                              style: TextStyle(
+                                                  fontSize: 25,
+                                                  fontFamily: 'SLEIGothic'),
+                                            ),
+                                            Text(" 입니다",
+                                                style: TextStyle(
+                                                    fontSize: 15,
+                                                    fontFamily: 'SLEIGothic'))
+                                          ],
+                                        ),
+                                      ],
+                                    );
                                   })),
                         ])),
 
@@ -239,6 +276,7 @@ class _MainPageState extends State<MainPage> {
                             .map((DocumentSnapshot document) {
                           Timestamp ts = document[fdCreate];
                           String dt = timestampToStrDateTime(ts);
+                          dt = dt.substring(0, 16);
                           String content;
                           if (document[fdContent].length > 55) {
                             content = document[fdContent].substring(0, 55);
@@ -815,6 +853,7 @@ class _MainPageState extends State<MainPage> {
       Article.title = doc[fdTitle];
       Article.content = doc[fdContent];
       Article.create = timestampToStrDateTime(doc[fdCreate]);
+      Article.author = doc[fdAuthor];
     });
     Navigator.pushNamed(context, '/showarticle');
   }

@@ -13,12 +13,15 @@ class _ShowArticleState extends State<ShowArticle> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).appBarTheme.color,
+        backgroundColor: Theme.of(context).primaryColor,
         iconTheme: Theme.of(context).appBarTheme.iconTheme,
+        title: Text(
+          "${Article.title}",
+        ),
       ),
       body: ListView(
         children: [
-          Container(
+          /*Container(
             alignment: Alignment.centerLeft,
             decoration: BoxDecoration(
               border: Border(
@@ -37,51 +40,82 @@ class _ShowArticleState extends State<ShowArticle> {
               padding: const EdgeInsets.only(left: 8.0, top: 2.0, bottom: 2.0),
               child: Text(
                 "제목: ${Article.title}",
-                style: TextStyle(fontSize: 25),
+                style: TextStyle(fontSize: 23),
               ),
             ),
-          ),
+          ),*/
           Container(
             decoration: BoxDecoration(
+              border: Border(
+                top: BorderSide(width: 2.0, color: Colors.black),
+                bottom: BorderSide(width: 2.0, color: Colors.black),
+              ),
+            ),
+            child: Container(
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.white,
+                ),
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "작성자: ${Article.author}",
+                      style: TextStyle(
+                          fontSize: 17, fontFamily: 'NanumSquareRound'),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      "작성일자: ${Article.create.substring(0, 16)}",
+                      style: TextStyle(
+                          fontSize: 15, fontFamily: 'NanumSquareRound'),
+                    ),
+                  ],
+                )),
+          ),
+          Container(
+            width: MediaQuery.of(context).size.width,
+            padding: const EdgeInsets.all(6.0),
+            decoration: BoxDecoration(
+              //color: Theme.of(context).primaryColor,
               border: Border(
                 bottom: BorderSide(width: 2.0, color: Colors.black),
               ),
             ),
             child: Container(
-              alignment: Alignment.centerRight,
               width: MediaQuery.of(context).size.width,
+              padding: const EdgeInsets.all(10.0),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: Colors.black, width: 1.0),
+                borderRadius: BorderRadius.circular(5),
                 color: Colors.white,
               ),
-              padding: const EdgeInsets.only(right: 4.0, top: 4.0, bottom: 4.0),
               child: Text(
-                "작성일자: ${Article.create}",
-                style: TextStyle(fontSize: 13),
+                "${Article.content}",
+                style: TextStyle(fontSize: 17, fontFamily: 'NanumSquareRound'),
               ),
             ),
           ),
           Container(
             width: MediaQuery.of(context).size.width,
-            padding: const EdgeInsets.all(5.0),
             decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor,
               border: Border(
                 bottom: BorderSide(width: 2.0, color: Colors.black),
               ),
             ),
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              padding: const EdgeInsets.all(8.0),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.white,
-              ),
-              child: Text(
-                "${Article.content}",
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              "댓글",
+              style: TextStyle(
+                fontSize: 20,
+                fontFamily: 'NanumSquareRound',
               ),
             ),
-          )
+          ),
         ],
       ),
     );
