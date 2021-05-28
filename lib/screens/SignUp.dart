@@ -14,14 +14,17 @@ class _SignUpPageState extends State<SignUpPage> {
   FirebaseAuth auth = FirebaseAuth.instance;
 
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController idController = TextEditingController();
   final TextEditingController confirmController = TextEditingController();
   final _auth = FirebaseAuth.instance;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+
   var _isChecked = false;
 
+  String name = "";
   String email = "";
   String password = "";
   String confirm = "";
@@ -29,8 +32,8 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
-        resizeToAvoidBottomInset : false,
+        key: _scaffoldKey,
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           backgroundColor: Colors.white,
           elevation: 0,
@@ -49,6 +52,17 @@ class _SignUpPageState extends State<SignUpPage> {
                   Text("회원가입"),
                   SizedBox(
                     height: 10,
+                  ),
+                  TextFormField(
+                    decoration: InputDecoration(
+                      labelText: 'name',
+                      hintText: 'user name',
+                      border: OutlineInputBorder(),
+                    ),
+                    controller: nameController,
+                    onChanged: (text) {
+                      name = text;
+                    },
                   ),
                   TextFormField(
                     decoration: InputDecoration(
@@ -95,7 +109,6 @@ class _SignUpPageState extends State<SignUpPage> {
                   SizedBox(
                     height: 10,
                   ),
-
                   Container(
                     child: Row(
                       children: [
@@ -122,13 +135,14 @@ class _SignUpPageState extends State<SignUpPage> {
                         return;
                       }
                       try {
-                        final r = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-                            email: emailController.text,
-                            password: passwordController.text
-                        );
-                      } catch(e) {
-
-                      }
+                        final r = await FirebaseAuth.instance
+                            .createUserWithEmailAndPassword(
+                                email: emailController.text,
+                                password: passwordController.text);
+                        User user = r.user!;
+                        await user.updateProfile(
+                            displayName: nameController.text);
+                      } catch (e) {}
                       /*try {
                         UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
                             email: email,

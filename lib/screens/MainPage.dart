@@ -7,6 +7,7 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'dart:convert';
 import 'dart:math';
 import 'package:http/http.dart' as http;
+import 'loginPage.dart';
 
 class Article {
   static late String title;
@@ -346,18 +347,24 @@ class _MainPageState extends State<MainPage> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                CircleAvatar(
+                /*CircleAvatar(
                   radius: 25,
                   backgroundColor: Color(0xFF283593),
-                ),
+                ),*/
                 Container(
-                  width: 150,
+                  width: 180,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text("ID:\n"),
-                      Text("계정"),
+                      Text(
+                        "이름: ${UserData.userName}",
+                        style: TextStyle(fontSize: 13),
+                      ),
+                      Text(
+                        "계정: ${UserData.userEmail}",
+                        style: TextStyle(fontSize: 13),
+                      ),
                     ],
                   ),
                 ),
