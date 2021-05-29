@@ -14,6 +14,7 @@ class Article {
   static late String content;
   static late String create;
   static late String author;
+  static late String id;
 }
 
 class MainPage extends StatefulWidget {
@@ -861,6 +862,7 @@ class _MainPageState extends State<MainPage> {
       Article.content = doc[fdContent];
       Article.create = timestampToStrDateTime(doc[fdCreate]);
       Article.author = doc[fdAuthor];
+      Article.id = id;
     });
     Navigator.pushNamed(context, '/showarticle');
   }
