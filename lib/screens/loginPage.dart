@@ -1,23 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-//import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-
-/*Future<UserCredential> signInWithGoogle() async {
-  // Trigger the authentication flow
-  final GoogleSignInAccount googleUser = (await GoogleSignIn().signIn())!;
-  // Obtain the auth details from the request
-  final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-  // Create a new credential
-  final credential = GoogleAuthProvider.credential(
-    accessToken: googleAuth.accessToken,
-    idToken: googleAuth.idToken,
-  );
-  // Once signed in, return the UserCredential
-  return await FirebaseAuth.instance.signInWithCredential(credential);
-}*/
 
 class UserData {
   static late String userName;
@@ -33,7 +18,6 @@ class _LoginPageState extends State<LoginPage> {
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   final FirebaseAuth auth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn();
-  //FirebaseUser currentUser;
 
   String _Emailfieldtext = "";
   String _PWfieldtext = "";
@@ -46,7 +30,6 @@ class _LoginPageState extends State<LoginPage> {
     final User user = auth.currentUser!;
     UserData.userName = user.displayName!;
     UserData.userEmail = user.email!;
-    // here you write the codes to input the data into firestore
   }
 
   Future<String> googleSingIn() async {
@@ -64,7 +47,6 @@ class _LoginPageState extends State<LoginPage> {
 
     assert(!user.isAnonymous);
 
-    //currentUser = auth.currentUser;
     assert(user.uid == auth.currentUser!.uid);
 
     setState(() {
@@ -73,6 +55,9 @@ class _LoginPageState extends State<LoginPage> {
       name = user.displayName!;
     });
 
+    inputData();
+
+    Navigator.pushNamed(context, '/mainPage');
     return '구글 로그인 성공: $user';
   }
 
@@ -100,6 +85,10 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Image.asset('assets/teaming_logo.png', scale: 4),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      height: 20,
+                    ),
                     //해당 부분은 email의 유무에 따라 로그인이 됐는지 안됐는지를 판단하고 해당 로그인이 제대로 됐다면
                     //구글의 프로필 이미지, 닉네임, 이메일을 가져와 출력을 시켜줄것이다.
                     email == ""
@@ -134,39 +123,40 @@ class _LoginPageState extends State<LoginPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
-                        RaisedButton(
+                        ElevatedButton(
                           child: Text('Naver',
                               style: TextStyle(color: Colors.white)),
-                          color: Colors.green[700],
+                          //color: Colors.green[700],
                           onPressed: () {
                             //화면 연결 to 네이버 로그인 창
                           },
                         ),
-                        RaisedButton(
+                        ElevatedButton(
                             child: Text('Kakao',
                                 style: TextStyle(color: Colors.white)),
-                            color: Colors.amber[700],
+                            //color: Colors.amber[700],
                             onPressed: () {} //화면 연결 to 카카오톡 로그인 창
                             ),
-                        RaisedButton(
-                          child: Text(email == "" ? 'Google login' : 'continue',
-                              style: TextStyle(color: Colors.white)),
-                          color: Colors.red[800],
+                        ElevatedButton(
+                          child: Text(
+                            'Google',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          //color: Colors.red[800],
                           onPressed: () {
-                            email == ""
-                                ? googleSingIn()
-                                : Navigator.pushNamed(context, '/mainPage');
-                            //화면 연결 to 구글 로그인 창
-                            inputData();
+                            googleSingIn();
                           },
                         ),
                       ],
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      height: 20,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Container(
-                          color: Colors.white70,
                           width: 250,
                           height: 140,
                           padding: const EdgeInsets.all(10.0),
@@ -232,12 +222,16 @@ class _LoginPageState extends State<LoginPage> {
                             ))
                       ],
                     ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      height: 20,
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         ButtonTheme(
-                            minWidth: 130.0,
-                            height: 30.0,
+                            minWidth: 120.0,
+                            height: 40.0,
                             child: RaisedButton(
                               child: Text('회원가입',
                                   style: TextStyle(color: Colors.white)),
@@ -248,8 +242,8 @@ class _LoginPageState extends State<LoginPage> {
                               },
                             )),
                         ButtonTheme(
-                            minWidth: 130.0,
-                            height: 30.0,
+                            minWidth: 120.0,
+                            height: 40.0,
                             child: RaisedButton(
                               child: Text('E-mail/PW 찾기',
                                   style: TextStyle(color: Colors.white)),
