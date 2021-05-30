@@ -19,6 +19,11 @@ import 'package:google_sign_in/google_sign_in.dart';
   return await FirebaseAuth.instance.signInWithCredential(credential);
 }*/
 
+class UserData {
+  static late String userName;
+  static late String userEmail;
+}
+
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -36,6 +41,13 @@ class _LoginPageState extends State<LoginPage> {
   String name = "";
   String email = "";
   String url = "";
+
+  void inputData() {
+    final User user = auth.currentUser!;
+    UserData.userName = user.displayName!;
+    UserData.userEmail = user.email!;
+    // here you write the codes to input the data into firestore
+  }
 
   Future<String> googleSingIn() async {
     final GoogleSignInAccount account = (await googleSignIn.signIn())!;
@@ -145,6 +157,7 @@ class _LoginPageState extends State<LoginPage> {
                                 ? googleSingIn()
                                 : Navigator.pushNamed(context, '/mainPage');
                             //화면 연결 to 구글 로그인 창
+                            inputData();
                           },
                         ),
                       ],
@@ -206,6 +219,7 @@ class _LoginPageState extends State<LoginPage> {
                                               email: _Emailfieldtext,
                                               password: _PWfieldtext);
                                   Navigator.pushNamed(context, '/mainPage');
+                                  inputData();
                                 } on FirebaseAuthException catch (e) {
                                   if (e.code == 'user-not-found') {
                                     print('No user found for that email.');

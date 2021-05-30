@@ -32,8 +32,8 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
-        resizeToAvoidBottomInset : false,
+        key: _scaffoldKey,
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           backgroundColor: Colors.white,
           elevation: 0,
@@ -112,7 +112,6 @@ class _SignUpPageState extends State<SignUpPage> {
                   SizedBox(
                     height: 10,
                   ),
-
                   Container(
                     child: Row(
                       children: [
@@ -129,7 +128,6 @@ class _SignUpPageState extends State<SignUpPage> {
                       ],
                     ),
                   ),
-
                   SignInButtonBuilder(
                     text: "회원가입",
                     backgroundColor: Color(0xFF283593),
@@ -140,15 +138,14 @@ class _SignUpPageState extends State<SignUpPage> {
                         return;
                       }
                       try {
-                        final r = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                        final r = await FirebaseAuth.instance
+                            .createUserWithEmailAndPassword(
                             email: emailController.text,
-                            password: passwordController.text
-                        );
-                        print(nameController.text);
-                       user_data();
-                      } catch(e) {
-
-                      }
+                            password: passwordController.text);
+                        User user = r.user!;
+                        await user.updateProfile(
+                            displayName: nameController.text);
+                      } catch (e) {}
                       /*try {
                         UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
                             email: email,
@@ -171,20 +168,11 @@ class _SignUpPageState extends State<SignUpPage> {
           ),
         ));
   }
-  /*
+/*
   toastError(GlobalKey<ScaffoldState> key, dynamic e) {
     String message = 'unknown error';
     if (e is PlatformException) message = e.message;
     final snackBar = SnackBar(content: Text(message));
     key.currentState.showSnackBar(snackbar);
   }*/
-
-  void user_data() async{
-    final user = FirebaseAuth.instance.currentUser;
-    final uid = user?.uid;
-
-    firebaseFirestore.collection("user_name").doc()
-        .set({"name": nameController.text,
-              "uid": uid});
-  }
 }

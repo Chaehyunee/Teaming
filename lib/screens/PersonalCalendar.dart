@@ -392,8 +392,7 @@ class _PersonalCalendarState extends State<PersonalCalendar> {
         view: _calendarView,
         dataSource: _calendarDataSource,
         onTap: calendarTapCallback,
-        initialDisplayDate: DateTime(DateTime.now().year,
-            DateTime.now().weekday, DateTime.now().day, 0, 0, 0),
+        initialDisplayDate: DateTime.now(),
         monthViewSettings: MonthViewSettings(
             appointmentDisplayMode: MonthAppointmentDisplayMode.appointment),
         timeSlotViewSettings: TimeSlotViewSettings(

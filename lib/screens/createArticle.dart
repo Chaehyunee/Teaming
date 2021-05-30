@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'loginPage.dart';
 
 class CreateArticle extends StatefulWidget {
   @override
@@ -70,7 +71,8 @@ class _CreateArticleState extends State<CreateArticle> {
                     onPressed: () {
                       if (_newTitleCon.text.isNotEmpty &&
                           _newContentCon.text.isNotEmpty) {
-                        createDoc(_newTitleCon.text, _newContentCon.text);
+                        createDoc(_newTitleCon.text, _newContentCon.text,
+                            UserData.userName);
                       }
                       _newTitleCon.clear();
                       _newContentCon.clear();
@@ -84,9 +86,9 @@ class _CreateArticleState extends State<CreateArticle> {
     );
   }
 
-  void createDoc(String title, String content) {
+  void createDoc(String title, String content, String name) {
     FirebaseFirestore.instance.collection(colName).add({
-      fdAuthor: "testAccount",
+      fdAuthor: name,
       fdTitle: title,
       fdContent: content,
       fdCreate: Timestamp.now(),
