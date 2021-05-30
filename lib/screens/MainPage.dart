@@ -597,7 +597,7 @@ class _MainPageState extends State<MainPage> {
                                       "code": rng,
                                       "name": NameController.text,
                                       "explanation": expController.text,
-                                      "member": []
+                                      "member": [UserData.userName]
                                     });
                                     firebaseFirestore
                                         .collection("Team")
