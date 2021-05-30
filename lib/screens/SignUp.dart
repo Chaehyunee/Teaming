@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'dart:math';
 
@@ -145,7 +145,6 @@ class _SignUpPageState extends State<SignUpPage> {
                           return;
                         }
                         try {
-                          create_Team();
                           final r = await FirebaseAuth.instance
                               .createUserWithEmailAndPassword(
                               email: emailController.text,
@@ -154,6 +153,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           await user.updateProfile(
                               displayName: nameController.text);
                           Navigator.pop(context);
+                          create_Team();
                         } catch (e) {}
                         /*try {
                         UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
@@ -186,7 +186,7 @@ class _SignUpPageState extends State<SignUpPage> {
   }*/
 
   // 팀 생성 화면 출력 함수
-  void create_Team() {
+  create_Team() {
     showDialog(
         barrierDismissible: true,
         context: context,
@@ -234,10 +234,10 @@ class _SignUpPageState extends State<SignUpPage> {
                                         .collection("Team")
                                         .doc(NameController.text)
                                         .set({
-                                      "code": rng.toString(),
+                                      "code": rng,
                                       "name": NameController.text,
                                       "explanation": expController.text,
-                                      "member": []
+                                      "member": [nameController.text]
                                     });
                                     firebaseFirestore
                                         .collection("Team")
