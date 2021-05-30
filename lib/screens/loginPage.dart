@@ -95,31 +95,10 @@ class _LoginPageState extends State<LoginPage> {
                         ? Container()
                         : Column(
                             children: <Widget>[
-                              //Image.network(url),
                               Text(name),
                               Text(email),
                             ],
                           ),
-                    /*RaisedButton(
-                      onPressed: () {
-                        //여기또한 이메일의 존재 여부를 통해 해당 버튼의 기능을 바꾸게 된다.
-                        if (email == "") {
-                          googleSingIn();
-                        } else {
-                          googleSignOut();
-                        }
-                      },
-                      //여기또한 이메일의 존재 여부를 통해 해당 버튼의 텍스트를 바꾸어 준다.
-                      child: Container(
-                          width: 150,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Icon(Icons.subdirectory_arrow_right),
-                              Text(email == "" ? 'Google Login' : "Google Logout")
-                            ],
-                          )),
-                    ),*/
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[

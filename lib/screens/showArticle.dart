@@ -49,7 +49,7 @@ class _ShowArticleState extends State<ShowArticle> {
                     Text(
                       "작성자: ${Article.author}",
                       style: TextStyle(
-                          fontSize: 17, fontFamily: 'NanumSquareRound'),
+                          fontSize: 17, fontFamily: 'GyeonggiCheonnyeon'),
                     ),
                     SizedBox(
                       height: 5,
@@ -57,7 +57,7 @@ class _ShowArticleState extends State<ShowArticle> {
                     Text(
                       "작성일자: ${Article.create.substring(0, 16)}",
                       style: TextStyle(
-                          fontSize: 15, fontFamily: 'NanumSquareRound'),
+                          fontSize: 15, fontFamily: 'GyeonggiCheonnyeon'),
                     ),
                   ],
                 )),
@@ -81,7 +81,8 @@ class _ShowArticleState extends State<ShowArticle> {
               ),
               child: Text(
                 "${Article.content}",
-                style: TextStyle(fontSize: 17, fontFamily: 'NanumSquareRound'),
+                style:
+                    TextStyle(fontSize: 17, fontFamily: 'GyeonggiCheonnyeon'),
               ),
             ),
           ),
@@ -97,7 +98,6 @@ class _ShowArticleState extends State<ShowArticle> {
               "댓글",
               style: TextStyle(
                 fontSize: 18,
-                fontFamily: 'NanumSquareRound',
               ),
             ),
           ),
@@ -132,7 +132,6 @@ class _ShowArticleState extends State<ShowArticle> {
                     child: ElevatedButton(
                       child: Text(
                         "댓글 등록",
-                        style: TextStyle(fontFamily: 'NanumSquareRound'),
                       ),
                       onPressed: () {
                         if (_newCommentCon.text.isNotEmpty) {
@@ -142,6 +141,9 @@ class _ShowArticleState extends State<ShowArticle> {
                         FocusScopeNode currentFocus = FocusScope.of(context);
                         currentFocus.unfocus();
                       },
+                      style: ElevatedButton.styleFrom(
+                        primary: Theme.of(context).primaryColorDark,
+                      ),
                     ),
                   ),
                 ],
@@ -197,7 +199,10 @@ class _ShowArticleState extends State<ShowArticle> {
                                     ),
                                     Text(
                                       dt.toString(),
-                                      style: TextStyle(color: Colors.grey[600]),
+                                      style: TextStyle(
+                                        color: Colors.grey[600],
+                                        fontFamily: 'GyeonggiCheonnyeon',
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -206,7 +211,10 @@ class _ShowArticleState extends State<ShowArticle> {
                                   margin: const EdgeInsets.only(top: 5.0),
                                   child: Text(
                                     document[fdContent],
-                                    style: TextStyle(color: Colors.black54),
+                                    style: TextStyle(
+                                      color: Colors.black54,
+                                      fontFamily: 'GyeonggiCheonnyeon',
+                                    ),
                                   ),
                                 )
                               ],
