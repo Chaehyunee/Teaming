@@ -349,7 +349,8 @@ class _MainPageState extends State<MainPage> {
                   backgroundColor: Color(0xFF283593),
                 ),*/
                 Container(
-                  width: 180,
+                  padding: const EdgeInsets.only(left: 7.0),
+                  width: 190,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
