@@ -98,6 +98,12 @@ flutter:
     - family: NanumSquareRound
       fonts:
         - asset: assets/fonts/NanumSquareRoundR.ttf
+
+    - family: GyeonggiCheonnyeon
+      fonts:
+        - asset: assets/fonts/cheonnyeonLight.ttf
+  #       - asset: fonts/Schyler-Italic.ttf
+  #         style: italic
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

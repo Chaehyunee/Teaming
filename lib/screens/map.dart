@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -11,18 +10,11 @@ class mapPage extends StatefulWidget {
 
 // ignore: camel_case_types
 class _mapPageState extends State<mapPage> {
-  late bool loading;
-
   List<Marker> _markers = [];
 
   @override
   void initState() {
     super.initState();
-    loading = true;
-    //getPosition();
-    //getPosition().whenComplete(() {
-    //setState(() {});
-    //});
     _markers.add(Marker(
         markerId: MarkerId("GNU북카페"),
         draggable: false,
