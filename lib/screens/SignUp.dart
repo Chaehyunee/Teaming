@@ -14,14 +14,17 @@ class _SignUpPageState extends State<SignUpPage> {
   FirebaseAuth auth = FirebaseAuth.instance;
 
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController idController = TextEditingController();
   final TextEditingController confirmController = TextEditingController();
   final _auth = FirebaseAuth.instance;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+
   var _isChecked = false;
 
+  String name = "";
   String email = "";
   String password = "";
   String confirm = "";
@@ -47,6 +50,20 @@ class _SignUpPageState extends State<SignUpPage> {
               child: Column(
                 children: <Widget>[
                   Text("회원가입"),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  TextFormField(
+                    decoration: InputDecoration(
+                      labelText: 'name',
+                      hintText: 'user name',
+                      border: OutlineInputBorder(),
+                    ),
+                    controller: nameController,
+                    onChanged: (text) {
+                      name = text;
+                    },
+                  ),
                   SizedBox(
                     height: 10,
                   ),
@@ -112,6 +129,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       ],
                     ),
                   ),
+
                   SignInButtonBuilder(
                     text: "회원가입",
                     backgroundColor: Color(0xFF283593),
@@ -126,6 +144,8 @@ class _SignUpPageState extends State<SignUpPage> {
                             email: emailController.text,
                             password: passwordController.text
                         );
+                        print(nameController.text);
+                       user_data();
                       } catch(e) {
 
                       }
@@ -158,4 +178,13 @@ class _SignUpPageState extends State<SignUpPage> {
     final snackBar = SnackBar(content: Text(message));
     key.currentState.showSnackBar(snackbar);
   }*/
+
+  void user_data() async{
+    final user = FirebaseAuth.instance.currentUser;
+    final uid = user?.uid;
+
+    firebaseFirestore.collection("user_name").doc()
+        .set({"name": nameController.text,
+              "uid": uid});
+  }
 }

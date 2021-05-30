@@ -28,6 +28,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Navigator',
       theme: ThemeData(
+        fontFamily: 'SLEIGothic',
         appBarTheme: AppBarTheme(
           color: Color(0xFFFFFFFF),
           iconTheme: IconThemeData(color: Color(0xFF283593)),
@@ -43,7 +44,7 @@ class MyApp extends StatelessWidget {
         '/themeSetting': (context) => themeSetting(),
         '/board': (context) => BoardPage(),
         '/map': (context) => mapPage(),
-        '/article': (context) => CreateArticle(),
+        '/createarticle': (context) => CreateArticle(),
         '/loading': (context) => LoadingScreen(),
         '/showarticle': (context) => ShowArticle(),
         '/drawer': (context) => DrawerPage()

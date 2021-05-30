@@ -19,7 +19,6 @@ import 'package:google_sign_in/google_sign_in.dart';
   return await FirebaseAuth.instance.signInWithCredential(credential);
 }*/
 
-
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -47,7 +46,8 @@ class _LoginPageState extends State<LoginPage> {
       idToken: googleAuth.idToken,
     );
 
-    final UserCredential authResult = await auth.signInWithCredential(credential);
+    final UserCredential authResult =
+        await auth.signInWithCredential(credential);
     final User user = authResult.user!;
 
     assert(!user.isAnonymous);
@@ -80,7 +80,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomInset : false,
+        resizeToAvoidBottomInset: false,
         body: Padding(
             padding: const EdgeInsets.all(18.0),
             child: Center(
@@ -93,12 +93,12 @@ class _LoginPageState extends State<LoginPage> {
                     email == ""
                         ? Container()
                         : Column(
-                      children: <Widget>[
-                        //Image.network(url),
-                        Text(name),
-                        Text(email),
-                      ],
-                    ),
+                            children: <Widget>[
+                              //Image.network(url),
+                              Text(name),
+                              Text(email),
+                            ],
+                          ),
                     /*RaisedButton(
                       onPressed: () {
                         //여기또한 이메일의 존재 여부를 통해 해당 버튼의 기능을 바꾸게 된다.
@@ -134,16 +134,15 @@ class _LoginPageState extends State<LoginPage> {
                             child: Text('Kakao',
                                 style: TextStyle(color: Colors.white)),
                             color: Colors.amber[700],
-                            onPressed: () {
-                            } //화면 연결 to 카카오톡 로그인 창
-                        ),
+                            onPressed: () {} //화면 연결 to 카카오톡 로그인 창
+                            ),
                         RaisedButton(
-                          child: Text(email == "" ? 'Google login': 'continue',
+                          child: Text(email == "" ? 'Google login' : 'continue',
                               style: TextStyle(color: Colors.white)),
                           color: Colors.red[800],
                           onPressed: () {
-                            email == "" ?
-                            googleSingIn()
+                            email == ""
+                                ? googleSingIn()
                                 : Navigator.pushNamed(context, '/mainPage');
                             //화면 연결 to 구글 로그인 창
                           },
@@ -163,15 +162,15 @@ class _LoginPageState extends State<LoginPage> {
                             children: <Widget>[
                               new Flexible(
                                   child: new TextField(
-                                    decoration: const InputDecoration(
-                                        labelText: 'E-mail',
-                                        border: OutlineInputBorder()),
-                                    onChanged: (text) {
-                                      setState(() {
-                                        _Emailfieldtext = text;
-                                      });
-                                    },
-                                  )),
+                                decoration: const InputDecoration(
+                                    labelText: 'E-mail',
+                                    border: OutlineInputBorder()),
+                                onChanged: (text) {
+                                  setState(() {
+                                    _Emailfieldtext = text;
+                                  });
+                                },
+                              )),
                               SizedBox(
                                 height: 10,
                               ),
@@ -201,11 +200,11 @@ class _LoginPageState extends State<LoginPage> {
                               onPressed: () async {
                                 try {
                                   UserCredential userCredential =
-                                  await FirebaseAuth
-                                      .instance
-                                      .signInWithEmailAndPassword(
-                                      email: _Emailfieldtext,
-                                      password: _PWfieldtext);
+                                      await FirebaseAuth
+                                          .instance
+                                          .signInWithEmailAndPassword(
+                                              email: _Emailfieldtext,
+                                              password: _PWfieldtext);
                                   Navigator.pushNamed(context, '/mainPage');
                                 } on FirebaseAuthException catch (e) {
                                   if (e.code == 'user-not-found') {
@@ -216,8 +215,7 @@ class _LoginPageState extends State<LoginPage> {
                                   }
                                 }
                               },
-                            )
-                        )
+                            ))
                       ],
                     ),
                     Row(
@@ -245,14 +243,10 @@ class _LoginPageState extends State<LoginPage> {
                               onPressed: () {
                                 //화면 연결 to E-mail/PW 찾기 창
                               },
-                            )
-                        )
+                            ))
                       ],
                     )
-                  ]
-              ),
-            )
-        )
-    );
+                  ]),
+            )));
   }
 }
