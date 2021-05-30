@@ -11,8 +11,6 @@ class mapPage extends StatefulWidget {
 
 // ignore: camel_case_types
 class _mapPageState extends State<mapPage> {
-  late double lat;
-  late double long;
   late bool loading;
 
   List<Marker> _markers = [];
@@ -21,10 +19,10 @@ class _mapPageState extends State<mapPage> {
   void initState() {
     super.initState();
     loading = true;
-    getPosition();
-    getPosition().whenComplete(() {
-      setState(() {});
-    });
+    //getPosition();
+    //getPosition().whenComplete(() {
+    //setState(() {});
+    //});
     _markers.add(Marker(
         markerId: MarkerId("GNU북카페"),
         draggable: false,
@@ -77,18 +75,15 @@ class _mapPageState extends State<mapPage> {
         infoWindow: InfoWindow(title: "이디야커피")));
   }
 
-  getPosition() async {
+  Future<Location> getPosition() async {
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.best);
-    try {
-      setState(() {
-        lat = position.latitude;
-        long = position.longitude;
-        loading = false;
-      });
-    } on PlatformException catch (e) {
-      print(e);
-    }
+    Location location = Location(
+      lat: position.latitude,
+      long: position.longitude,
+    );
+
+    return location;
   }
 
   @override
@@ -109,16 +104,32 @@ class _mapPageState extends State<mapPage> {
       body: Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
-          child: GoogleMap(
-            markers: Set.from(_markers),
-            initialCameraPosition: CameraPosition(
-              target: LatLng(lat, long),
-              zoom: 16,
-            ),
-            myLocationEnabled: true,
-            myLocationButtonEnabled: true,
-          )),
+          child: FutureBuilder(
+              future: getPosition(),
+              builder: (context, AsyncSnapshot<Location> snapshot) {
+                if (snapshot.hasData == false) {
+                  return CircularProgressIndicator();
+                }
+                return GoogleMap(
+                  markers: Set.from(_markers),
+                  initialCameraPosition: CameraPosition(
+                    target: LatLng(snapshot.data!.lat, snapshot.data!.long),
+                    zoom: 16,
+                  ),
+                  myLocationEnabled: true,
+                  myLocationButtonEnabled: true,
+                );
+              })),
     );
   }
 }
 
+class Location {
+  final double lat;
+  final double long;
+
+  Location({
+    required this.lat,
+    required this.long,
+  });
+}
