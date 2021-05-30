@@ -39,6 +39,8 @@ class _MainPageState extends State<MainPage> {
 
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
+  int T_code = 0;
+
   List member = [];
   List Team = [];
 
@@ -543,8 +545,9 @@ class _MainPageState extends State<MainPage> {
   }
 
   // 팀 생성 화면 출력 함수
-  void create_Team() async {
-    await showDialog(
+
+  void create_Team() {
+    showDialog(
         barrierDismissible: true,
         context: context,
         builder: (BuildContext context) {
@@ -651,9 +654,16 @@ class _MainPageState extends State<MainPage> {
           ],
         ),
       ),
-      onPressed: () {
+      onPressed: () async{
         change_member(name);
-        print(member.toString());
+        await FirebaseFirestore.instance
+            .collection("Team")
+            .doc(name)
+            .get()
+            .then((DocumentSnapshot ds) {
+              T_code = ds.get("code");
+        });
+        print(T_code);
         Navigator.pop(context);
       },
     );

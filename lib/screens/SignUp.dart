@@ -3,6 +3,7 @@ import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
+import 'dart:math';
 
 class SignUpPage extends StatefulWidget {
   @override
@@ -14,6 +15,7 @@ class _SignUpPageState extends State<SignUpPage> {
   FirebaseAuth auth = FirebaseAuth.instance;
 
   final _formKey = GlobalKey<FormState>();
+  final _TeamKey = GlobalKey<FormState>();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -21,6 +23,10 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController confirmController = TextEditingController();
   final _auth = FirebaseAuth.instance;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  // 팀 생성 및 참가
+  final TextEditingController NameController = TextEditingController();
+  final TextEditingController expController = TextEditingController();
 
   var _isChecked = false;
 
@@ -139,10 +145,11 @@ class _SignUpPageState extends State<SignUpPage> {
                           return;
                         }
                         try {
+                          create_Team();
                           final r = await FirebaseAuth.instance
                               .createUserWithEmailAndPassword(
-                                  email: emailController.text,
-                                  password: passwordController.text);
+                              email: emailController.text,
+                              password: passwordController.text);
                           User user = r.user!;
                           await user.updateProfile(
                               displayName: nameController.text);
@@ -177,4 +184,75 @@ class _SignUpPageState extends State<SignUpPage> {
     final snackBar = SnackBar(content: Text(message));
     key.currentState.showSnackBar(snackbar);
   }*/
+
+  // 팀 생성 화면 출력 함수
+  void create_Team() {
+    showDialog(
+        barrierDismissible: true,
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Container(
+                height: 250,
+                child: Form(
+                    key: _TeamKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Container(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("팀을 새로 만드시겠습니까?"),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              TextFormField(
+                                decoration: InputDecoration(
+                                    labelText: "팀명을 입력해 주세요.",
+                                    border: OutlineInputBorder()),
+                                controller: NameController,
+                              ),
+                              SizedBox(height: 10),
+                              TextFormField(
+                                decoration: InputDecoration(
+                                    labelText: "팀에 대한 설명을 입력해주세요.",
+                                    border: OutlineInputBorder()),
+                                controller: expController,
+                              ),
+                              SizedBox(height: 10),
+                              RaisedButton(
+                                  child: Text(
+                                    "생성",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                  color: Color(0xFF283593),
+                                  onPressed: () {
+                                    int rng = Random().nextInt(50) + 1;
+                                    firebaseFirestore
+                                        .collection("Team")
+                                        .doc(NameController.text)
+                                        .set({
+                                      "code": rng.toString(),
+                                      "name": NameController.text,
+                                      "explanation": expController.text,
+                                      "member": []
+                                    });
+                                    firebaseFirestore
+                                        .collection("Team")
+                                        .doc("Team_List").update({
+                                      "T_name": FieldValue.arrayUnion(<dynamic>[NameController.text])
+                                    });
+                                    Navigator.pop(context);
+                                  })
+                            ],
+                          ),
+                        ),
+
+                      ],
+                    ))),
+          );
+        });
+  }
 }
