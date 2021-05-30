@@ -108,7 +108,9 @@ class _mapPageState extends State<mapPage> {
               future: getPosition(),
               builder: (context, AsyncSnapshot<Location> snapshot) {
                 if (snapshot.hasData == false) {
-                  return CircularProgressIndicator();
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
                 }
                 return GoogleMap(
                   markers: Set.from(_markers),
