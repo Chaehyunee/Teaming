@@ -170,7 +170,7 @@ class _SignUpPageState extends State<SignUpPage> {
           ),
         ));
   }
-  /*
+/*
   toastError(GlobalKey<ScaffoldState> key, dynamic e) {
     String message = 'unknown error';
     if (e is PlatformException) message = e.message;
