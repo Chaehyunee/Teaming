@@ -716,3 +716,9 @@ class Weather {
     required this.tempMax,
   });
 }
+
+class test {
+  void func() {
+    print("ads");
+  }
+}

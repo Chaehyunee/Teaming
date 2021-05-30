@@ -3,6 +3,7 @@ import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
+import 'MainPage.dart';
 
 class SignUpPage extends StatefulWidget {
   @override
@@ -145,6 +146,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         User user = r.user!;
                         await user.updateProfile(
                             displayName: nameController.text);
+
                       } catch (e) {}
                       /*try {
                         UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
