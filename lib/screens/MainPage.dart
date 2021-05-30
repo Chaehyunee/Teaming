@@ -654,14 +654,14 @@ class _MainPageState extends State<MainPage> {
           ],
         ),
       ),
-      onPressed: () async{
+      onPressed: () async {
         change_member(name);
         await FirebaseFirestore.instance
             .collection("Team")
             .doc(name)
             .get()
             .then((DocumentSnapshot ds) {
-              T_code = ds.get("code");
+          T_code = ds.get("code");
         });
         print(T_code);
         Navigator.pop(context);
