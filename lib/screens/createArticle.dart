@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'loginPage.dart';
+import 'MainPage.dart';
 
 class CreateArticle extends StatefulWidget {
   @override
@@ -99,7 +100,7 @@ class _CreateArticleState extends State<CreateArticle> {
   }
 
   void createDoc(String title, String content, String name) {
-    FirebaseFirestore.instance.collection(colName).add({
+    FirebaseFirestore.instance.collection(colName + TeamCode.code).add({
       fdAuthor: name,
       fdTitle: title,
       fdContent: content,

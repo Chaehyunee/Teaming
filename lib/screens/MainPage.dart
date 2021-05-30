@@ -17,6 +17,10 @@ class Article {
   static late String id;
 }
 
+class TeamCode {
+  static late String code;
+}
+
 class MainPage extends StatefulWidget {
   @override
   _MainPageState createState() => _MainPageState();
@@ -60,6 +64,11 @@ class _MainPageState extends State<MainPage> {
 
     return weather;
   }
+
+  Stream<QuerySnapshot> articleStream = FirebaseFirestore.instance
+      .collection("article")
+      .orderBy("create", descending: true)
+      .snapshots();
 
   @override
   Widget build(BuildContext context) {
@@ -249,14 +258,25 @@ class _MainPageState extends State<MainPage> {
             width: MediaQuery.of(context).size.width,
             height: 20,
           ),
+          ElevatedButton(
+            child: Text("게시물 새로고침"),
+            onPressed: () {
+              articleStream = FirebaseFirestore.instance
+                  .collection(colName + TeamCode.code)
+                  .orderBy(fdCreate, descending: true)
+                  .snapshots();
+            },
+          ),
           Container(
               padding: const EdgeInsets.only(left: 17, right: 17),
               height: 500,
               child: StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance
-                    .collection(colName)
+                stream:
+                    /*FirebaseFirestore.instance
+                    .collection(colName + TeamCode.code)
                     .orderBy(fdCreate, descending: true)
-                    .snapshots(),
+                    .snapshots()*/
+                    articleStream,
                 builder: (BuildContext context,
                     AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.hasError)
@@ -351,8 +371,7 @@ class _MainPageState extends State<MainPage> {
                   backgroundColor: Color(0xFF283593),
                 ),*/
                 Container(
-                  padding: const EdgeInsets.only(left: 7.0),
-                  width: 190,
+                  width: 180,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -662,6 +681,7 @@ class _MainPageState extends State<MainPage> {
             .get()
             .then((DocumentSnapshot ds) {
           T_code = ds.get("code");
+          TeamCode.code = T_code.toString();
         });
         print(T_code);
         Navigator.pop(context);
