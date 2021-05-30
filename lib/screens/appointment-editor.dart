@@ -28,7 +28,7 @@ class AppointmentEditorState extends State<AppointmentEditor> {
                     fontWeight: FontWeight.w400),
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: 'Add title',
+                  hintText: '제목을 입력하세요',
                 ),
               ),
             ),
@@ -44,7 +44,7 @@ class AppointmentEditorState extends State<AppointmentEditor> {
                 ),
                 title: Row(children: <Widget>[
                   const Expanded(
-                    child: Text('All-day'),
+                    child: Text('하루 종일인가요?'),
                   ),
                   Expanded(
                       child: Align(
@@ -68,22 +68,22 @@ class AppointmentEditorState extends State<AppointmentEditor> {
                         flex: 7,
                         child: GestureDetector(
                             child: Text(
-                                DateFormat('EEE, MMM dd yyyy')
+                                DateFormat('EEE, MMM dd yyyy')//스타트 데이트가 언제인지
                                     .format(_startDate),
                                 textAlign: TextAlign.left),
                             onTap: () async {
-                              final DateTime? date = await showDatePicker(
+                              final DateTime? date = await showDatePicker(//날짜 선택해서 그 날짜 date에 저장
                                 context: context,
-                                initialDate: _startDate,
+                                initialDate: _startDate,//초기화 날짜
                                 firstDate: DateTime(1900),
                                 lastDate: DateTime(2100),
                               );
 
-                              if (date != null && date != _startDate) {
+                              if (date != null && date != _startDate) {//새로 저장된 date가 존재하고 starDate가 수정된 상태라면
                                 setState(() {
                                   final Duration difference =
-                                  _endDate.difference(_startDate);
-                                  _startDate = DateTime(
+                                  _endDate.difference(_startDate);//먼저 끝날짜 다르게 바꾸고
+                                  _startDate = DateTime(//startDate에 date 저장
                                       date.year,
                                       date.month,
                                       date.day,
@@ -115,7 +115,7 @@ class AppointmentEditorState extends State<AppointmentEditor> {
                                         hour: _startTime.hour,
                                         minute: _startTime.minute));
 
-                                if (time != null && time != _startTime) {
+                                if (time != null && time != _startTime) {//시간 수정됨
                                   setState(() {
                                     _startTime = time;
                                     final Duration difference =
@@ -149,7 +149,7 @@ class AppointmentEditorState extends State<AppointmentEditor> {
                               textAlign: TextAlign.left,
                             ),
                             onTap: () async {
-                              final DateTime? date = await showDatePicker(
+                              final DateTime? date = await showDatePicker(//날짜 선택기
                                 context: context,
                                 initialDate: _endDate,
                                 firstDate: DateTime(1900),
@@ -229,7 +229,7 @@ class AppointmentEditorState extends State<AppointmentEditor> {
                   context: context,
                   barrierDismissible: true,
                   builder: (BuildContext context) {
-                    return _TimeZonePicker();
+                    return _TimeZonePicker();//시간대 선택 (한국 default)
                   },
                 ).then((dynamic value) => setState(() {}));
               },
@@ -250,7 +250,7 @@ class AppointmentEditorState extends State<AppointmentEditor> {
                   context: context,
                   barrierDismissible: true,
                   builder: (BuildContext context) {
-                    return _ColorPicker();
+                    return _ColorPicker();//색상 선택
                   },
                 ).then((dynamic value) => setState(() {}));
               },
@@ -278,7 +278,7 @@ class AppointmentEditorState extends State<AppointmentEditor> {
                     fontWeight: FontWeight.w400),
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: 'Add description',
+                  hintText: '설명을 입력하세요',
                 ),
               ),
             ),
@@ -322,7 +322,7 @@ class AppointmentEditorState extends State<AppointmentEditor> {
                         _events.notifyListeners(CalendarDataSourceAction.remove,
                             <Meeting>[]..add(_selectedAppointment!));
                       }
-                      meetings.add(Meeting(
+                      meetings.add(Meeting(//추가되는 부분
                         from: _startDate,
                         to: _endDate,
                         background: _colorCollection[_selectedColorIndex],
@@ -335,7 +335,24 @@ class AppointmentEditorState extends State<AppointmentEditor> {
                         description: _notes,
                         isAllDay: _isAllDay,
                         eventName: _subject == '' ? '(No title)' : _subject,
-                      ));
+                      )
+
+                      );
+
+                      dbRef.child(uid!).push().set({
+                        "Subject": _subject.toString(),
+                        "isAllDay": _isAllDay.toString(),
+                        "StartDate": _startDate.toString(),
+                        "EndDate": _endDate.toString(),
+                        "selectedColorIndex": _selectedColorIndex.toInt(),
+                        "notes": _notes.toString(),
+
+                      }).then((_) {
+                        Scaffold.of(context).showSnackBar(
+                            SnackBar(content: Text('Successfully Added')));
+                      }).catchError((onError) {
+                        print(onError);
+                      });
 
                       _events.appointments!.add(meetings[0]);
 
@@ -373,6 +390,6 @@ class AppointmentEditorState extends State<AppointmentEditor> {
   }
 
   String getTile() {
-    return _subject.isEmpty ? 'New event' : 'Event details';
+    return _subject.isEmpty ? '새로운 일정 만들기' : '일정 상세 정보';
   }
 }
