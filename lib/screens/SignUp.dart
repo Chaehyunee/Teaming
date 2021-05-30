@@ -40,23 +40,29 @@ class _SignUpPageState extends State<SignUpPage> {
         ),
         body: Center(
           child: Container(
-            height: 450,
+            height: 480,
             width: 300,
-            padding: EdgeInsets.all(10),
+            padding: EdgeInsets.all(25),
             decoration: BoxDecoration(
-                border: Border.all(width: 1, color: Color(0xFF283593))),
+                border: Border.all(width: 1, color: Color(0xFF283593)),
+                borderRadius: BorderRadius.circular(20)),
             child: Form(
               key: _formKey,
               child: Column(
                 children: <Widget>[
-                  Text("회원가입"),
+                  Text(
+                    "회원가입",
+                    style: TextStyle(
+                      fontSize: 24,
+                    ),
+                  ),
                   SizedBox(
-                    height: 10,
+                    height: 20,
                   ),
                   TextFormField(
                     decoration: InputDecoration(
-                      labelText: 'name',
-                      hintText: 'user name',
+                      labelText: '이름',
+                      hintText: '사용자 이름',
                       border: OutlineInputBorder(),
                     ),
                     controller: nameController,
@@ -64,10 +70,13 @@ class _SignUpPageState extends State<SignUpPage> {
                       name = text;
                     },
                   ),
+                  SizedBox(
+                    height: 10,
+                  ),
                   TextFormField(
                     decoration: InputDecoration(
-                      labelText: 'email',
-                      hintText: 'user email',
+                      labelText: '이메일',
+                      hintText: '사용자 이메일',
                       border: OutlineInputBorder(),
                     ),
                     controller: emailController,
@@ -81,7 +90,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                   TextFormField(
                     decoration: InputDecoration(
-                      labelText: 'Password',
+                      labelText: '비밀번호',
                       hintText: '********',
                       border: OutlineInputBorder(),
                     ),
@@ -96,7 +105,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                   TextFormField(
                     decoration: InputDecoration(
-                      labelText: 'ConfirmPassword',
+                      labelText: '비밀번호 확인',
                       hintText: '********',
                       border: OutlineInputBorder(),
                     ),
@@ -105,9 +114,6 @@ class _SignUpPageState extends State<SignUpPage> {
                     onChanged: (text) {
                       confirm = text;
                     },
-                  ),
-                  SizedBox(
-                    height: 10,
                   ),
                   Container(
                     child: Row(
@@ -125,25 +131,24 @@ class _SignUpPageState extends State<SignUpPage> {
                       ],
                     ),
                   ),
-                  SignInButtonBuilder(
-                    text: "회원가입",
-                    backgroundColor: Color(0xFF283593),
-                    onPressed: () async {
-                      //if (!_formKey.currentState.validate()) return;
-                      if (passwordController.text != confirmController.text) {
-                        //toastError(_scaffoldKey, PlatformException(code: 'signup', message: '비밀번호를 확인해주세요'));
-                        return;
-                      }
-                      try {
-                        final r = await FirebaseAuth.instance
-                            .createUserWithEmailAndPassword(
-                                email: emailController.text,
-                                password: passwordController.text);
-                        User user = r.user!;
-                        await user.updateProfile(
-                            displayName: nameController.text);
-                      } catch (e) {}
-                      /*try {
+                  ElevatedButton(
+                      onPressed: () async {
+                        //if (!_formKey.currentState.validate()) return;
+                        if (passwordController.text != confirmController.text) {
+                          //toastError(_scaffoldKey, PlatformException(code: 'signup', message: '비밀번호를 확인해주세요'));
+                          return;
+                        }
+                        try {
+                          final r = await FirebaseAuth.instance
+                              .createUserWithEmailAndPassword(
+                                  email: emailController.text,
+                                  password: passwordController.text);
+                          User user = r.user!;
+                          await user.updateProfile(
+                              displayName: nameController.text);
+                          Navigator.pop(context);
+                        } catch (e) {}
+                        /*try {
                         UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
                             email: email,
                             password: password
@@ -157,8 +162,8 @@ class _SignUpPageState extends State<SignUpPage> {
                       } catch (e) {
                         print(e);
                       }*/
-                    },
-                  ),
+                      },
+                      child: Text("회원가입")),
                 ],
               ),
             ),
