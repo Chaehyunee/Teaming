@@ -582,7 +582,7 @@ class _PersonalCalendarState extends State<PersonalCalendar> {
     //for (int month = -1; month < 2; month++) {
     //  for (int day = -5; day < 5; day++) {
     //    for (int hour = 9; hour < 18; hour += 5) {
-    meetingCollection.add(Meeting(
+    /*meetingCollection.add(Meeting(
 
       from: today
           .add(Duration(days:  3))
@@ -597,7 +597,7 @@ class _PersonalCalendarState extends State<PersonalCalendar> {
       isAllDay: false,
       eventName: _eventNameString,
 
-    ));
+    ));*/
     //  }
     // }
     // }
