@@ -29,7 +29,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
-  final String colName = "article";
+  String colName = "article";
   final String fdAuthor = "author";
   final String fdTitle = "title";
   final String fdContent = "content";
@@ -258,14 +258,28 @@ class _MainPageState extends State<MainPage> {
             width: MediaQuery.of(context).size.width,
             height: 20,
           ),
-          ElevatedButton(
-            child: Text("게시물 새로고침"),
-            onPressed: () {
-              articleStream = FirebaseFirestore.instance
-                  .collection(colName + TeamCode.code)
-                  .orderBy(fdCreate, descending: true)
-                  .snapshots();
-            },
+          Container(
+            padding: const EdgeInsets.only(left: 20, right: 20),
+            child: ElevatedButton(
+              child: Text("게시물 새로고침"),
+              style: ElevatedButton.styleFrom(
+                primary: Theme.of(context).primaryColorDark,
+              ),
+              onPressed: () {
+                setState(() {
+                  colName = "article";
+                  colName = colName + TeamCode.code;
+                  articleStream = FirebaseFirestore.instance
+                      .collection(colName)
+                      .orderBy(fdCreate, descending: true)
+                      .snapshots();
+                });
+              },
+            ),
+          ),
+          SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: 20,
           ),
           Container(
               padding: const EdgeInsets.only(left: 17, right: 17),
