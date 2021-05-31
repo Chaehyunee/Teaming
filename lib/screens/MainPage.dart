@@ -387,19 +387,6 @@ class _MainPageState extends State<MainPage> {
                     ],
                   ),
                 ),
-                IconButton(
-                    iconSize: 50,
-                    icon: Icon(
-                      Icons.remove_circle,
-                      color: _state_color,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        _state_color = _state_color == Color(0xFF283593)
-                            ? Colors.grey
-                            : Color(0xFF283593);
-                      });
-                    })
               ],
             ),
           ),
@@ -553,6 +540,7 @@ class _MainPageState extends State<MainPage> {
                       color: Color(0xFF283593),
                     ),
                     onPressed: () {
+                      Navigator.pop(context);
                       create_Team();
                     },
                   )
