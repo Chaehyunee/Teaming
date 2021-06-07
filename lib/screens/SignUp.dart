@@ -4,6 +4,7 @@ import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'dart:math';
+import 'MainPage.dart';
 
 class SignUpPage extends StatefulWidget {
   @override
@@ -185,6 +186,7 @@ class _SignUpPageState extends State<SignUpPage> {
     key.currentState.showSnackBar(snackbar);
   }*/
 
+
   // 팀 생성 화면 출력 함수
   create_Team() {
     showDialog(
@@ -237,7 +239,8 @@ class _SignUpPageState extends State<SignUpPage> {
                                       "code": rng,
                                       "name": NameController.text,
                                       "explanation": expController.text,
-                                      "member": [nameController.text]
+                                      "member": [nameController.text],
+                                      nameController.text: []
                                     });
                                     firebaseFirestore
                                         .collection("Team")

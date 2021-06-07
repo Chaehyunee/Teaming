@@ -29,7 +29,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
-  String colName = "article";
+  String colName = "";
   final String fdAuthor = "author";
   final String fdTitle = "title";
   final String fdContent = "content";
@@ -66,7 +66,7 @@ class _MainPageState extends State<MainPage> {
   }
 
   Stream<QuerySnapshot> articleStream = FirebaseFirestore.instance
-      .collection("article")
+      .collection("test")
       .orderBy("create", descending: true)
       .snapshots();
 
@@ -133,39 +133,39 @@ class _MainPageState extends State<MainPage> {
                               padding: const EdgeInsets.only(right: 25.0),
                               child: TimerBuilder.periodic(Duration(seconds: 1),
                                   builder: (context) {
-                                return Column(
-                                  children: [
-                                    Row(
+                                    return Column(
                                       children: [
-                                        Text(
-                                          formatDate(DateTime.now(), [am]),
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              fontFamily: 'SLEIGothic'),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              formatDate(DateTime.now(), [am]),
+                                              style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontFamily: 'SLEIGothic'),
+                                            ),
+                                            Text(
+                                              formatDate(
+                                                  DateTime.now(), [hh, ':', nn]),
+                                              style: TextStyle(
+                                                  fontSize: 30,
+                                                  fontFamily: 'SLEIGothic'),
+                                            ),
+                                          ],
                                         ),
-                                        Text(
-                                          formatDate(
-                                              DateTime.now(), [hh, ':', nn]),
-                                          style: TextStyle(
-                                              fontSize: 30,
-                                              fontFamily: 'SLEIGothic'),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              formatDate(DateTime.now(),
+                                                  [mm, '월 ', dd, '일']),
+                                              style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontFamily: 'SLEIGothic'),
+                                            )
+                                          ],
                                         ),
                                       ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          formatDate(DateTime.now(),
-                                              [mm, '월 ', dd, '일']),
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              fontFamily: 'SLEIGothic'),
-                                        )
-                                      ],
-                                    ),
-                                  ],
-                                );
-                              })),
+                                    );
+                                  })),
                           Container(
                               padding: const EdgeInsets.only(left: 25.0),
                               child: FutureBuilder(
@@ -216,11 +216,11 @@ class _MainPageState extends State<MainPage> {
                           padding: const EdgeInsets.only(
                               top: 5.0, left: 15.0, bottom: 5.0),
                           child:
-                              Text('나의 기여도', style: TextStyle(fontSize: 17))),
+                          Text('나의 기여도', style: TextStyle(fontSize: 17))),
                       Container(
                           alignment: Alignment.center,
                           padding:
-                              const EdgeInsets.only(left: 10.0, bottom: 10.0),
+                          const EdgeInsets.only(left: 10.0, bottom: 10.0),
                           child: LinearPercentIndicator(
                             width: 330.0,
                             animation: true,
@@ -286,11 +286,11 @@ class _MainPageState extends State<MainPage> {
               height: 500,
               child: StreamBuilder<QuerySnapshot>(
                 stream:
-                    /*FirebaseFirestore.instance
+                /*FirebaseFirestore.instance
                     .collection(colName + TeamCode.code)
                     .orderBy(fdCreate, descending: true)
                     .snapshots()*/
-                    articleStream,
+                articleStream,
                 builder: (BuildContext context,
                     AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.hasError)
@@ -324,7 +324,7 @@ class _MainPageState extends State<MainPage> {
                                   children: <Widget>[
                                     Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceBetween,
                                       children: <Widget>[
                                         Text(
                                           document[fdTitle],
@@ -370,150 +370,150 @@ class _MainPageState extends State<MainPage> {
       // 애플리케이션 좌측 부분 서랍
       drawer: Drawer(
           child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          // 상단 프로필 이미지, ID 및 계정, 상태전환 버튼
-          Container(
-            height: 75,
-            width: 295,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                /*CircleAvatar(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              // 상단 프로필 이미지, ID 및 계정, 상태전환 버튼
+              Container(
+                height: 75,
+                width: 295,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    /*CircleAvatar(
                   radius: 25,
                   backgroundColor: Color(0xFF283593),
                 ),*/
-                Container(
-                  width: 180,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        "이름: ${UserData.userName}",
-                        style: TextStyle(fontSize: 13),
+                    Container(
+                      width: 180,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            "이름: ${UserData.userName}",
+                            style: TextStyle(fontSize: 13),
+                          ),
+                          Text(
+                            "계정: ${UserData.userEmail}",
+                            style: TextStyle(fontSize: 13),
+                          ),
+                        ],
                       ),
-                      Text(
-                        "계정: ${UserData.userEmail}",
-                        style: TextStyle(fontSize: 13),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-          // 회의 가능 시간
-          GestureDetector(
-              onTap: () {},
-              child: Container(
-                height: 50,
-                width: 265,
-                decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColor,
-                    border: Border.all(color: Color(0xFF868484)),
-                    borderRadius: BorderRadius.circular(18)),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      "회의 가능 시간",
-                      style: TextStyle(
-                          color: Colors.black, fontWeight: FontWeight.bold),
-                    )
-                  ],
-                ),
-              )),
-
-          // 모임 가능한 장소
-          GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(context, '/map');
-              },
-              child: Container(
-                height: 50,
-                width: 265,
-                decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColor,
-                    border: Border.all(color: Color(0xFF868484)),
-                    borderRadius: BorderRadius.circular(18)),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      "모임 가능한 장소",
-                      style: TextStyle(
-                          color: Colors.black, fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
-              )),
+              ),
 
-          // 팀 정보 화면
-          Container(
-            height: 330,
-            width: 265,
-            decoration: BoxDecoration(
-                color: Color(0xFFEDEDED),
-                border: Border.all(color: Color(0xFF868484)),
-                borderRadius: BorderRadius.circular(18)),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text("팀명"),
-                for (String name in member) print_member(name)
-              ],
-            ),
-          ),
-          Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Container(
-                  child: Center(
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: <Widget>[
-                        IconButton(
-                            iconSize: 40,
-                            icon: Icon(
-                              Icons.circle,
-                              color: Color(0xFF283593),
-                            ),
-                            onPressed: () {}),
+              // 회의 가능 시간
+              GestureDetector(
+                  onTap: () {},
+                  child: Container(
+                    height: 50,
+                    width: 265,
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).primaryColor,
+                        border: Border.all(color: Color(0xFF868484)),
+                        borderRadius: BorderRadius.circular(18)),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
                         Text(
-                          "AM/PM",
-                          style: TextStyle(fontSize: 8, color: Colors.white),
+                          "회의 가능 시간",
+                          style: TextStyle(
+                              color: Colors.black, fontWeight: FontWeight.bold),
+                        )
+                      ],
+                    ),
+                  )),
+
+              // 모임 가능한 장소
+              GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, '/map');
+                  },
+                  child: Container(
+                    height: 50,
+                    width: 265,
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).primaryColor,
+                        border: Border.all(color: Color(0xFF868484)),
+                        borderRadius: BorderRadius.circular(18)),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          "모임 가능한 장소",
+                          style: TextStyle(
+                              color: Colors.black, fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
-                  ),
+                  )),
+
+              // 팀 정보 화면
+              Container(
+                height: 330,
+                width: 265,
+                decoration: BoxDecoration(
+                    color: Color(0xFFEDEDED),
+                    border: Border.all(color: Color(0xFF868484)),
+                    borderRadius: BorderRadius.circular(18)),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Text("팀명"),
+                    for (String name in member) print_member(name)
+                  ],
                 ),
-                IconButton(
-                    iconSize: 40,
-                    icon: Icon(Icons.notifications, color: _noti_color),
-                    onPressed: () {
-                      setState(() {
-                        _noti_color = _noti_color == Color(0xFF283593)
-                            ? Colors.grey
-                            : Color(0xFF283593);
-                      });
-                    }),
-                IconButton(
-                    iconSize: 40,
-                    icon: Icon(Icons.palette, color: Color(0xFF283593)),
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/themeSetting');
-                    }),
-              ],
-            ),
-          )
-        ],
-      )),
+              ),
+              Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Container(
+                      child: Center(
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: <Widget>[
+                            IconButton(
+                                iconSize: 40,
+                                icon: Icon(
+                                  Icons.circle,
+                                  color: Color(0xFF283593),
+                                ),
+                                onPressed: () {}),
+                            Text(
+                              "AM/PM",
+                              style: TextStyle(fontSize: 8, color: Colors.white),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    IconButton(
+                        iconSize: 40,
+                        icon: Icon(Icons.notifications, color: _noti_color),
+                        onPressed: () {
+                          setState(() {
+                            _noti_color = _noti_color == Color(0xFF283593)
+                                ? Colors.grey
+                                : Color(0xFF283593);
+                          });
+                        }),
+                    IconButton(
+                        iconSize: 40,
+                        icon: Icon(Icons.palette, color: Color(0xFF283593)),
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/themeSetting');
+                        }),
+                  ],
+                ),
+              )
+            ],
+          )),
 
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
@@ -554,7 +554,6 @@ class _MainPageState extends State<MainPage> {
                       color: Color(0xFF283593),
                     ),
                     onPressed: () {
-                      Navigator.pop(context);
                       create_Team();
                     },
                   )

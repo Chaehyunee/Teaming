@@ -16,6 +16,8 @@ class _CreateArticleState extends State<CreateArticle> {
   final String fdContent = "content";
   final String fdCreate = "create";
 
+  DocumentReference doc_ref = FirebaseFirestore.instance.collection("article" + TeamCode.code).doc();
+
   TextEditingController _newTitleCon = TextEditingController();
   TextEditingController _newContentCon = TextEditingController();
 
@@ -78,6 +80,7 @@ class _CreateArticleState extends State<CreateArticle> {
                     "게시글 등록",
                   ),
                   onPressed: () {
+                    print(TeamCode.code);
                     if (_newTitleCon.text.isNotEmpty &&
                         _newContentCon.text.isNotEmpty) {
                       createDoc(_newTitleCon.text, _newContentCon.text,
@@ -100,11 +103,20 @@ class _CreateArticleState extends State<CreateArticle> {
   }
 
   void createDoc(String title, String content, String name) {
-    FirebaseFirestore.instance.collection(colName + TeamCode.code).add({
+    var doc_id = doc_ref.id;
+
+    FirebaseFirestore.instance.collection(colName + TeamCode.code).doc(doc_id).set({
       fdAuthor: name,
       fdTitle: title,
       fdContent: content,
       fdCreate: Timestamp.now(),
+    });
+
+    FirebaseFirestore.instance.collection(colName + TeamCode.code)
+        .doc("ArticleId").update({
+      "articleID": FieldValue.arrayUnion(
+        [doc_id]
+      )
     });
   }
 }

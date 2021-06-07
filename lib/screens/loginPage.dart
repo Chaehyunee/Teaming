@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'MainPage.dart';
 
 class UserData {
   static late String userName;
@@ -187,6 +188,7 @@ class _LoginPageState extends State<LoginPage> {
                                           .signInWithEmailAndPassword(
                                               email: _Emailfieldtext,
                                               password: _PWfieldtext);
+
                                   Navigator.pushNamed(context, '/mainPage');
                                   inputData();
                                 } on FirebaseAuthException catch (e) {
