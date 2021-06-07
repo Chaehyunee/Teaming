@@ -1,0 +1,4 @@
+io/flutter/plugins/GeneratedPluginRegistrant.java
+ io.flutter.plugins.GeneratedPluginRegistrant
+com/example/swl_teaming/BuildConfig.java
+ com.example.swl_teaming.BuildConfig

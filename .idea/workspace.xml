@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="01323560-b82d-4bf2-a2b5-36ebb18b277b" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/lib/screens/MainPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/MainPage.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/SignUp.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/SignUp.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/createArticle.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/createArticle.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/loginPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/loginPage.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/local.properties" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand />
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Dart File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1sOCoNKcYjevAR2UoH5FhRTYbUS" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="AnalyzeApkAction.lastApkPath" value="$PROJECT_DIR$" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
+    <property name="dart.analysis.tool.window.visible" value="false" />
+    <property name="io.flutter.reload.alreadyRun" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="flutter.settings" />
+    <property name="show.migrate.to.gradle.popup" value="false" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\tlsdn\AndroidStudioProjects\Teaming\lib\screens" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="main.dart" type="FlutterRunConfigurationType" factoryName="Flutter">
+      <option name="additionalArgs" value="--no-sound-null-safety" />
+      <option name="filePath" value="$PROJECT_DIR$/lib/main.dart" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="01323560-b82d-4bf2-a2b5-36ebb18b277b" name="Default Changelist" comment="" />
+      <created>1620734422021</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1620734422021</updated>
+    </task>
+    <task id="LOCAL-00001" summary="team and member">
+      <created>1622337353096</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1622337353096</updated>
+    </task>
+    <task id="LOCAL-00002" summary="team and member">
+      <created>1622341129369</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1622341129369</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Team code">
+      <created>1622362174579</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1622362174579</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Team code">
+      <created>1622362299434</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1622362299434</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="team and member" />
+    <MESSAGE value="Team code" />
+    <option name="LAST_COMMIT_MESSAGE" value="Team code" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="1320" y="385" key="#Notifications" timestamp="1622018029464">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="1320" y="385" key="#Notifications/0.0.1920.1040@0.0.1920.1040" timestamp="1622018029464" />
+    <state x="880" y="98" key="#Project_Structure" timestamp="1620735349170">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="880" y="98" key="#Project_Structure/0.0.1920.1040@0.0.1920.1040" timestamp="1620735349170" />
+    <state x="828" y="178" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1620735590062">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="828" y="178" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1620735590062" />
+    <state x="1053" y="100" width="774" height="840" key="AVDManager" timestamp="1622426096503">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="1053" y="100" width="774" height="840" key="AVDManager/0.0.1920.1040@0.0.1920.1040" timestamp="1622426096503" />
+    <state x="1220" y="278" key="FileChooserDialogImpl" timestamp="1623065479122">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="1220" y="278" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1623065479122" />
+    <state width="914" height="279" key="GridCell.Tab.0.bottom" timestamp="1622444332961">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="914" height="279" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1622444332961" />
+    <state width="914" height="279" key="GridCell.Tab.0.center" timestamp="1622444332961">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="914" height="279" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1622444332961" />
+    <state width="914" height="279" key="GridCell.Tab.0.left" timestamp="1622444332961">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="914" height="279" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1622444332961" />
+    <state width="914" height="279" key="GridCell.Tab.0.right" timestamp="1622444332961">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="914" height="279" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1622444332961" />
+    <state x="880" y="94" key="SettingsEditor" timestamp="1622034421118">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="880" y="94" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1622034421118" />
+    <state x="1103" y="230" width="672" height="678" key="search.everywhere.popup" timestamp="1622307152168">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="1103" y="230" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1622307152168" />
+  </component>
+</project>
