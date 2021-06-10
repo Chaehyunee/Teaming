@@ -29,7 +29,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
-  String colName = "article";
+  String colName = "";
   final String fdAuthor = "author";
   final String fdTitle = "title";
   final String fdContent = "content";
