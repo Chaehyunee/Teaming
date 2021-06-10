@@ -66,7 +66,7 @@ class _MainPageState extends State<MainPage> {
   }
 
   Stream<QuerySnapshot> articleStream = FirebaseFirestore.instance
-      .collection("article")
+      .collection("test")
       .orderBy("create", descending: true)
       .snapshots();
 
