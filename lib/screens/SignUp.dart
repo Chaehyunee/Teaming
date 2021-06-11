@@ -24,12 +24,14 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController confirmController = TextEditingController();
   final _auth = FirebaseAuth.instance;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+  final String colName = "article";
 
   // 팀 생성 및 참가
   final TextEditingController NameController = TextEditingController();
   final TextEditingController expController = TextEditingController();
 
   var _isChecked = false;
+  List a_id = [];
 
   String name = "";
   String email = "";
@@ -246,6 +248,9 @@ class _SignUpPageState extends State<SignUpPage> {
                                         .collection("Team")
                                         .doc("Team_List").update({
                                       "T_name": FieldValue.arrayUnion(<dynamic>[NameController.text])
+                                    });
+                                    FirebaseFirestore.instance.collection(colName + rng.toString()).doc("ArticleId").set({
+                                      "ArticleID": a_id
                                     });
                                     Navigator.pop(context);
                                   })

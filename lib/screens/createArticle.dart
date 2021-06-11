@@ -16,6 +16,8 @@ class _CreateArticleState extends State<CreateArticle> {
   final String fdContent = "content";
   final String fdCreate = "create";
 
+  List a_id = [];
+
   DocumentReference doc_ref = FirebaseFirestore.instance.collection("article" + TeamCode.code).doc();
 
   TextEditingController _newTitleCon = TextEditingController();
@@ -114,7 +116,7 @@ class _CreateArticleState extends State<CreateArticle> {
 
     FirebaseFirestore.instance.collection(colName + TeamCode.code)
         .doc("ArticleId").update({
-      "articleID": FieldValue.arrayUnion(
+      "ArticleID": FieldValue.arrayUnion(
         [doc_id]
       )
     });

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:swl_teaming/screens/PersonalCalendar.dart';
 import 'package:timer_builder/timer_builder.dart';
 import 'package:date_format/date_format.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
@@ -19,6 +20,10 @@ class Article {
 
 class TeamCode {
   static late String code;
+}
+
+class TeamName {
+  static late String NAME = "";
 }
 
 class MainPage extends StatefulWidget {
@@ -44,12 +49,13 @@ class _MainPageState extends State<MainPage> {
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
   int T_code = 0;
-
   List member = [];
   List Team = [];
+  List a_id = [];
+  List all_article = [];
+  List readed = [];
 
   Color _noti_color = Color(0xFF283593);
-  Color _state_color = Color(0xFF283593);
 
   Future<Weather> getWeather() async {
     String apiAddr =
@@ -226,8 +232,8 @@ class _MainPageState extends State<MainPage> {
                             animation: true,
                             animationDuration: 1000,
                             lineHeight: 25.0,
-                            percent: 0.9,
-                            center: Text("90.0%"),
+                            percent: percent(),
+                            center: Text((percent() * 100).toStringAsFixed(1) + "%"),
                             linearStrokeCap: LinearStrokeCap.butt,
                             backgroundColor: Colors.deepPurple[50],
                             progressColor: Colors.deepPurple[400],
@@ -317,6 +323,13 @@ class _MainPageState extends State<MainPage> {
                             child: InkWell(
                               onTap: () {
                                 showDocument(document.id);
+                                firebaseFirestore
+                                    .collection("Team")
+                                    .doc(TeamName.NAME)
+                                    .update({
+                                  UserData.userName:
+                                  FieldValue.arrayUnion(<dynamic>[document.id])
+                                });
                               },
                               child: Container(
                                 padding: const EdgeInsets.all(8),
@@ -617,7 +630,8 @@ class _MainPageState extends State<MainPage> {
                                       "code": rng,
                                       "name": NameController.text,
                                       "explanation": expController.text,
-                                      "member": [UserData.userName]
+                                      "member": [UserData.userName],
+                                      UserData.userName: []
                                     });
                                     firebaseFirestore
                                         .collection("Team")
@@ -625,6 +639,12 @@ class _MainPageState extends State<MainPage> {
                                         .update({
                                       "T_name": FieldValue.arrayUnion(
                                           <dynamic>[NameController.text])
+                                    });
+                                    FirebaseFirestore.instance
+                                        .collection("article" + rng.toString())
+                                        .doc("ArticleId")
+                                        .set({
+                                      "ArticleID": a_id
                                     });
                                     Navigator.pop(context);
                                   })
@@ -676,6 +696,7 @@ class _MainPageState extends State<MainPage> {
       ),
       onPressed: () async {
         change_member(name);
+        TeamName.NAME = name;
         await FirebaseFirestore.instance
             .collection("Team")
             .doc(name)
@@ -736,6 +757,28 @@ class _MainPageState extends State<MainPage> {
       Article.id = id;
     });
     Navigator.pushNamed(context, '/showarticle');
+  }
+
+  double percent() {
+    firebaseFirestore
+        .collection("article" + TeamCode.code)
+        .doc("ArticleId")
+        .get().then((DocumentSnapshot ds) {
+      all_article = ds.get("ArticleID");
+    });
+
+    firebaseFirestore
+        .collection("Team")
+        .doc(TeamName.NAME)
+        .get().then((DocumentSnapshot ds) {
+      readed = ds.get(UserData.userName);
+    });
+
+    if (TeamName.NAME == "" || all_article.length == 0)
+      return 0;
+
+    double per = (readed.length) / (all_article.length);
+    return per;
   }
 
   String timestampToStrDateTime(Timestamp ts) {
