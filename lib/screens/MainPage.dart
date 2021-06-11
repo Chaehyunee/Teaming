@@ -19,7 +19,7 @@ class Article {
 }
 
 class TeamCode {
-  static late String code;
+  static late String code = "";
 }
 
 class TeamName {
@@ -760,6 +760,9 @@ class _MainPageState extends State<MainPage> {
   }
 
   double percent() {
+    if (TeamCode.code == "")
+      return 0;
+
     firebaseFirestore
         .collection("article" + TeamCode.code)
         .doc("ArticleId")
