@@ -385,19 +385,20 @@ class AppointmentEditorState extends State<AppointmentEditor> {
             floatingActionButton: _selectedAppointment == null
                 ? const Text('')
                 : FloatingActionButton(
-              onPressed: () {
-                if (_selectedAppointment != null) {
-                  _events.appointments!.removeAt(_events.appointments!
-                      .indexOf(_selectedAppointment));
-                  _events.notifyListeners(CalendarDataSourceAction.remove,
-                      <Meeting>[]..add(_selectedAppointment!));
-                  _selectedAppointment = null;
-                  Navigator.pop(context);
-                }
-              },
-              child:
-              const Icon(Icons.delete_outline, color: Colors.white),
-              backgroundColor: Colors.red,
+                  onPressed: () {
+                    if (_selectedAppointment != null) {
+
+                      _events.appointments!.removeAt(_events.appointments!
+                          .indexOf(_selectedAppointment));
+                      _events.notifyListeners(CalendarDataSourceAction.remove,
+                          <Meeting>[]..add(_selectedAppointment!));
+                      _selectedAppointment = null;
+                      Navigator.pop(context);
+                    }
+                  },
+                  child:
+                      const Icon(Icons.delete_outline, color: Colors.white),
+                  backgroundColor: Colors.red,
             )));
   }
 

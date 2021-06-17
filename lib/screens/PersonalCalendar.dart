@@ -38,7 +38,6 @@ late TimeOfDay _endTime;
 bool _isAllDay = false;
 String _subject = '';
 String _notes = '';
-String _eventNameString =  '';
 // ignore: non_constant_identifier_names
 int selectedColorIndex = 0;
 int calendar_counter = 0;
@@ -492,9 +491,7 @@ class _PersonalCalendarState extends State<PersonalCalendar> {
         _startTime =
             TimeOfDay(hour: _startDate.hour, minute: _startDate.minute);
         _endTime = TimeOfDay(hour: _endDate.hour, minute: _endDate.minute);
-      /*  firebaseFirestore.collection('calendar_counter').doc('UID').set({
-          "counter": calendar_counter++,
-        });*/
+
         Navigator.push<Widget>(
           context,
           MaterialPageRoute(
@@ -534,46 +531,26 @@ class _PersonalCalendarState extends State<PersonalCalendar> {
     _timeZoneCollection = <String>[];
     _timeZoneCollection.add('Korea Standard Time');//한국 시간대
 
-    //Stream.fromFuture(getData()).listen((event) {meetingCollection = event;});
 
     getData() async {
-      await Future.delayed(Duration(seconds: 3)); // 5초간 대기
-      print("Fetched Data");
-
       final DateTime today = DateTime.now();
       final Random random = Random();
 
       List<Meeting> meetingCollection = <Meeting>[];
 
-      calendar_counter =2;
-      print("00000 되나");
-
       underuid.once().then((DataSnapshot snapshot) {
         calendar_counter = snapshot.value == null? 0 : snapshot.value['counter'];
-        print(calendar_counter);
-        print("11111counter가 되나");
       });
-
-      await Future.delayed(Duration(seconds: 3)); // 5초간 대기
 
       List<String> keys = [];
       firebaseFirestore
           .collection("_keyList")
           .doc(uid!).get().then((DocumentSnapshot ds) {
-        print(ds.get("keyname"));
-        print("222222222_keyList 되나");
         keys = ds.get("keyname")?.cast<String>();
-        print("33333333_keyList 되나");
         print(keys.isEmpty? null : keys.elementAt(0));
-        print("44444444_keyList 되나");
       });
-      await Future.delayed(Duration(seconds: 3)); // 5초간 대기
+      await Future.delayed(Duration(milliseconds: 590));
 
-      print('5555555555');
-      int from_days = 0;
-      int from_hours = 0;
-      int to_days = 0;
-      int to_hours = 0;
       int background = 0;
       String startTimeZone = "";
       String endTimeZone = "";
@@ -582,44 +559,31 @@ class _PersonalCalendarState extends State<PersonalCalendar> {
       bool isAllDay = false;
       String key = "";
 
-      print(calendar_counter);
-      print("666666666666counter수");
       for (int i = 0; i < calendar_counter; i++) {
-        print('77777777for문이 되나');
         key  = keys.elementAt(i);
-        print('888888888이게 되나0');
         underuid.child(key).once().then((DataSnapshot snapshot) {
-          print('9999999이게 되나1');
           startTimeZone = snapshot.value['StartDate'];
-          print('101010101010이게 되나2');
           endTimeZone = snapshot.value['EndDate'];
           description = snapshot.value['notes'];
           eventName = snapshot.value['Subject'];
           isAllDay = snapshot.value['isAllDay'] == "false" ? false : true;
           background = snapshot.value['selectedColorIndex'];
-          print('11 11 11 11이게되나 시작시간존');
-          print(startTimeZone);
-          print(endTimeZone);
-          print(description);
-          print(eventName);
-          print(isAllDay);
-          print(background);
         });
-        await Future.delayed(Duration(seconds: 3)); // 5초간 대기
-        print(background);
+        await Future.delayed(Duration(milliseconds: 490));
 
         DateTime date1 = DateTime.parse(startTimeZone);
         DateTime date2 = DateTime.parse(endTimeZone);
         Duration diff1 = date1.difference(today);
-        Duration diff2 = date1.difference(today);
-        print(date1.day);
+        Duration diff2 = date2.difference(today);
 
         meetingCollection.add(Meeting(
 
           from: today
-              .add(Duration(hours: diff1.inHours)),
+              .add(Duration(hours: diff1.inHours))
+              .subtract(Duration(minutes: today.minute)),
           to: today
-              .add(Duration(hours: diff2.inHours)),
+              .add(Duration(hours: diff2.inHours))
+              .subtract(Duration(minutes: today.minute)),
           background: _colorCollection[background],
           startTimeZone: '',
           endTimeZone: '',
@@ -629,7 +593,6 @@ class _PersonalCalendarState extends State<PersonalCalendar> {
 
         ));
       }
-
       setState(() {
         _events = DataSource(meetingCollection);
       });
@@ -638,100 +601,6 @@ class _PersonalCalendarState extends State<PersonalCalendar> {
     getData();
     return meetingCollection;
 }
-/*
-Future<List<Meeting>> getData() async {
-  await Future.delayed(Duration(seconds: 3)); // 5초간 대기
-  print("Fetched Data");
-
-  final DateTime today = DateTime.now();
-  final Random random = Random();
-
-  List<Meeting> meetingCollection = <Meeting>[];
-
-  calendar_counter =2;
-  print("00000 되나");
-
-  underuid.once().then((DataSnapshot snapshot) {
-    calendar_counter = snapshot.value == null? 0 : snapshot.value['counter'];
-    print(calendar_counter);
-    print("11111counter가 되나");
-  });
-
-  await Future.delayed(Duration(seconds: 3)); // 5초간 대기
-
-  List<String> keys = [];
-  firebaseFirestore
-      .collection("_keyList")
-      .doc(uid!).get().then((DocumentSnapshot ds) {
-    print(ds.get("keyname"));
-    print("222222222_keyList 되나");
-    keys = ds.get("keyname")?.cast<String>();
-    print("33333333_keyList 되나");
-    print(keys.isEmpty? null : keys.elementAt(0));
-    print("44444444_keyList 되나");
-  });
-  await Future.delayed(Duration(seconds: 3)); // 5초간 대기
-
-  print('5555555555');
-  int from_days = 0;
-  int from_hours = 0;
-  int to_days = 0;
-  int to_hours = 0;
-  int background = 0;
-  String startTimeZone = "";
-  String endTimeZone = "";
-  String description = "";
-  String eventName = "";
-  bool isAllDay = false;
-  String key = "";
-
-  print(calendar_counter);
-  print("666666666666counter수");
-  for (int i = 0; i < calendar_counter; i++) {
-    print('77777777for문이 되나');
-    key  = keys.elementAt(i);
-    print('888888888이게 되나0');
-    underuid.child(key).once().then((DataSnapshot snapshot) {
-      print('9999999이게 되나1');
-      startTimeZone = snapshot.value['StartDate'];
-      print('101010101010이게 되나2');
-      endTimeZone = snapshot.value['EndDate'];
-      description = snapshot.value['notes'];
-      eventName = snapshot.value['Subject'];
-      isAllDay = snapshot.value['isAllDay'] == "false" ? false : true;
-      background = snapshot.value['selectedColorIndex'];
-      print('11 11 11 11이게되나 시작시간존');
-      print(startTimeZone);
-      print(endTimeZone);
-      print(description);
-      print(eventName);
-      print(isAllDay);
-      print(background);
-    });
-    await Future.delayed(Duration(seconds: 3)); // 5초간 대기
-    print(background);
-
-    meetingCollection.add(Meeting(
-
-      from: today
-          .add(Duration(days: 0 + i))
-          .add(Duration(hours: 0 + i)),
-      to: today
-          .add(Duration(days: 0 + i))
-          .add(Duration(hours: 3 + i)),
-      background: _colorCollection[background],
-      startTimeZone: startTimeZone,
-      endTimeZone: endTimeZone,
-      description: description,
-      isAllDay: isAllDay,
-      eventName: eventName,
-
-    ));
-  }
-
-  await Future.delayed(Duration(seconds: 3)); // 5초간 대기
-
-  return meetingCollection;*/
 }
 
 
