@@ -339,7 +339,19 @@ class AppointmentEditorState extends State<AppointmentEditor> {
 
                       );
 
-                      dbRef.child(uid!).push().set({
+                      calendar_counter++;
+                      dbRef.child(uid!).child("counter").set(calendar_counter);
+                      
+                      String newkey = underuid.push().key;
+                      print(newkey);
+                      _keyList.add(newkey);
+                      print(_keyList);
+                      firebaseFirestore
+                          .collection("_keyList")
+                          .doc(uid!)
+                          .update({"keyname" : _keyList});
+
+                      dbRef.child(uid!).child(newkey).update({
                         "Subject": _subject.toString(),
                         "isAllDay": _isAllDay.toString(),
                         "StartDate": _startDate.toString(),
@@ -353,7 +365,7 @@ class AppointmentEditorState extends State<AppointmentEditor> {
                       }).catchError((onError) {
                         print(onError);
                       });
-
+                      print(newkey);
                       _events.appointments!.add(meetings[0]);
 
                       _events.notifyListeners(
