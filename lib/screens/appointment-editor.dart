@@ -349,7 +349,7 @@ class AppointmentEditorState extends State<AppointmentEditor> {
                       firebaseFirestore
                           .collection("_keyList")
                           .doc(uid!)
-                          .update({"keyname" : _keyList});
+                          .set({"keyname" : _keyList});
 
                       dbRef.child(uid!).child(newkey).update({
                         "Subject": _subject.toString(),
