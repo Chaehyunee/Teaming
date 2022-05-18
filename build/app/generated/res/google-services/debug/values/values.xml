@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_web_client_id" translatable="false">706268851492-uu8omtil32u694fickffkfpcfe943tvc.apps.googleusercontent.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">706268851492</string>
+    <string name="google_api_key" translatable="false">AIzaSyACW7DUqFaE3i9q71-0cvwec4ix0keXWmg</string>
+    <string name="google_app_id" translatable="false">1:706268851492:android:0306160c42e4614cae57b1</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyACW7DUqFaE3i9q71-0cvwec4ix0keXWmg</string>
+    <string name="google_storage_bucket" translatable="false">teaming-7202b.appspot.com</string>
+    <string name="project_id" translatable="false">teaming-7202b</string>
+</resources>
